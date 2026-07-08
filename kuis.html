@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="id-ID">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Turnamen Grand Master Bahasa - Gamifikasi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        utama: '#2563eb',
+                        sekunder: '#7c3aed',
+                        sukses: '#10b981',
+                        peringatan: '#f59e0b',
+                        bahaya: '#ef4444',
+                        kaca: 'rgba(255, 255, 255, 0.15)',
+                        kacaTerang: 'rgba(255, 255, 255, 0.25)',
+                    },
+                    fontFamily: {
+                        game: ['"Segoe UI"', 'Roboto', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .text-glow {
+                text-shadow: 0 0 12px rgba(255,255,255,0.6), 0 0 24px rgba(59, 130, 246, 0.4);
+            }
+            .glassmorphism {
+                background: rgba(255, 255, 255, 0.15);
+                backdrop-filter: blur(16px);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            }
+            .glassmorphism-tebal {
+                background: rgba(255, 255, 255, 0.9);
+                backdrop-filter: blur(12px);
+                border: 1px solid rgba(255, 255, 255, 0.3);
+            }
+            .animasi-muncul {
+                animation: muncul 0.6s ease-out forwards;
+            }
+            .animasi-naik {
+                animation: naik 0.4s ease-out forwards;
+            }
+            .animasi-goyang {
+                animation: goyang 0.4s ease-in-out;
+            }
+            .animasi-nyawa {
+                animation: detak 0.6s ease-in-out;
+            }
+            @keyframes muncul {
+                from { opacity: 0; transform: translateY(30px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+            @keyframes naik {
+                from { opacity: 0; transform: translateY(15px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+            @keyframes goyang {
+                0%, 100% { transform: translateX(0); }
+                25% { transform: translateX(-6px); }
+                75% { transform: translateX(6px); }
+            }
+            @keyframes detak {
+                0%, 100% { transform: scale(1); }
+                50% { transform: scale(1.2); }
+            }
+            .tombol-hover {
+                transition: all 0.25s ease;
+            }
+            .tombol-hover:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            }
+        }
+    </style>
+</head>
+<body class="font-game min-h-screen bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500 text-gray-800">
+
+    <!-- 🎵 MUSIK LATAR -->
+    <audio id="musikLatar" loop preload="none">
+        <source src="musik-latar-kuis.mp3" type="audio/mpeg">
+    </audio>
+    
+
+    <!-- HALAMAN BERANDA / AWAL -->
+    <div id="halamanAwal" class="min-h-screen flex flex-col items-center justify-center p-6">
+        <div class="glassmorphism rounded-[2rem] p-8 max-w-2xl w-full text-center animasi-muncul">
+            <h1 class="text-4xl md:text-5xl font-bold text-white text-glow mb-4">🏆 TURNAMEN GRAND MASTER BAHASA</h1>
+            <h2 class="text-xl md:text-2xl text-white/90 mb-6">Ekspedisi Pulau Ilmu</h2>
+
+            <div class="bg-white/90 rounded-xl p-5 mb-6 text-left shadow-lg">
+                <h3 class="text-lg font-bold text-utama mb-3">📜 Sistem Permainan</h3>
+                <ul class="space-y-2 text-gray-700">
+                    <li>❤️ <strong>Nyawa:</strong> Mulai dengan 3 nyawa. Salah jawab = nyawa berkurang</li>
+                    <li>⭐ <strong>Poin:</strong> Jawaban benar = +10 poin</li>
+                    <li>📈 <strong>Materi:</strong> Mencakup Bab 1 sampai Bab 3</li>
+                    <li>🎖️ <strong>Predikat Akhir:</strong> Sesuai skor yang didapatkan</li>
+                </ul>
+            </div>
+
+            <!-- Tombol Mulai Kuis -->
+            <button onclick="mulaiKuis()" class="tombol-hover bg-gradient-to-r from-yellow-400 to-amber-500 text-gray-900 font-bold text-xl px-10 py-4 rounded-xl shadow-lg w-full mb-8">
+                🚀 Mulai Tantangan
+            </button>
+
+            <!-- Navigasi Bab -->
+            <div class="w-full flex flex-wrap justify-between items-center gap-4 mt-2">
+                <button onclick="navigasiBab('kembali')" class="tombol-hover w-[48%] bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white font-semibold text-base md:text-lg px-4 py-3 rounded-xl shadow-lg flex items-center justify-center gap-2">
+                    <i class="fa fa-arrow-left"></i> Kembali ke Bab 3
+                </button>
+                <button onclick="navigasiBab('lanjut')" class="tombol-hover w-[48%] bg-gradient-to-r from-emerald-500 to-teal-700 hover:from-emerald-600 hover:to-teal-800 text-white font-semibold text-base md:text-lg px-4 py-3 rounded-xl shadow-lg flex items-center justify-center gap-2">
+                    Lanjut ke daftar pustaka <i class="fa fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Halaman Kuis -->
+    <div id="halamanKuis" class="hidden min-h-screen p-4 md:p-8">
+        <div class="max-w-4xl mx-auto">
+            <div class="flex justify-between items-center mb-4">
+                <button onclick="kembaliKeAwal()" class="flex items-center gap-2 text-white glassmorphism px-4 py-2 rounded-lg tombol-hover w-fit">
+                    <i class="fa fa-arrow-left"></i> Kembali ke Beranda
+                </button>
+
+                <!-- Tombol Suara -->
+                <button id="tombolSuara" onclick="aturSuara()" class="text-white glassmorphism px-4 py-2 rounded-lg tombol-hover w-fit">
+                    <i class="fa fa-volume-up text-xl"></i>
+                </button>
+            </div>
+
+            <!-- Bilah Status -->
+            <div class="glassmorphism rounded-2xl p-5 mb-6 flex flex-wrap justify-between items-center gap-4 text-white shadow-lg">
+                <div class="flex items-center gap-3">
+                    <span class="text-lg font-semibold">Nyawa:</span>
+                    <span id="tampilanNyawa" class="text-2xl"></span>
+                </div>
+                <div class="flex items-center gap-3">
+                    <span class="text-lg font-semibold">⭐ Skor:</span>
+                    <span id="tampilanSkor" class="text-2xl font-bold text-yellow-300">0</span>
+                </div>
+                <div class="flex items-center gap-3">
+                    <span class="text-lg font-semibold">📊 Materi:</span>
+                    <span id="levelMateri" class="text-lg font-bold">Bab 1</span>
+                </div>
+                <div class="flex items-center gap-3">
+                    <span class="text-lg font-semibold">Soal:</span>
+                    <span id="nomorSoal" class="text-lg font-bold">1 / 15</span>
+                </div>
+            </div>
+
+            <!-- Kotak Soal -->
+            <div id="kotakSoal" class="glassmorphism-tebal rounded-3xl p-6 md:p-8 shadow-2xl animasi-muncul">
+                <div id="teksSoal" class="text-xl md:text-2xl font-medium mb-8 leading-relaxed"></div>
+                <div id="pilihanJawaban" class="grid gap-4 md:grid-cols-2"></div>
+            </div>
+
+            <div id="umpanBalik" class="hidden mt-6 rounded-xl p-5 text-center font-bold text-lg shadow-lg animasi-naik"></div>
+        </div>
+    </div>
+
+    <!-- Halaman Hasil -->
+    <div id="halamanHasil" class="hidden min-h-screen flex flex-col items-center justify-center p-6">
+        <div class="glassmorphism-tebal rounded-3xl p-8 max-w-2xl w-full text-center shadow-2xl animasi-muncul">
+            <h2 class="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-utama to-sekunder mb-4">🎉 Hasil Akhir Tantangan</h2>
+            
+            <div id="isiHasil" class="space-y-3 mb-6 text-lg"></div>
+
+            <div class="bg-gradient-to-br from-blue-50 to-purple-50 border-4 border-dashed border-utama rounded-xl p-6 my-6">
+                <h3 class="text-2xl font-bold text-utama mb-3">🏅 SERTIFIKAT PENGHARGAAN</h3>
+                <p class="text-gray-700">Diberikan kepada:</p>
+                <p id="namaPeserta" class="text-2xl font-bold my-3 text-gray-800">Petualang Bahasa</p>
+                <p class="text-gray-700">Telah menyelesaikan tantangan dengan predikat:</p>
+                <p id="gelarPeserta" class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-utama to-sekunder my-4"></p>
+                <p class="text-gray-700">Skor Akhir: <span id="skorAkhir" class="font-bold text-xl">0</span> / 150</p>
+            </div>
+
+            <div class="flex flex-wrap justify-center gap-4">
+                <button onclick="ulangKuis()" class="tombol-hover bg-utama hover:bg-blue-700 text-white px-6 py-3 rounded-lg shadow-md">🔄 Ulangi Tantangan</button>
+                <button onclick="simpanSertifikat()" class="tombol-hover bg-sukses hover:bg-green-700 text-white px-6 py-3 rounded-lg shadow-md">💾 Simpan Sertifikat</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Variabel Utama
+        let nyawa = 3;
+        let skor = 0;
+        let nomorSekarang = 0;
+        const totalSoal = 15;
+
+        // Musik
+        let musik = document.getElementById('musikLatar');
+        let musikMenyala = false;
+        musik.volume = 0.3;
+
+        // Daftar Soal Lengkap - Tingkat kesulitan anak-anak sesuai materi asli Ebook
+        const daftarSoal = [
+            // --- BAB 1: TEKS DESKRIPSI ---
+            { soal: "Kalimat berikut yang menggunakan indra penglihatan adalah...", pilihan: ["A. Suara ombak terdengar sangat riuh", "B. Pemandangan pantai itu sangat indah dengan pasir putihnya", "C. Angin malam terasa dingin menusuk tulang", "D. Masakan ibu berbau sangat harum"], benar: 1, materi: "Bab 1 - Teks Deskripsi" },
+            { soal: "Kalimat: 'Permukaan batang pohon itu terasa kasar saat disentuh'. Kalimat ini menggunakan indra...", pilihan: ["A. Penglihatan", "B. Perabaan", "C. Pendengaran", "D. Penciuman"], benar: 1, materi: "Bab 1 - Teks Deskripsi" },
+            { soal: "Manakah kalimat yang paling tepat menggambarkan suatu objek secara rinci?", pilihan: ["A. Taman itu sangat luas sekali", "B. Taman itu memiliki luas 50 meter persegi dengan deretan pohon palem di tepinya", "C. Taman itu terlihat sangat bagus dan asri", "D. Banyak orang menyukai taman itu"], benar: 1, materi: "Bab 1 - Teks Deskripsi" },
+            { soal: "Tujuan utama dari penulisan teks deskripsi adalah...", pilihan: ["A. Mengajak pembaca untuk membeli suatu barang", "B. Menceritakan urutan kejadian cerita khayalan", "C. Menggambarkan objek agar pembaca seolah-olah melihat dan merasakannya sendiri", "D. Menjelaskan pendapat penulis agar dipercaya"], benar: 2, materi: "Bab 1 - Teks Deskripsi" },
+            { soal: "Kata yang tepat untuk melengkapi kalimat deskripsi: 'Pemandangan gunung itu terlihat sangat ______ pada pagi hari'.", pilihan: ["A. Merdu", "B. Kasar", "C. Indah", "D. Wangi"], benar: 2, materi: "Bab 1 - Teks Deskripsi" },
+            
+            // --- BAB 2: STRUKTUR NARASI ---
+            { soal: "Bagian awal dalam cerita narasi yang berfungsi mengenalkan tokoh dan latar disebut...", pilihan: ["A. Orientasi", "B. Komplikasi", "C. Klimaks", "D. Resolusi"], benar: 0, materi: "Bab 2 - Struktur Narasi" },
+            { soal: "Bagian alur cerita yang berisi puncak masalah atau ketegangan terbesar disebut...", pilihan: ["A. Orientasi", "B. Komplikasi", "C. Klimaks", "D. Resolusi"], benar: 2, materi: "Bab 2 - Struktur Narasi" },
+            { soal: "Bagian akhir dari cerita narasi yang berisi penyelesaian atau jalan keluar dari masalah disebut...", pilihan: ["A. Orientasi", "B. Komplikasi", "C. Klimaks", "D. Resolusi"], benar: 3, materi: "Bab 2 - Struktur Narasi" },
+            { soal: "Unsur intrinsik cerita yang menjelaskan tentang tempat dan kapan peristiwa dalam cerita terjadi disebut...", pilihan: ["A. Tokoh", "B. Latar", "C. Alur", "D. Amanat"], benar: 1, materi: "Bab 2 - Struktur Narasi" },
+            { soal: "Pesan atau nilai kebaikan yang ingin disampaikan oleh penulis melalui cerita disebut...", pilihan: ["A. Amanat", "B. Latar", "C. Watak", "D. Alur"], benar: 0, materi: "Bab 2 - Struktur Narasi" },
+            
+            // --- BAB 3: TEKS INFORMATIF (FAKTA, OPINI & ADIKSIMBA) ---
+            { soal: "Teks yang berisi informasi berupa kenyataan, data akurat, dan benar-benar terjadi dinamakan teks...", pilihan: ["A. Narasi", "B. Deskripsi", "C. Informatif", "D. Fiksi"], benar: 2, materi: "Bab 3 - Teks Informatif" },
+            { soal: "Di antara kalimat berikut, manakah yang merupakan kalimat FAKTA?", pilihan: ["A. Kucing adalah hewan peliharaan yang paling lucu di dunia", "B. Komodo merupakan hewan endemik yang hidup di wilayah Indonesia", "C. Buah manggis rasanya jauh lebih enak daripada buah durian", "D. Matematika adalah pelajaran yang sangat membosankan"], benar: 1, materi: "Bab 3 - Teks Informatif" },
+            { soal: "Manakah kalimat di bawah ini yang berupa OPINI atau pendapat seseorang?", pilihan: ["A. Indonesia merdeka pada tanggal 17 Agustus 1945", "B. Gunung Dieng terletak di wilayah Provinsi Jawa Tengah", "C. Menanam tanaman hias adalah hobi yang sangat menyenangkan", "D. Air mendidih pada suhu 100 derajat Celsius"], benar: 2, materi: "Bab 3 - Teks Informatif" },
+            { soal: "Rumus ADIKSIMBA digunakan untuk mengumpulkan informasi. Huruf 'A' pada awal kata tersebut merupakan singkatan dari kata tanya...", pilihan: ["A. Apa", "B. Atas", "C. Akhir", "D. Alasan"], benar: 0, materi: "Bab 3 - Teks Informatif" },
+            { soal: "Dalam unsur ADIKSIMBA, kata tanya 'Mengapa' digunakan penulis teks informatif untuk menanyakan...", pilihan: ["A. Tempat kejadian peristiwa", "B. Waktu terjadinya peristiwa", "C. Orang yang terlibat peristiwa", "D. Alasan atau penyebab terjadinya peristiwa"], benar: 3, materi: "Bab 3 - Teks Informatif" }
+        ];
+
+        // Fungsi Suara
+        function aturSuara() {
+            const ikon = document.querySelector('#tombolSuara i');
+            if(musikMenyala) {
+                musik.pause();
+                ikon.classList.remove('fa-volume-up');
+                ikon.classList.add('fa-volume-off');
+            } else {
+                musik.play().catch(() => {});
+                ikon.classList.remove('fa-volume-off');
+                ikon.classList.add('fa-volume-up');
+            }
+            musikMenyala = !musikMenyala;
+        }
+
+        function kembaliKeAwal() {
+            if (confirm("Kembali ke halaman utama? Proses tantangan akan direset.")) {
+                document.getElementById('halamanKuis').classList.add('hidden');
+                document.getElementById('halamanHasil').classList.add('hidden');
+                document.getElementById('halamanAwal').classList.remove('hidden');
+                resetPermainan();
+                musik.pause();
+                musikMenyala = false;
+            }
+        }
+
+        function mulaiKuis() {
+            document.getElementById('halamanAwal').classList.add('hidden');
+            document.getElementById('halamanKuis').classList.remove('hidden');
+            resetPermainan();
+            perbaruiStatus();
+            tampilkanSoal();
+            musik.play().catch(() => {});
+            musikMenyala = true;
+        }
+
+        function resetPermainan() {
+            nyawa = 3;
+            skor = 0;
+            nomorSekarang = 0;
+        }
+
+        function perbaruiStatus() {
+            document.getElementById('tampilanNyawa').innerHTML = '❤️'.repeat(nyawa);
+            document.getElementById('tampilanSkor').textContent = skor;
+            document.getElementById('nomorSoal').textContent = `${nomorSekarang + 1} / ${totalSoal}`;
+            
+            if (nomorSekarang < 5) {
+                document.getElementById('levelMateri').textContent = "Bab 1";
+            } else if (nomorSekarang < 10) {
+                document.getElementById('levelMateri').textContent = "Bab 2";
+            } else {
+                document.getElementById('levelMateri').textContent = "Bab 3";
+            }
+        }
+
+        function tampilkanSoal() {
+            document.getElementById('umpanBalik').classList.add('hidden');
+            const soal = daftarSoal[nomorSekarang];
+            document.getElementById('teksSoal').innerHTML = `<span class="text-sm text-gray-500 font-normal">${soal.materi}</span><br><br>${soal.soal}`;
+            
+            const tempatPilihan = document.getElementById('pilihanJawaban');
+            tempatPilihan.innerHTML = '';
+
+            soal.pilihan.forEach((opsi, indeks) => {
+                const tombol = document.createElement('button');
+                tombol.className = 'pilihan border-2 border-gray-200 hover:border-utama hover:bg-blue-50 rounded-xl p-4 text-left transition-all duration-200 shadow-sm hover:shadow-md';
+                tombol.textContent = opsi;
+                tombol.onclick = () => cekJawaban(indeks);
+                tempatPilihan.appendChild(tombol);
+            });
+        }
+
+        function cekJawaban(pilihanPengguna) {
+            const soal = daftarSoal[nomorSekarang];
+            const semuaTombol = document.querySelectorAll('.pilihan');
+            semuaTombol.forEach(btn => btn.disabled = true);
+
+            if (pilihanPengguna === soal.benar) {
+                skor += 10;
+                confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
+                tampilkanUmpanBalik(true, "✅ Hebat! Jawaban Kamu Benar!");
+                semuaTombol[pilihanPengguna].classList.add('border-sukses', 'bg-green-100');
+            } else {
+                nyawa--;
+                document.getElementById('tampilanNyawa').classList.add('animasi-goyang');
+                setTimeout(() => document.getElementById('tampilanNyawa').classList.remove('animasi-goyang'), 400);
+                tampilkanUmpanBalik(false, `❌ Salah! Jawaban yang benar: ${soal.pilihan[soal.benar]}`);
+                semuaTombol[pilihanPengguna].classList.add('border-bahaya', 'bg-red-100');
+                semuaTombol[soal.benar].classList.add('border-sukses', 'bg-green-100');
+            }
+
+            perbaruiStatus();
+            setTimeout(lanjutkan, 2200);
+        }
+
+        function tampilkanUmpanBalik(benar, pesan) {
+            const kotak = document.getElementById('umpanBalik');
+            kotak.classList.remove('hidden', 'bg-green-100', 'border-green-500', 'bg-red-100', 'border-red-500', 'text-green-800', 'text-red-800');
+            kotak.classList.add('border-2', 'animasi-naik');
+            
+            if (benar) {
+                kotak.classList.add('bg-green-100', 'border-green-500', 'text-green-800');
+            } else {
+                kotak.classList.add('bg-red-100', 'border-red-500', 'text-red-800');
+            }
+            kotak.textContent = pesan;
+        }
+
+        function lanjutkan() {
+            if (nyawa <= 0 || nomorSekarang >= totalSoal - 1) {
+                akhiriKuis();
+            } else {
+                nomorSekarang++;
+                tampilkanSoal();
+            }
+        }
+
+        function akhiriKuis() {
+            document.getElementById('halamanKuis').classList.add('hidden');
+            document.getElementById('halamanHasil').classList.remove('hidden');
+            musik.pause();
+            musikMenyala = false;
+
+            let gelar, pesan;
+            if (skor >= 130) {
+                gelar = "🏆 GRAND MASTER BAHASA";
+                pesan = "🌟 Luar biasa! Kamu menguasai seluruh materi dengan sempurna!";
+            } else if (skor >= 100) {
+                gelar = "✨ AHLI BAHASA";
+                pesan = "Bagus sekali! Pemahamanmu sangat baik, hanya butuh sedikit perbaikan.";
+            } else if (skor >= 70) {
+                gelar = "📚 PEMULA CERDAS";
+                pesan = "Cukup baik! Teruslah berlatih agar makin mahir.";
+            } else {
+                gelar = "💪 PELAJAR SEMANGAT";
+                pesan = "Jangan menyerah! Pelajari kembali materi dan coba tantangan lagi ya.";
+            }
+
+            document.getElementById('isiHasil').innerHTML = `
+                <p>Jumlah jawaban benar: <strong>${skor / 10}</strong> dari 15 soal</p>
+                <p>Skor akhir: <strong class="text-2xl font-bold text-utama">${skor}</strong> poin</p>
+                <p class="mt-4 italic">${pesan}</p>
+            `;
+            document.getElementById('gelarPeserta').textContent = gelar;
+            document.getElementById('skorAkhir').textContent = skor;
+        }
+
+        function ulangKuis() {
+            document.getElementById('halamanHasil').classList.add('hidden');
+            mulaiKuis();
+        }
+
+        function simpanSertifikat() {
+            const nama = prompt("Masukkan nama lengkap kamu:", "Petualang Bahasa");
+            if (nama) document.getElementById('namaPeserta').textContent = nama;
+            alert("Sertifikat siap disimpan! Silakan tangkap layar halaman ini.");
+        }
+
+        function navigasiBab(arah) {
+            if(arah === 'kembali') {
+                if(confirm("Kembali ke halaman Bab 3?")) {
+                    musik.pause();
+                    window.location.href = "bab 3.html";
+                }
+            } else if(arah === 'lanjut') {
+                if(confirm("Lanjut ke halaman daftar pustaka?")) {
+                    musik.pause();
+                    window.location.href = "daftar-pustaka.html";
+                }
+            }
+        }
+    </script>
+
+</body>
+</html>

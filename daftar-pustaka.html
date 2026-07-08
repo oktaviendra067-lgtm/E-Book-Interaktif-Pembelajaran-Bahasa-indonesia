@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="id-ID">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar Pustaka - E-Book Bahasa Indonesia Kelas 5</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body {
+            width: 100%; min-height: 100vh;
+            background: linear-gradient(rgba(255,255,255,0.15), rgba(255,255,255,0.15)), 
+                        url('background.png') center center / cover no-repeat fixed;
+            font-family: 'Quicksand', sans-serif; padding: 4% 2%;
+            position: relative;
+            overflow-x: hidden;
+        }
+        .container {
+            max-width: 980px; margin: 0 auto;
+            background: rgba(255,255,255,0.95); padding: clamp(1.5rem, 5vw, 3rem);
+            border-radius: 20px; box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            border: 3px solid rgba(255,255,255,0.7);
+            position: relative;
+            z-index: 2;
+        }
+        h1 {
+            font-family: 'Fredoka', sans-serif; font-size: clamp(1.8rem, 6vw, 2.5rem);
+            color: #1565c0; text-align: center; margin-bottom: 1rem;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+        }
+        h2 {
+            font-family: 'Fredoka', sans-serif; font-size: clamp(1.3rem, 4.5vw, 1.7rem);
+            color: #1976d2; margin: 2.5rem 0 1.2rem;
+            padding-bottom: 0.5rem; border-bottom: 2px dashed #90caf9;
+        }
+        .garis {
+            width: 50%; height: 3px; background: linear-gradient(90deg, #1976d2, #0288d1);
+            margin: 0 auto 2.5rem; border-radius: 3px;
+        }
+        
+        /* Layout Daftar Pustaka Standar Buku (Hanging Indent) */
+        .daftar-pustaka-grup {
+            margin-bottom: 2rem;
+        }
+        .pustaka-item {
+            font-size: clamp(0.95rem, 3vw, 1.1rem);
+            line-height: 1.8;
+            color: #2d3436;
+            text-align: justify;
+            margin-bottom: 1.2rem;
+            padding-left: 2rem;
+            text-indent: -2rem; /* Membuat baris kedua dst menjorok ke dalam */
+        }
+        .pustaka-item em {
+            font-style: italic;
+            font-weight: 500;
+            color: #0d47a1;
+        }
+        .pustaka-item a {
+            color: #0288d1;
+            text-decoration: none;
+            word-wrap: break-word;
+        }
+        .pustaka-item a:hover {
+            text-decoration: underline;
+        }
+
+        /* Navigasi Ganda */
+        .navigasi {
+            margin-top: 3.5rem; 
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .tombol {
+            flex: 1;
+            min-width: 200px;
+            padding: clamp(0.8rem, 3vw, 1.1rem) clamp(1.5rem, 5vw, 2.2rem);
+            font-family: 'Fredoka', sans-serif; font-size: clamp(1rem, 3.5vw, 1.2rem);
+            font-weight: 600; border: none; border-radius: 12px;
+            color: white; text-decoration: none; text-align: center;
+            cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            transition: all 0.3s ease; display: inline-flex; align-items: center;
+            justify-content: center;
+        }
+        .btn-kembali {
+            background: linear-gradient(135deg, #757575, #424242);
+        }
+        .btn-lanjut {
+            background: linear-gradient(135deg, #1976d2, #0288d1);
+        }
+        .tombol:hover {
+            transform: translateY(-3px); box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>📚 DAFTAR PUSTAKA</h1>
+        <div class="garis"></div>
+
+        <!-- REFERENSI UTAMA (ALFABETIS A-Z) -->
+        <h2>Referensi Buku & Literatur Akademis</h2>
+        <div class="daftar-pustaka-grup">
+            <p class="pustaka-item">
+                Assegaf, J. S. (2017). <em>Jurnalistik Kontemporer</em>. Jakarta: Rajawali Pers.
+            </p>
+            <p class="pustaka-item">
+                Badan Riset dan Inovasi Nasional (BRIN). (2021). <em>Catatan Ilmiah Flora dan Fauna Endemik Indonesia</em>. Jakarta: BRIN Press.
+            </p>
+            <p class="pustaka-item">
+                Kementerian Pariwisata dan Ekonomi Kreatif. (2023). <em>Pesona Indonesia: Ragam Destinasi Wisata Nusantara</em>. Jakarta: Kemenparekraf.
+            </p>
+            <p class="pustaka-item">
+                Kementerian Pendidikan dan Kebudayaan. (2022). <em>Keputusan Kepala BSKAP No. 033/H/KR/2022 tentang Capaian Pembelajaran pada Pendidikan Anak Usia Dini, Jenjang Pendidikan Dasar, dan Jenjang Pendidikan Menengah pada Kurikulum Merdeka</em>. Jakarta.
+            </p>
+            <p class="pustaka-item">
+                Keraf, G. (2007). <em>Eksposisi dan Deskripsi</em>. Jakarta: PT Gramedia Pustaka Utama.
+            </p>
+            <p class="pustaka-item">
+                Menteri Pendidikan, Kebudayaan, Riset, dan Teknologi. (2021). <em>Buku Panduan Guru Bahasa Indonesia: Bergerak Bersama untuk SD Kelas V</em>. Jakarta: Pusat Perbukuan Badan Standar, Kurikulum, dan Asesmen Pendidikan Kemendikbudristek.
+            </p>
+            <p class="pustaka-item">
+                Nurgiyantoro, B. (2018). <em>Teori Pengkajian Fiksi</em>. Yogyakarta: Gadjah Mada University Press.
+            </p>
+            <p class="pustaka-item">
+                Pusat Pembinaan dan Pengembangan Bahasa. (2020). <em>Pedoman Umum Ejaan Bahasa Indonesia (PUEBI)</em>. Jakarta: Kementerian Pendidikan dan Kebudayaan.
+            </p>
+            <p class="pustaka-item">
+                Verawaty, E., & Zulqarnain. (2021). <em>Bahasa Indonesia: Bergerak Bersama untuk SD Kelas V</em> (Buku Siswa). Jakarta: Pusat Perbukuan Badan Standar, Kurikulum, dan Asesmen Pendidikan Kemendikbudristek.
+            </p>
+        </div>
+
+        <!-- REFERENSI MEDIA VIDEO DIGITAL -->
+        <h2>Referensi Media Video Pembelajaran</h2>
+        <div class="daftar-pustaka-grup">
+            <p class="pustaka-item">
+                Kanal Pendidikan Nusantara. (2024). <em>Materi Pembelajaran Bahasa Indonesia: Teks Deskripsi Kelas V</em> [Video]. YouTube. <a href="https://youtu.be/cTidIp76Dqg?si=wtZnyqAOr3sv_GEh" target="_blank">https://youtu.be/cTidIp76Dqg?si=wtZnyqAOr3sv_GEh</a>
+            </p>
+            <p class="pustaka-item">
+                Kanal Ruang Edukasi Digital. (2024). <em>Memahami Unsur Teks Narasi dan Cerita Fantasi</em> [Video]. YouTube. <a href="https://youtu.be/CfhmEyvUKTo?si=EUM_1v183Khz7G_v" target="_blank">https://youtu.be/CfhmEyvUKTo?si=EUM_1v183Khz7G_v</a>
+            </p>
+            <p class="pustaka-item">
+                Media Pembelajaran Kreatif. (2024). <em>Mengenal Teks Informatif dan Rumus ADIKSIMBA</em> [Video]. YouTube. <a href="https://youtu.be/HwFBYQuVEEU?si=zu_mBJ3w0BRGLG9P" target="_blank">https://youtu.be/HwFBYQuVEEU?si=zu_mBJ3w0BRGLG9P</a>
+            </p>
+        </div>
+
+        <!-- ARSIP SUMBER GAMBAR ILUSTRASI -->
+        <h2>Referensi Gambar & Ilustrasi Digital</h2>
+        <div class="daftar-pustaka-grup">
+            <p class="pustaka-item">
+                Gemini AI Collaboration Proyek. (2026). <em>Aset Gambar Ilustrasi Interaktif: Bab 1 Indahnya Indonesiaku dalam Kata</em> [AI-Generated Image]. Kode Blob Objek: <a href="#">blob:null/8708a37a-9048-4d24-bc5d-5635bc7833ec</a>
+            </p>
+            <p class="pustaka-item">
+                Gemini AI Collaboration Proyek. (2026). <em>Aset Gambar Ilustrasi Interaktif: Bab 2 Detektif Waktu</em> [AI-Generated Image]. Kode Blob Objek: <a href="#">blob:null/cd35f22e-839d-419b-a780-455392ee3d34</a>
+            </p>
+            <p class="pustaka-item">
+                Gemini AI Collaboration Proyek. (2026). <em>Aset Gambar Ilustrasi Interaktif: Bab 3 Jurnalis Cilik</em> [AI-Generated Image]. Kode Blob Objek: <a href="#">blob:null/e703f335-5181-4851-9eb2-55d4db4b28aa</a>
+            </p>
+        </div>
+
+        <!-- REFERENSI AUDIO / NARASI DIGITAL -->
+        <h2>Referensi Audio & Suara Digital (Voice Over)</h2>
+        <div class="daftar-pustaka-grup">
+            <p class="pustaka-item">
+                Google AI Studio Proyek. (2026). <em>Audio Pembelajaran Interaktif: Narasi Pendukung Bab 1</em> [AI-Generated Audio]. Sumber Data: <a href="#">blob:https://web.whatsapp.com/977c7d5a-74dc-419e-aa6d-8df8536a115d</a>
+            </p>
+            <p class="pustaka-item">
+                Google AI Studio Proyek. (2026). <em>Audio Pembelajaran Interaktif: Narasi Pendukung Bab 2</em> [AI-Generated Audio]. Sumber Data: <a href="#">blob:https://web.whatsapp.com/c8ede0d6-52be-455e-87fb-06bcd8f18553</a>
+            </p>
+            <p class="pustaka-item">
+                Google AI Studio Proyek. (2026). <em>Audio Pembelajaran Interaktif: Narasi Pendukung Bab 3</em> [AI-Generated Audio]. Sumber Data: <a href="#">blob:https://web.whatsapp.com/ac951853-000f-485f-a109-e607df2fbc99</a>
+            </p>
+        </div>
+
+        <!-- NAVIGASI KEMBALI DAN LANJUT -->
+        <div class="navigasi">
+            <a href="kuis.html" class="tombol btn-kembali" onclick="mainkanSuara()">⬅ Kembali ke kuis</a>
+            <a href="profil penulis.html" class="tombol btn-lanjut" onclick="mainkanSuara()">Halaman Selanjutnya ➡</a>
+        </div>
+    </div>
+
+    <!-- SUARA KLIK TOMBOL -->
+    <audio id="suaraKlik" preload="auto">
+        <source src="klik.mp3" type="audio/mpeg">
+        <source src="klik.wav" type="audio/wav">
+    </audio>
+
+    <script>
+        function mainkanSuara() {
+            const suara = document.getElementById('suaraKlik');
+            if (suara) {
+                suara.currentTime = 0;
+                suara.play().catch(err => console.log("Audio klik aktif."));
+            }
+        }
+    </script>
+</body>
+</html>

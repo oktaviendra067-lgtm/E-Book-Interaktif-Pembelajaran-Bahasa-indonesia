@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="id-ID">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kata Penutup - Petualangan Selesai!</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body {
+            width: 100%; min-height: 100vh;
+            background: linear-gradient(rgba(255,255,255,0.1), rgba(255,255,255,0.1)), 
+                        url('background.png') center center / cover no-repeat fixed;
+            font-family: 'Quicksand', sans-serif; padding: 4% 2%;
+            display: flex; align-items: center; justify-content: center;
+            overflow-x: hidden;
+        }
+        .container {
+            max-width: 800px; width: 100%;
+            background: rgba(255,255,255,0.96); padding: clamp(2rem, 6vw, 3.5rem);
+            border-radius: 30px; box-shadow: 0 12px 35px rgba(0,0,0,0.25);
+            border: 4px solid #1e88e5; text-align: center;
+            position: relative; animation: muncul 1s ease-out;
+        }
+        @keyframes muncul {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Tombol Kontrol Musik Latar */
+        .kontrol-audio {
+            position: absolute; top: 20px; right: 20px;
+            background: #1e88e5; color: white; border: none;
+            width: 45px; height: 45px; border-radius: 50%;
+            font-size: 1.3rem; cursor: pointer; display: flex;
+            align-items: center; justify-content: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            transition: all 0.3s ease; z-index: 10;
+        }
+        .kontrol-audio:hover { transform: scale(1.1); background: #1565c0; }
+
+        .trofi {
+            font-size: clamp(3.5rem, 10vw, 5rem); margin-bottom: 1rem;
+            animation: goyang 2s infinite ease-in-out; display: inline-block;
+        }
+        @keyframes goyang {
+            0%, 100% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(10deg) scale(1.1); }
+        }
+        h1 {
+            font-family: 'Fredoka', sans-serif; font-size: clamp(2rem, 7vw, 2.8rem);
+            color: #1565c0; margin-bottom: 1.5rem; line-height: 1.2;
+        }
+        .highlight {
+            color: #e91e63; font-weight: 700;
+        }
+        .pembatas {
+            width: 60%; height: 4px; background: linear-gradient(90deg, #ffb300, #e91e63, #1e88e5);
+            margin: 0 auto 2rem; border-radius: 4px;
+        }
+        .pesan-grup {
+            text-align: left; background: rgba(225, 245, 254, 0.5);
+            padding: 1.5rem; border-radius: 20px; border-left: 6px solid #0288d1;
+            margin-bottom: 2rem;
+        }
+        p {
+            font-size: clamp(1.05rem, 3.5vw, 1.25rem); line-height: 1.8;
+            color: #37474f; margin-bottom: 1.2rem; font-weight: 500;
+        }
+        p:last-child { margin-bottom: 0; }
+        .quote {
+            font-family: 'Fredoka', sans-serif; font-size: clamp(1.2rem, 4vw, 1.5rem);
+            color: #2e7d32; margin: 2rem 0; font-style: italic;
+        }
+        
+        /* Navigasi Ganda */
+        .navigasi {
+            margin-top: 3rem; 
+            display: flex; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap;
+        }
+        .tombol {
+            flex: 1; min-width: 220px;
+            padding: clamp(0.9rem, 3vw, 1.2rem) clamp(1.5rem, 5vw, 2.5rem);
+            font-family: 'Fredoka', sans-serif; font-size: clamp(1.05rem, 3.5vw, 1.25rem);
+            font-weight: 600; border: none; border-radius: 15px;
+            color: white; text-decoration: none; text-align: center;
+            cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+            transition: all 0.3s ease; display: inline-flex; align-items: center; justify-content: center;
+        }
+        .btn-kembali {
+            background: linear-gradient(135deg, #78909c, #455a64);
+        }
+        .btn-selesai {
+            background: linear-gradient(135deg, #ff8f00, #ff6f00);
+            animation: denyut 1.5s infinite;
+        }
+        @keyframes denyut {
+            0% { box-shadow: 0 0 0 0 rgba(255,111,0, 0.5); }
+            70% { box-shadow: 0 0 0 15px rgba(255,111,0, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255,111,0, 0); }
+        }
+        .tombol:hover {
+            transform: translateY(-4px); box-shadow: 0 8px 22px rgba(0,0,0,0.25);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- TOMBOL KONTROL AUDIO UTAMA -->
+        <button class="kontrol-audio" id="btnMusik" onclick="toggleMusik()">🎵</button>
+
+        <div class="trofi">🏆</div>
+        <h1>Luar Biasa!<br>Kamu Adalah <span class="highlight">Bintang Literasi!</span></h1>
+        
+        <div class="pembatas"></div>
+
+        <div class="pesan-grup">
+            <p><strong>Selamat, Petualang Hebat!</strong> Kamu telah berhasil menyelesaikan seluruh tantangan di dalam e-book ini dengan sangat baik.</p>
+            <p>Mulai dari melukis keindahan alam lewat <strong>Teks Deskripsi</strong> yang memukau, menembus misteri lorong dimensi bersama <strong>Detektif Waktu</strong>, hingga menjadi <strong>Jurnalis Cilik</strong> yang kritis mencari kebenaran fakta satwa Nusantara.</p>
+        </div>
+
+        <p>Ingat ya, petualangan membaca dan menulismu tidak berhenti di halaman ini. Setiap buku yang kamu buka adalah gerbang menuju petualangan baru yang tanpa batas!</p>
+
+        <div class="quote">"Membaca adalah tiket untuk menjelajahi dunia, dan menulis adalah caramu meninggalkan jejak di dalamnya."</div>
+
+        <!-- NAVIGASI KEMBALI DAN SELESAI -->
+        <div class="navigasi">
+            <a href="profil penulis.html" class="tombol btn-kembali" onclick="mainkanSuaraKlik()">⬅ Profil Penulis</a>
+            <a href="index.html" class="tombol btn-selesai" onclick="mainkanSuaraKlik()">🎉 Selesai Petualangan</a>
+        </div>
+    </div>
+
+    <!-- ELEMEN AUDIO BACKSOUND (LOOPING OTOMATIS) -->
+    <audio id="bgMusik" loop>
+        <source src="backsound-penutup.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- ELEMEN AUDIO EFEK KLIK -->
+    <audio id="suaraKlik" preload="auto">
+        <source src="klik.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        const bgMusik = document.getElementById('bgMusik');
+        const btnMusik = document.getElementById('btnMusik');
+        let musikSedangMain = false;
+
+        // Aturan Browser: Jalankan backsound otomatis begitu user berinteraksi dengan halaman
+        document.body.addEventListener('click', function() {
+            if (!musikSedangMain) {
+                putarMusik();
+            }
+        }, { once: true }); // Menggunakan 'once: true' agar trigger klik ini hanya berjalan sekali di awal
+
+        function putarMusik() {
+            bgMusik.volume = 0.4; // Mengatur volume musik latar (skala 0.0 sampai 1.0) biar tidak terlalu keras
+            bgMusik.play().then(() => {
+                musikSedangMain = true;
+                btnMusik.innerHTML = "🎵";
+            }).catch(err => console.log("Menunggu interaksi user untuk memutar audio."));
+        }
+
+        function toggleMusik() {
+            if (musikSedangMain) {
+                bgMusik.pause();
+                btnMusik.innerHTML = "🔇";
+                musikSedangMain = false;
+            } else {
+                bgMusik.play();
+                btnMusik.innerHTML = "🎵";
+                musikSedangMain = true;
+            }
+        }
+
+        function mainkanSuaraKlik() {
+            const suara = document.getElementById('suaraKlik');
+            if (suara) {
+                suara.currentTime = 0;
+                suara.play().catch(err => console.log("Audio klik aktif."));
+            }
+        }
+    </script>
+</body>
+</html>
