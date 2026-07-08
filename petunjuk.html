@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="id-ID">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Petunjuk Penggunaan - E-Book Bahasa Indonesia</title>
+    
+    <!-- FONTS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* RESET & BASE STYLES */
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        }
+        
+        html, body {
+            width: 100%; 
+            min-height: 100vh;
+            background: linear-gradient(rgba(255,255,255,0.15), rgba(255,255,255,0.15)), 
+                        url('background.png') center center / cover no-repeat fixed;
+            font-family: 'Quicksand', sans-serif; 
+            padding: 5% 2%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* CONTAINER STYLES */
+        .container {
+            width: 100%;
+            max-width: 900px; 
+            background: rgba(255,255,255,0.95); 
+            padding: clamp(1.8rem, 5vw, 3.5rem);
+            border-radius: 24px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            border: 4px solid rgba(255,255,255,0.8);
+        }
+
+        /* HEADER STYLES */
+        h1 {
+            font-family: 'Fredoka', sans-serif; 
+            font-size: clamp(1.8rem, 5vw, 2.6rem);
+            color: #ef6c00; 
+            text-align: center; 
+            margin-bottom: 1.5rem;
+        }
+
+        .garis {
+            width: 60%; 
+            height: 5px; 
+            background: linear-gradient(90deg, #ff9800, #f57c00);
+            margin: 0 auto 2.5rem; 
+            border-radius: 10px;
+        }
+
+        /* CONTENT STYLES */
+        .isi { 
+            font-size: clamp(1rem, 3vw, 1.15rem); 
+            line-height: 1.8; 
+            color: #2d3436; 
+            font-weight: 500;
+        }
+        
+        .isi p {
+            margin-bottom: 1.2rem;
+        }
+
+        .isi ul { 
+            padding-left: 1.5rem; 
+            margin-bottom: 2rem; 
+        }
+
+        .isi li { 
+            margin-bottom: 1.2rem; 
+            list-style-type: '✨ '; /* Bullet point ramah anak */
+            padding-left: 0.5rem;
+        }
+        
+        .isi strong {
+            color: #e65100;
+        }
+
+        /* ALERT / NOTE BOX */
+        .catatan {
+            background-color: #fff3e0;
+            border-left: 5px solid #ff9800;
+            padding: 1.2rem;
+            border-radius: 0 12px 12px 0;
+            margin-top: 1.5rem;
+            font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+        }
+        
+        .catatan strong {
+            color: #e65100;
+        }
+
+        /* NAVIGATION STYLES */
+        .navigasi { 
+            margin-top: 3rem; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            flex-wrap: wrap; 
+            gap: 1rem; 
+        }
+
+        .tombol {
+            padding: clamp(0.8rem, 2.5vw, 1.1rem) clamp(1.5rem, 4vw, 2.2rem);
+            font-family: 'Fredoka', sans-serif; 
+            font-size: clamp(0.95rem, 2.5vw, 1.15rem); 
+            font-weight: 600;
+            border: none; 
+            border-radius: 15px; 
+            background: linear-gradient(135deg, #ff9800, #f57c00);
+            color: white; 
+            text-decoration: none; 
+            text-align: center; 
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(245, 124, 0, 0.3); 
+            transition: all 0.3s ease;
+        }
+
+        .tombol:hover { 
+            transform: translateY(-3px); 
+            box-shadow: 0 6px 18px rgba(245, 124, 0, 0.45); 
+            background: linear-gradient(135deg, #f57c00, #e65100);
+        }
+        
+        .tombol:active {
+            transform: translateY(-1px);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>📖 PETUNJUK PENGGUNAAN</h1>
+        <div class="garis"></div>
+        
+        <div class="isi">
+            <p>Halo, Teman-Teman hebat! Agar kalian bisa belajar dengan seru, nyaman, dan maksimal di dalam E-Book interaktif ini, yuk perhatikan petunjuk penggunaan berikut:</p>
+
+            <ul>
+                <li><strong>Perangkat Belajar:</strong> Buka E-Book ini menggunakan laptop, tablet, atau ponsel pintar yang memiliki layar jernih dan pengeras suara (*speaker*) agar belajarmu makin asyik!</li>
+                <li><strong>Tombol Navigasi:</strong> Gunakan tombol jingga di bagian bawah halaman. Klik <strong>⬅ Sebelumnya</strong> untuk kembali ke halaman lalu, dan klik <strong>Selanjutnya ➡</strong> untuk membuka halaman baru. Kalian juga bisa langsung melompat ke bab tertentu lewat halaman <strong>Daftar Isi</strong>.</li>
+                <li><strong>Efek Suara Tombol:</strong> Setiap kali kamu mengklik tombol navigasi atau pilihan menu, E-Book ini akan mengeluarkan suara klik seru 🎵 sebagai penanda halaman berpindah.</li>
+                <li><strong>Pengaturan Suara Otomatis:</strong> Suara pembaca materi atau musik latar akan otomatis menyala di halaman tertentu. Pastikan volume perangkatmu sudah dinyalakan ya! Jika ingin mematikan suara, kamu bisa menekan ikon pembesar suara 🔊 yang ada di pojok kanan atas.</li>
+                <li><strong>Menonton Video Pembelajaran:</strong> Pada bagian materi, terdapat **Video Pembelajaran** seru 🎬. Klik tombol *Play* (Segitiga) di tengah video untuk mulai menonton penjelasan materi dari guru. Kamu bisa mengulanginya kapan saja jika belum paham!</li>
+                <li><strong>Menyimak Cerita & Teks Aural:</strong> Pada bagian menyimak, dengarkan baik-baik rekaman suara pembaca teks yang diputar secara interaktif. Latih konsentrasimu sebelum menjawab pertanyaan, ya!</li>
+                <li><strong>Mengikuti Kuis Interaktif:</strong> Di akhir bagian belajar, kalian bisa menguji kehebatan kalian lewat **Kuis atau Tantangan Seru** 🏆! Klik jawaban pilihan ganda atau isi kolom yang tersedia langsung di layar gawai kalian, lalu lihat skor nilaimu secara otomatis setelah selesai mengerjakan.</li>
+            </ul>
+
+            <div class="catatan">
+                <strong>Catatan Penting:</strong> Sangat disarankan untuk mempelajari isi E-Book ini secara berurutan mulai dari Kata Pengantar, Petunjuk, Daftar Isi, hingga Bab Materi agar petualangan belajarmu menjadi lebih terarah dan mudah dipahami.
+            </div>
+        </div>
+        
+        <!-- NAVIGASI UTAMA -->
+        <div class="navigasi">
+            <a href="kata pengantar.html" class="tombol" onclick="mainkanSuara(event, this.href)">⬅ Sebelumnya</a>
+            <a href="daftar isi.html" class="tombol" onclick="mainkanSuara(event, this.href)">Selanjutnya ➡</a>
+        </div>
+    </div>
+
+    <!-- AUDIO ELEMENT -->
+    <audio id="suaraKlik" preload="auto">
+        <source src="klik.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        function mainkanSuara(event, url) {
+            event.preventDefault(); 
+            
+            const suara = document.getElementById('suaraKlik');
+            suara.currentTime = 0;
+            
+            suara.play()
+                .then(() => {
+                    setTimeout(() => {
+                        window.location.href = url;
+                    }, 150);
+                })
+                .catch(err => {
+                    console.log("Suara diblokir browser, langsung pindah halaman.");
+                    window.location.href = url;
+                });
+        }
+    </script>
+
+</body>
+</html>

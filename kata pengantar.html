@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="id-ID">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kata Pengantar - E-Book Bahasa Indonesia</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* RESET & BASE STYLES */
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        }
+        
+        body {
+            width: 100%;
+            min-height: 100vh;
+            background: linear-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)), 
+                        url('background.png') center center / cover no-repeat fixed;
+            font-family: 'Quicksand', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem 1rem;
+        }
+
+        /* CONTAINER UTAMA (Matching dengan halaman sebelumnya) */
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: clamp(2rem, 5vw, 3.5rem);
+            border-radius: 30px; /* Sudut membulat khas anak-anak */
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+            border: 4px solid #fff;
+            position: relative;
+        }
+
+        /* JUDUL KATA PENGANTAR */
+        h1 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: clamp(2rem, 6vw, 2.8rem);
+            color: #2e7d32; /* Hijau Segar */
+            text-align: center;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.05);
+        }
+
+        /* GARIS PEMBATAS LUCU */
+        .garis {
+            width: 50%;
+            height: 6px;
+            background: linear-gradient(90deg, #43a047, #2196f3);
+            margin: 0 auto 2.5rem;
+            border-radius: 20px;
+        }
+
+        /* ISI TEKS KATA PENGANTAR */
+        .isi {
+            font-size: clamp(1.05rem, 3.5vw, 1.25rem);
+            line-height: 1.8;
+            color: #2d3436;
+            text-align: justify;
+            font-weight: 500;
+        }
+
+        .isi p {
+            margin-bottom: 1.5rem;
+            text-indent: 2rem; /* Menjorok ke dalam di awal paragraf */
+        }
+
+        /* BAGIAN TANDA TANGAN */
+        .tanda-tangan {
+            margin-top: 3.5rem;
+            text-align: right;
+            font-weight: 600;
+            color: #333;
+            padding-right: 1rem;
+        }
+
+        .nama-pengembang {
+            margin-top: 4.5rem; /* Memberikan ruang kosong untuk tanda tangan */
+            color: #2e7d32;
+            font-size: clamp(1.1rem, 3.5vw, 1.3rem);
+        }
+
+        /* NAVIGASI TOMBOL */
+        .navigasi {
+            margin-top: 3.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .tombol {
+            padding: clamp(0.8rem, 3vw, 1rem) clamp(1.5rem, 5vw, 2.5rem);
+            font-family: 'Fredoka', sans-serif;
+            font-size: clamp(1rem, 3.5vw, 1.2rem);
+            font-weight: 600;
+            border: none;
+            border-radius: 50px; /* Tombol kapsul bulat biar playful */
+            color: white;
+            text-decoration: none;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        /* Warna Tombol Kembali (Oranye/Kuning hangat agar kontras) */
+        .tombol-kembali {
+            background: linear-gradient(135deg, #ffa726, #f57c00);
+        }
+
+        /* Warna Tombol Lanjut (Hijau ke Biru) */
+        .tombol-lanjut {
+            background: linear-gradient(135deg, #43a047, #2196f3);
+        }
+
+        /* EFEK HOVER TOMBOL */
+        .tombol:hover {
+            transform: translateY(-4px) scale(1.03);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .tombol:active {
+            transform: translateY(-1px);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>KATA PENGANTAR</h1>
+        <div class="garis"></div>
+        
+        <div class="isi">
+            <p>Puji syukur ke hadirat Tuhan Yang Maha Esa, atas segala rahmat dan karunia-Nya, penulis dapat menyelesaikan E-Book interaktif ini dengan baik dan tepat waktu.</p>
+            <p>E-Book ini disusun berdasarkan Capaian Pembelajaran (CP) dan Tujuan Pembelajaran (TP) BSKAP terbaru untuk Siswa Kelas 5 SD. Di dalamnya, fokus pembahasan meliputi materi Teks Deskripsi, Teks Narasi, dan Teks Informatif yang dikemas secara menarik.</p>
+            <p>Semoga E-Book ini dapat memberikan manfaat luas bagi siswa dalam belajar mandiri dan membantu guru dalam menyampaikan materi. Kritik serta saran yang membangun sangat dinantikan demi penyempurnaan e-book ini.</p>
+            
+            <div class="tanda-tangan">
+                <p>Batusangkar, Juni 2026</p>
+                <p>Pengembang,</p>
+                <p class="nama-pengembang"><strong>Nanda Oktaviendra</strong></p>
+            </div>
+        </div>
+        
+        <div class="navigasi">
+            <a href="identitas.html" class="tombol tombol-kembali" onclick="mainkanSuara(event, 'identitas.html')">⬅ Kembali</a>
+            <a href="petunjuk.html" class="tombol tombol-lanjut" onclick="mainkanSuara(event, 'petunjuk.html')">Selanjutnya ➡</a>
+        </div>
+    </div>
+
+    <audio id="suaraKlik" preload="auto">
+        <source src="klik.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        function mainkanSuara(event, url) {
+            event.preventDefault(); // Tahan perpindahan halaman sesaat
+            const suara = document.getElementById('suaraKlik');
+            suara.currentTime = 0;
+            
+            suara.play().then(() => {
+                // Beri jeda 150ms agar suara klik terdengar sebelum pindah halaman
+                setTimeout(() => {
+                    window.location.href = url;
+                }, 150);
+            }).catch(err => {
+                // Jika audio diblokir browser, langsung pindah halaman tanpa delay
+                window.location.href = url;
+            });
+        }
+    </script>
+
+</body>
+</html>
