@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="id-ID">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Identitas Buku - E-Book Bahasa Indonesia</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            min-height: 100vh;
+            background: linear-gradient(rgba(255,255,255,0.15), rgba(255,255,255,0.15)), 
+                        url('background.png') center center / cover no-repeat fixed;
+            font-family: 'Quicksand', sans-serif;
+            padding: 5%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 850px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            padding: clamp(2rem, 5vw, 4rem);
+            border-radius: 24px;
+            box-shadow: 0 12px 35px rgba(0,0,0,0.15);
+            border: 3px solid rgba(255,255,255,0.8);
+        }
+
+        h1 {
+            text-align: center;
+            font-family: 'Fredoka', sans-serif;
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
+            color: #006064;
+            margin-bottom: 1.5rem;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .garis {
+            width: 60%;
+            height: 4px;
+            background: linear-gradient(90deg, #00acc1, #26a69a);
+            margin: 0 auto 3rem;
+            border-radius: 10px;
+        }
+
+        /* Mengubah baris identitas menjadi list yang rapi */
+        .identitas-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            margin-bottom: 3rem;
+        }
+
+        .identitas-item {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 1rem;
+            font-size: clamp(0.95rem, 3vw, 1.15rem);
+            line-height: 1.5;
+            color: #2d3436;
+            padding-bottom: 0.8rem;
+            border-bottom: 1px dashed #b2dfdb;
+        }
+
+        /* Menghilangkan garis bawah di item terakhir */
+        .identitas-item:last-child {
+            border-bottom: none;
+        }
+
+        .identitas-item strong {
+            color: #006064;
+            font-family: 'Fredoka', sans-serif;
+            font-weight: 600;
+        }
+
+        .identitas-item span.isi-data {
+            font-weight: 500;
+        }
+
+        /* Navigasi Tombol */
+        .navigasi {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .tombol {
+            flex: 1;
+            min-width: 200px;
+            padding: clamp(0.8rem, 2.5vw, 1.1rem) clamp(1.5rem, 4vw, 2.2rem);
+            font-family: 'Fredoka', sans-serif;
+            font-size: clamp(0.95rem, 3vw, 1.1rem);
+            font-weight: 600;
+            border: none;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #00acc1, #26a69a);
+            color: white;
+            text-decoration: none;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,172,193,0.3);
+            transition: all 0.3s ease;
+        }
+
+        .tombol:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 18px rgba(0,172,193,0.45);
+            filter: brightness(1.1);
+        }
+
+        /* Responsif untuk HP Layar Kecil */
+        @media (max-width: 600px) {
+            .identitas-item {
+                grid-template-columns: 1fr;
+                gap: 0.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>📋 IDENTITAS E-B00K</h1>
+        <div class="garis"></div>
+
+        <div class="identitas-list">
+            <div class="identitas-item">
+                <strong>Judul E-Book</strong>
+                <span class="isi-data">E-Book Interaktif Pembelajaran Bahasa Indonesia</span>
+            </div>
+
+            <div class="identitas-item">
+                <strong>Materi Pembelajaran</strong>
+                <span class="isi-data">Teks Deskripsi, Teks Narasi, dan Teks Informatif</span>
+            </div>
+
+            <div class="identitas-item">
+                <strong>Kelas / Fase</strong>
+                <span class="isi-data">Kelas 5 Sekolah Dasar / Fase C</span>
+            </div>
+
+            <div class="identitas-item">
+                <strong>Dasar Penyusunan</strong>
+                <span class="isi-data">Capaian Pembelajaran (CP) dan Tujuan Pembelajaran (TP) Bahasa Indonesia Sesuai BSKAP 2025</span>
+            </div>
+
+            <div class="identitas-item">
+                <strong>Elemen Pembelajaran</strong>
+                <span class="isi-data">Menyimak, Membaca dan Memirsa, Berbicara dan Mempresentasikan, serta Menulis</span>
+            </div>
+
+            <div class="identitas-item">
+                <strong>Pengembang</strong>
+                <span class="isi-data">Nanda Oktaviendra</span>
+            </div>
+
+            <div class="identitas-item">
+                <strong>Tahun Pengembangan</strong>
+                <span class="isi-data">2026</span>
+            </div>
+
+            <div class="identitas-item">
+                <strong>Media</strong>
+                <span class="isi-data">Berbasis HTML5, Kompatibel dengan Komputer, Laptop, Tablet, dan Ponsel</span>
+            </div>
+        </div>
+
+        <div class="navigasi">
+            <a href="index.html" class="tombol" onclick="mainkanSuaraTombol(event, 'index.html')">⬅ Kembali ke Halaman Awal</a>
+            <a href="kata pengantar.html" class="tombol" onclick="mainkanSuaraTombol(event, 'kata pengantar.html')">Selanjutnya ➡</a>
+        </div>
+    </div>
+
+    <audio id="suaraTombol" preload="auto">
+        <source src="klik.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        function mainkanSuaraTombol(event, targetUrl) {
+            // Mencegah perpindahan halaman langsung agar suara sempat berbunyi
+            event.preventDefault(); 
+            
+            const suara = document.getElementById('suaraTombol');
+            suara.currentTime = 0;
+            
+            suara.play()
+                .then(() => {
+                    // Tunggu sedikit (200ms) agar efek suara terdengar sebelum pindah halaman
+                    setTimeout(() => {
+                        window.location.href = targetUrl;
+                    }, 200);
+                })
+                .catch(err => {
+                    console.log("Suara diblokir browser atau file tidak ketemu, langsung pindah halaman.");
+                    window.location.href = targetUrl;
+                });
+        }
+    </script>
+
+</body>
+</html>
