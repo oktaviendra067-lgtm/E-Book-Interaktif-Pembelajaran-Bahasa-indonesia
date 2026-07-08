@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="id-ID">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bab 1 - Indahnya Indonesiaku dalam Kata</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body {
+            width: 100%; min-height: 100vh;
+            background: linear-gradient(rgba(255,255,255,0.1), rgba(255,255,255,0.1)), 
+                        url('background.png') center center / cover no-repeat fixed;
+            font-family: 'Quicksand', sans-serif; padding: 5% 2%;
+            position: relative;
+            overflow-x: hidden;
+        }
+        .container {
+            max-width: 850px; margin: 0 auto;
+            background: rgba(255,255,255,0.95); 
+            backdrop-filter: blur(10px);
+            padding: clamp(2rem, 5vw, 3.5rem);
+            border-radius: 24px; 
+            box-shadow: 0 12px 35px rgba(0,0,0,0.15);
+            border: 4px solid rgba(255,255,255,0.8);
+            position: relative;
+            z-index: 2;
+        }
+        h1 {
+            font-family: 'Fredoka', sans-serif; font-size: clamp(2rem, 5vw, 2.6rem);
+            color: #1565c0; text-align: center; margin-bottom: 0.5rem;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.05);
+        }
+        h2 {
+            font-family: 'Fredoka', sans-serif; font-size: clamp(1.4rem, 5vw, 1.8rem);
+            color: #2e7d32; text-align: center; margin-bottom: 1.5rem;
+        }
+        h3 {
+            font-family: 'Fredoka', sans-serif; font-size: clamp(1.2rem, 4vw, 1.5rem);
+            color: #ef6c00; margin: 1.5rem 0 1rem;
+        }
+        h4 {
+            font-family: 'Fredoka', sans-serif; font-size: clamp(1.1rem, 3.5vw, 1.3rem);
+            color: #0277bd; margin: 1.2rem 0 0.8rem;
+        }
+        .garis {
+            width: 50%; height: 5px; 
+            background: linear-gradient(90deg, #2196f3, #43a047);
+            margin: 0 auto 2.5rem; border-radius: 5px;
+        }
+        .menu-nav {
+            display: flex; flex-wrap: wrap; gap: 0.8rem; justify-content: center;
+            margin-bottom: 2.5rem;
+        }
+        .tombol-menu {
+            padding: 0.8rem 1.4rem; font-family: 'Fredoka', sans-serif;
+            font-size: 0.95rem; font-weight: 600; border: none; border-radius: 50px;
+            background: #f5f5f5; color: #555; border: 2px solid #e0e0e0;
+            cursor: pointer; transition: all 0.25s ease;
+        }
+        .tombol-menu.aktif {
+            background: linear-gradient(135deg, #2196f3, #1976d2); color: white; border-color: transparent;
+            box-shadow: 0 4px 12px rgba(33,150,243,0.3);
+        }
+        .tombol-menu:hover {
+            transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .konten-menu {
+            display: none;
+            animation: muncul 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .konten-menu.aktif {
+            display: block;
+        }
+        @keyframes muncul {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .isi {
+            font-size: clamp(1.05rem, 3vw, 1.25rem);
+            line-height: 1.8; color: #2d3436;
+            text-align: justify;
+        }
+        .isi ul, .isi ol {
+            padding-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .isi li {
+            margin-bottom: 0.5rem;
+        }
+        .kotak-audio, .kotak-video, .kotak-teks, .kotak-kegiatan, .kotak-rangkuman {
+            padding: 1.5rem; border-radius: 16px; margin: 1.5rem 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+        }
+        .kotak-audio { background: rgba(33, 150, 243, 0.08); border-left: 6px solid #2196f3; text-align: center; }
+        .kotak-video { background: rgba(76, 175, 80, 0.08); border-left: 6px solid #43a047; text-align: center; }
+        .kotak-teks { background: rgba(76, 175, 80, 0.06); border-left: 6px solid #43a047; }
+        .kotak-kegiatan { background: rgba(255, 152, 0, 0.08); border-left: 6px solid #ff9800; }
+        .kotak-rangkuman { background: rgba(156, 39, 176, 0.08); border-left: 6px solid #9c27b0; }
+        
+        .pemutar-video {
+            width: 100%; max-width: 700px; border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1); margin: 1rem auto; display: block;
+        }
+        .ilustrasi {
+            width: 100%; max-width: 550px; margin: 1.5rem auto;
+            display: block; border-radius: 16px; box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+            border: 3px solid #fff;
+        }
+        .kosakata {
+            color: #9c27b0; font-weight: 600; cursor: pointer;
+            border-bottom: 2px dashed #9c27b0; display: inline-block; position: relative;
+        }
+        .arti {
+            visibility: hidden; width: 240px; background: #333;
+            color: white; text-align: center; padding: 0.8rem;
+            border-radius: 10px; position: absolute; z-index: 10;
+            bottom: 130%; left: 50%; margin-left: -120px;
+            font-size: 0.9rem; line-height: 1.4; font-family: 'Quicksand', sans-serif;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2); opacity: 0; transition: opacity 0.2s ease;
+        }
+        .kosakata:hover .arti {
+            visibility: visible; opacity: 1;
+        }
+        .kuis-pilihan { margin: 1rem 0; }
+        .kuis-pilihan label {
+            display: flex; align-items: center; gap: 0.5rem; margin: 0.6rem 0; cursor: pointer;
+            padding: 0.6rem 1rem; border-radius: 10px; border: 2px solid #e0e0e0; transition: all 0.2s;
+        }
+        .kuis-pilihan label:hover { background: rgba(33,150,243,0.05); border-color: #90caf9; }
+        
+        .tombol-umum {
+            padding: 0.7rem 1.6rem; font-family: 'Fredoka', sans-serif;
+            font-size: 1rem; font-weight: 600; border: none; border-radius: 50px;
+            background: linear-gradient(135deg, #ff9800, #f57c00);
+            color: white; cursor: pointer; margin: 0.5rem;
+            box-shadow: 0 4px 12px rgba(255,152,0,0.2); transition: all 0.3s ease;
+        }
+        .tombol-umum:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(255,152,0,0.3); }
+
+        .tombol-hapus {
+            background: linear-gradient(135deg, #e53935, #c62828);
+            box-shadow: 0 4px 12px rgba(229,57,53,0.2);
+        }
+        .tombol-hapus:hover { box-shadow: 0 6px 15px rgba(229,57,53,0.3); }
+        
+        textarea {
+            width: 100%; min-height: 140px; padding: 1rem;
+            border: 2px solid #bdbdbd; border-radius: 14px;
+            font-size: 1.05rem; font-family: inherit; margin: 1rem 0; resize: vertical;
+            transition: all 0.3s;
+        }
+        textarea:focus { outline: none; border-color: #2196f3; box-shadow: 0 0 0 4px rgba(33,150,243,0.15); }
+        .hasil-rekam { margin-top: 1rem; padding: 1rem; background: #f1f8e9; border-radius: 12px; display: none; }
+        
+        .navigasi { margin-top: 3.5rem; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+        .tombol {
+            padding: clamp(0.8rem, 3vw, 1.1rem) clamp(1.8rem, 5vw, 2.5rem);
+            font-family: 'Fredoka', sans-serif; font-size: clamp(1rem, 3.5vw, 1.15rem);
+            font-weight: 600; border: none; border-radius: 50px;
+            background: linear-gradient(135deg, #2196f3, #43a047);
+            color: white; text-decoration: none; text-align: center;
+            cursor: pointer; box-shadow: 0 6px 18px rgba(33,150,243,0.25);
+            transition: all 0.3s ease;
+        }
+        .tombol:hover { transform: translateY(-4px); box-shadow: 0 8px 22px rgba(33,150,243,0.35); filter: brightness(1.1); }
+
+        /* ============= ANIMASI PUJIAN ============= */
+        .animasi-pujian {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            z-index: 999; pointer-events: none; display: none;
+        }
+        .teks-pujian {
+            font-family: 'Fredoka', sans-serif; font-size: 3rem; font-weight: bold;
+            color: #ffc107; text-shadow: 0 0 15px #ff9800, 0 0 30px #ff5722;
+            animation: melayang 2s ease-out forwards;
+        }
+        .bintang {
+            position: absolute; width: 30px; height: 30px; background: #ffeb3b;
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+            animation: terbang 2s ease-out forwards;
+        }
+        @keyframes melayang {
+            0% { transform: translateY(20px); opacity: 0; }
+            20% { transform: translateY(0); opacity: 1; }
+            80% { transform: translateY(-20px); opacity: 1; }
+            100% { transform: translateY(-50px); opacity: 0; }
+        }
+        @keyframes terbang {
+            0% { transform: translate(0,0) scale(0); opacity: 0; }
+            20% { transform: translate(var(--x), var(--y)) scale(1); opacity: 1; }
+            100% { transform: translate(calc(var(--x) * 2), calc(var(--y) * 2)) scale(0.5); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="animasi-pujian" id="animasiPujian">
+        <div class="teks-pujian">✨ Bagus Sekali! ✨</div>
+    </div>
+
+    <div class="container">
+        <h1>📖 BAB 1</h1>
+        <h2>Indahnya Indonesiaku dalam Kata</h2>
+        <div class="garis"></div>
+
+        <!-- Tujuan Pembelajaran -->
+        <div class="kotak-rangkuman isi">
+            <h4>🎯 Tujuan Pembelajaran</h4>
+            <p>Berdasarkan Capaian Pembelajaran (CP) dan Tujuan Pembelajaran Kelas 5 Fase C, setelah mempelajari bab ini, kalian diharapkan mampu:</p>
+            <ul>
+                <li><strong>Memahami:</strong> Menjelaskan pengertian dan ciri-ciri teks nonsastra secara mandiri.</li>
+                <li><strong>Menyimak:</strong> Menganalisis informasi rinci dari teks deskripsi nonsastra yang disajikan secara lisan/aural.</li>
+                <li><strong>Membaca:</strong> Membaca teks deskripsi dengan lancar, memahami makna kata, dan menangkap gagasan pokok.</li>
+                <li><strong>Berbicara:</strong> Mendeskripsikan suatu objek atau tempat secara lisan dengan urutan dan bahasa yang jelas.</li>
+                <li><strong>Menulis:</strong> Menyusun teks deskripsi sederhana sesuai struktur dan kaidah kebahasaan yang benar.</li>
+            </ul>
+        </div>
+
+        <!-- Menu Utama -->
+        <div class="menu-nav">
+            <button class="tombol-menu aktif" onclick="bukaMenu('nonsastra', this)">💡 Mengenal Teks Nonsastra</button>
+            <button class="tombol-menu" onclick="bukaMenu('menyimak', this)">🎧 Yuk, Menyimak!</button>
+            <button class="tombol-menu" onclick="bukaMenu('membaca', this)">📖 Mari Membaca!</button>
+            <button class="tombol-menu" onclick="bukaMenu('berbicara', this)">🎤 Suaramu, Ceritamu!</button>
+            <button class="tombol-menu" onclick="bukaMenu('menulis', this)">✍️ Ayo Menulis!</button>
+            <button class="tombol-menu" onclick="bukaMenu('video', this)">🎥 Video Pembelajaran</button>
+        </div>
+
+        <!-- MENU 0: MENGENAL TEKS NONSASTRA -->
+        <div id="nonsastra" class="konten-menu aktif isi">
+            <h3>💡 Apa itu Teks Nonsastra?</h3>
+            <p>Halo sahabat bahasa! Sebelum melangkah jauh, tahu tidak kalau bacaan itu dibagi menjadi dua kelompok besar? Ada teks sastra dan ada teks <strong>nonsastra</strong>.</p>
+            
+            <div class="kotak-teks">
+                <h4>Definisi Teks Nonsastra</h4>
+                <p>Teks nonsastra adalah teks atau tulisan yang dibuat berdasarkan <span class="popup-arti kosakata">fakta<span class="arti">Hal, keadaan, atau peristiwa yang benar-benar ada atau terjadi nyata.</span></span>, data, realitas, dan kejadian nyata yang benar-benar ada. Tulisan ini tidak lahir dari khayalan atau imajinasi buatan penulis.</p>
+                <br>
+                <p>Tujuan utama dari teks nonsastra adalah untuk memberikan <strong>informasi, ilmu pengetahuan, serta wawasan baru</strong> kepada para pembacanya agar menjadi lebih pintar!</p>
+            </div>
+
+            <div class="kotak-kegiatan">
+                <h4>🔍 Ciri-Ciri Utama Teks Nonsastra:</h4>
+                <ul>
+                    <li>📌 <strong>Berdasarkan Fakta:</strong> Isinya nyata dan dapat dibuktikan kebenarannya.</li>
+                    <li>📌 <strong>Bahasa Denotatif:</strong> Menggunakan kata-kata yang makna aslinya lugas (tidak bermakna ganda/kiasan).</li>
+                    <li>📌 <strong>Objektif:</strong> Ditulis apa adanya sesuai keadaan lapangan tanpa ditambah-tambah bumbu fiksi.</li>
+                    <li>📌 <strong>Sistematis:</strong> Susunan ceritanya rapi dan teratur agar mudah dipahami.</li>
+                </ul>
+            </div>
+
+            <div class="kotak-rangkuman">
+                <h4>⚖️ Apa bedanya dengan Teks Sastra?</h4>
+                <p>Perbedaannya sangat mudah, lho! Yuk lihat perbandingannya:</p>
+                <ul>
+                    <li><strong>Teks Sastra:</strong> Bersifat khayalan/fiksi (contoh: dongeng kancil, cerita fantasi, puisi penyihir).</li>
+                    <li><strong>Teks Nonsastra:</strong> Bersifat ilmiah/fakta nyata (contoh: buku pelajaran sains, berita koran, laporan pengamatan hewan, dan ensiklopedia).</li>
+                </ul>
+            </div>
+
+            <div class="kotak-kegiatan">
+                <p><strong>🧠 Kuis Kilat Sahabat Pintar:</strong></p>
+                <p>Di bawah ini, manakah yang merupakan contoh dari teks nonsastra?</p>
+                <div class="kuis-pilihan">
+                    <label><input type="radio" name="jawabanNonsastra" value="a" onchange="simpanPilihanKuisNonsastra(this)"> A. Kisah Putri Duyung dan Pangeran Katak yang Ajaib</label>
+                    <label><input type="radio" name="jawabanNonsastra" value="b" onchange="simpanPilihanKuisNonsastra(this)"> B. Buku Panduan Cara Merawat Tanaman Hias Sesuai Fakta</label>
+                    <label><input type="radio" name="jawabanNonsastra" value="c" onchange="simpanPilihanKuisNonsastra(this)"> C. Dongeng Asal-Usul Danau Toba</label>
+                </div>
+                <button class="tombol-umum" onclick="cekJawabanNonsastra()">Cek Jawaban</button>
+                <p id="hasilKuisNonsastra" style="margin-top: 1rem; font-weight: 600;"></p>
+            </div>
+        </div>
+
+        <!-- MENU 1: MENYIMAK -->
+        <div id="menyimak" class="konten-menu isi">
+            <h3>🎧 Yuk, Dengarkan Cerita!</h3>
+            <p>Halo, Detektif Bahasa! Klik tombol Play di bawah ini, pasang telingamu baik-baik, dan simak cerita tentang <strong>Desa Penglipuran yang Asri</strong> ya!</p>
+
+            <img src="gambar-bab1.png" alt="Ilustrasi Desa Penglipuran" class="ilustrasi">
+
+            <div class="kotak-audio">
+                <audio id="audioDesa" controls style="width: 100%; max-width: 400px; display: block; margin: 0 auto;">
+                    <source src="suara-bab1.wav" type="audio/wav">
+                    Browser kamu tidak mendukung pemutar audio.
+                </audio>
+            </div>
+
+            <div class="kotak-kegiatan">
+                <p><strong>Isi Teks Aural:</strong></p>
+                <p id="teksAural" style="font-style: italic; color: #444;">Di sebuah lereng gunung yang sejuk, terdapat sebuah desa bernama Desa Penglipuran. Rumah-rumah di desa ini berderet sangat rapi, terbuat dari bambu dan kayu yang dipahat indah. Jalannya bersih sekali, bebas dari sampah dan asap kendaraan. Ketika memasuki desa, kamu akan disambut oleh aroma bunga kamboja yang mekar di kanan-kiri jalan. Penduduknya ramah-ramah, selalu tersenyum menyapa siapa saja yang datang. Suasana desa terasa tenang, sejuk, dan membuat siapa saja merasa nyaman berada di sana.</p>
+            </div>
+
+            <div class="kotak-kegiatan">
+                <p><strong>Uji Pemahaman:</strong></p>
+                <p>Apa saja yang dapat kamu lihat dan cium dari teks yang kamu dengar tadi?</p>
+                <div class="kuis-pilihan">
+                    <label><input type="radio" name="jawaban" value="a" onchange="simpanPilihanKuis(this)"> A. Gedung bertingkat tinggi dan asap kendaraan</label>
+                    <label><input type="radio" name="jawaban" value="b" onchange="simpanPilihanKuis(this)"> B. Rumah bambu rapi, jalan bersih, dan aroma bunga kamboja</label>
+                    <label><input type="radio" name="jawaban" value="c" onchange="simpanPilihanKuis(this)"> C. Pantai berpasir putih dan suara deburan ombak</label>
+                </div>
+                <button class="tombol-umum" onclick="cekJawaban()">Cek Jawaban</button>
+                <button class="tombol-umum tombol-hapus" onclick="hapusKuis()">Hapus Pilihan</button>
+                <p id="hasilKuis" style="margin-top: 1rem; font-weight: 600;"></p>
+
+                <div style="margin-top:1.5rem;">
+                    <p><strong>💭 Jawablah juga pertanyaan ini:</strong></p>
+                    <ol>
+                        <li>Di mana letak Desa Penglipuran berada?</li>
+                        <li>Bagaimana sifat penduduk desa tersebut?</li>
+                        <li>Apa kesan yang kamu rasakan setelah mendengarkan cerita?</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- MENU 2: MEMBACA -->
+        <div id="membaca" class="konten-menu isi">
+            <h3>📖 Mari Menjelajah Lewat Tulisan!</h3>
+
+            <div class="kotak-teks">
+                <h4>Apa itu Teks Deskripsi?</h4>
+                <p>Teks deskripsi adalah jenis teks yang berisi gambaran atau lukisan mengenai suatu objek, tempat, hewan, tumbuhan, atau manusia secara rinci dan jelas. Tujuannya adalah agar pembaca atau pendengar seolah-olah dapat melihat, mendengar, mencium, merasakan, dan meraba langsung objek yang sedang dibicarakan.</p>
+
+                <br>
+                <h4>Ciri-ciri Teks Deskripsi Nonsastra:</h4>
+                <ul>
+                    <li>Menggambarkan satu objek secara spesifik dan jelas</li>
+                    <li>Menggunakan kata penjelas yang akurat berdasarkan data</li>
+                    <li>Melibatkan panca indra pengamatan</li>
+                    <li>Membuat pembaca ikut merasakan suasana yang digambarkan</li>
+                    <li>Bersifat objektif sesuai keadaan aslinya di dunia nyata</li>
+                </ul>
+
+                <br>
+                <h4>Struktur Teks Deskripsi:</h4>
+                <ol>
+                    <li><strong>Identifikasi:</strong> Bagian awal yang memperkenalkan objek yang akan dibahas.</li>
+                    <li><strong>Deskripsi Bagian:</strong> Bagian inti yang menjelaskan ciri, bentuk, warna, dan keadaan objek secara rinci.</li>
+                    <li><strong>Kesan / Simpulan:</strong> Bagian penutup yang berisi gambaran umum atau perasaan penulis terhadap objek tersebut.</li>
+                </ol>
+            </div>
+
+            <img src="ilustrasi terumpu karang.png" alt="Ilustrasi Laut dan Terumbu Karang" class="ilustrasi">
+
+            <div class="kotak-teks">
+                <p><strong>Teks Bacaan: Keindahan Istana Terumbu Karang</strong></p>
+                <p>Di dasar laut yang tenang dan jernih, tersembunyi sebuah tempat yang sangat menakjubkan. Di sana terhampar <span class="popup-arti kosakata">terumbu karang<span class="arti">Tumbuhan laut yang membentuk struktur keras dan berwarna-warni, menjadi tempat tinggal ikan-ikan kecil</span></span> dengan berbagai bentuk dan warna yang memukau. Ada yang berwarna merah menyala, biru laut, hingga kuning cerah seperti emas.</p>
+                <p style="margin-top: 1rem;">Ikan-ikan kecil berenang lincah di sela-sela karang, seolah-olah sedang bermain di taman yang luas. Air lautnya sangat jernih sehingga cahaya matahari dapat menembus hingga ke dasar. Suasana di dalam laut terasa hening namun damai, sejuk dan menyegarkan. Tempat ini terasa seperti sebuah istana yang terbuat dari permata alam yang sangat indah.</p>
+            </div>
+
+            <div class="kotak-kegiatan">
+                <p><strong>💡 Latihan Membaca:</strong></p>
+                <ul>
+                    <li>Bacalah teks di atas dengan suara lantang, jelas, dan intonasi yang tepat</li>
+                    <li>Klik kata berwarna ungu untuk mengetahui artinya</li>
+                    <li>Sebutkan bagian mana yang termasuk <em>Identifikasi</em>, <em>Deskripsi Bagian</em>, and <em>Kesan</em></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- MENU 3: BERBICARA -->
+        <div id="berbicara" class="konten-menu isi">
+            <h3>🎤 Suaramu, Ceritamu!</h3>
+            <p>Setelah mendengarkan cerita di Menu 1 dan membaca teks di Menu 2, sekarang saatnya melatih kemampuan berbicaramu!</p>
+
+            <div class="kotak-kegiatan">
+                <p><strong>Petunjuk Kegiatan:</strong><br>
+                Bayangkan kamu sedang berjalan-jalan di Desa Penglipuran. Ceritakan kembali suasana desa tersebut menurut imajinasimu sendiri!</p>
+
+                <p style="margin-top: 1rem;"><strong>💡 Panduan Berbicara:</strong></p>
+                <ul>
+                    <li>✅ Sebutkan letak dan keadaan desa</li>
+                    <li>✅ Gambarkan bentuk rumah dan jalan di desa itu</li>
+                    <li>✅ Jelaskan apa yang kamu rasakan: lihat, cium, dengar, dan rasakan</li>
+                    <li>✅ Gunakan kalimat yang jelas dan mudah dimengerti</li>
+                </ul>
+
+                <div style="margin:1.5rem 0; text-align: center;">
+                    <button class="tombol-umum" onclick="mulaiRekam()">🎙️ Mulai Rekam Suara</button>
+                    <button class="tombol-umum" onclick="hentikanRekam()">⏹️ Hentikan Rekaman</button>
+                    <button class="tombol-umum tombol-hapus" onclick="hapusAudioRekaman()">🗑️ Hapus Rekaman</button>
+                </div>
+
+                <div class="hasil-rekam" id="kotakRekam">
+                    <p><strong>Hasil rekamanmu:</strong></p>
+                    <audio id="suaraHasil" controls style="width:100%; margin-top:0.5rem;"></audio>
+                    <p style="font-size:0.85rem; margin-top:0.5rem; color: #666;">*Rekaman tersimpan otomatis dan tidak hilang saat halaman di-refresh.</p>
+                </div>
+
+                <div style="margin-top:1.5rem; padding:1rem; background:#f9fbe7; border-radius:8px;">
+                    <p><strong>🤝 Kegiatan Berpasangan:</strong></p>
+                    <p>Setelah selesai merekam, ceritakan juga kepada teman sebangkumu tentang tempat indah yang pernah kamu kunjungi. Perhatikan cara bicara dan penyampaiannya!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- MENU 4: MENULIS -->
+        <div id="menulis" class="konten-menu isi">
+            <h3>✍️ Ayo Menjadi Penulis Cilik!</h3>
+            <p>Sekarang saatnya menuangkan ide dan pengamatanmu ke dalam tulisan yang rapi dan benar!</p>
+
+            <div class="kotak-kegiatan">
+                <p><strong>Tugas Menulis Teks Nonsastra:</strong><br>
+                Buatlah satu paragraf teks deskripsi berdasarkan pengamatan nyata terhadap salah satu objek nyata berikut:</p>
+                <ul>
+                    <li>🏠 Kamar tidurku</li>
+                    <li>🐱 Hewan peliharaanku</li>
+                    <li>🏫 Ruang kelasku</li>
+                    <li>🎒 Benda kesayanganku</li>
+                    <li>🌳 Taman di halaman rumah</li>
+                </ul>
+
+                <p><strong>📌 Panduan Menulis Sesuai Struktur:</strong></p>
+                <ol>
+                    <li><strong>Identifikasi:</strong> Sebutkan objek fakta apa yang akan kamu gambarkan</li>
+                    <li><strong>Deskripsi Bagian:</strong> Gunakan fakta indra: apa bentuknya, warnanya, dan detail aslinya?</li>
+                    <li><strong>Kesan:</strong> Tuliskan perasaanmu terhadap objek nyata tersebut</li>
+                </ol>
+
+                <p><strong>💡 Contoh kalimat:</strong> "Kamar tidurku berukuran sedang. Dindingnya berwarna biru muda yang membuat suasana terasa sejuk dan tenang. Di sudut ruangan terdapat meja belajar yang selalu saya gunakan untuk mengerjakan tugas. Kamar ini sangat nyaman dan menjadi tempat favoritku untuk beristirahat."</p>
+
+                <p style="margin-top: 1rem;"><strong>Tulis hasil karyamu di kotak bawah ini:</strong></p>
+                <textarea id="kolomTulis" oninput="autoSaveTulisan()" placeholder="Tuliskan deskripsimu di sini... (Ketikan otomatis tersimpan meskipun di-refresh!)"></textarea>
+                <br>
+                <button class="tombol-umum" onclick="simpanTulisanManual()">💾 Simpan Tulisan</button>
+                <button class="tombol-umum" onclick="cetakTulisan()">📋 Salin Tulisan</button>
+                <button class="tombol-umum tombol-hapus" onclick="hapusTulisan()">🗑️ Hapus Tulisan</button>
+                <p id="statusTulis" style="margin-top: 1rem; font-weight: 600;"></p>
+            </div>
+
+            <div class="kotak-rangkuman">
+                <h4>📚 Rangkuman Bab 1</h4>
+                <p>Teks deskripsi nonsastra adalah teks yang melukiskan suatu objek secara nyata dan rinci berdasarkan fakta agar pembaca seolah-olah merasakan sendiri keadaan aslinya. Teks ini tersusun atas bagian <strong>Identifikasi</strong>, <strong>Deskripsi Bagian</strong>, dan <strong>Kesan</strong>. Dalam mempelajarinya, kita melatih kemampuan menyimak, membaca, berbicara, dan menulis sesuai kaidah bahasa Indonesia yang baik, benar, dan objektif.</p>
+            </div>
+        </div>
+
+        <!-- MENU 5: VIDEO PEMBELAJARAN -->
+        <div id="video" class="konten-menu isi">
+            <h3>🎥 Video Pembelajaran Bab 1</h3>
+            <div class="kotak-video">
+                <video controls class="pemutar-video">
+                    <source src="video-bab1.mp4" type="video/mp4">
+                    Browser kamu tidak mendukung pemutar video.
+                </video>
+                <p style="margin-top: 0.8rem; font-size: 0.9rem;">* Tonton video ini untuk memahami materi Bab 1 dengan lebih jelas dan lengkap</p>
+            </div>
+        </div>
+
+        <!-- Navigasi Halaman -->
+        <div class="navigasi">
+            <a href="daftar isi.html" class="tombol" onclick="mainkanSuara()">⬅ Kembali ke Daftar Isi</a>
+            <a href="bab 2.html" class="tombol" onclick="mainkanSuara()">Lanjut ke Bab 2 ➡</a>
+        </div>
+    </div>
+
+    <!-- Efek Suara Klik Tombol -->
+    <audio id="suaraKlik" preload="auto">
+        <source src="klik.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // JALANKAN SAAT HALAMAN PERTAMA KALI DIBUKA
+        window.onload = function() {
+            muatDataTersimpan();
+        };
+
+        function mainkanSuara() {
+            const suara = document.getElementById('suaraKlik');
+            suara.currentTime = 0;
+            suara.play().catch(err => console.log("Audio klik ready"));
+        }
+
+        function bukaMenu(namaMenu, elemenTombol) {
+            document.querySelectorAll('.konten-menu').forEach(isi => isi.classList.remove('aktif'));
+            document.querySelectorAll('.tombol-menu').forEach(btn => btn.classList.remove('aktif'));
+            const menuTujuan = document.getElementById(namaMenu);
+            if (menuTujuan) menuTujuan.classList.add('aktif');
+            if (elemenTombol) elemenTombol.classList.add('aktif');
+            mainkanSuara();
+        }
+
+        // ============= ANIMASI PUJIAN (REWARD BINTANG) =============
+        function tampilkanPujian() {
+            const kotak = document.getElementById('animasiPujian');
+            kotak.style.display = "block";
+
+            for (let i = 0; i < 12; i++) {
+                const bintang = document.createElement('div');
+                bintang.classList.add('bintang');
+                bintang.style.setProperty('--x', `${(Math.random() - 0.5) * 250}px`);
+                bintang.style.setProperty('--y', `${(Math.random() - 0.5) * 250}px`);
+                bintang.style.left = "50%";
+                bintang.style.top = "50%";
+                kotak.appendChild(bintang);
+            }
+
+            setTimeout(() => {
+                kotak.style.display = "none";
+                kotak.innerHTML = '<div class="teks-pujian">✨ Bagus Sekali! ✨</div>';
+            }, 2200);
+        }
+
+        // ============= JAVASCRIPT KUIS TEKS NONSASTRA =============
+        function simpanPilihanKuisNonsastra(radio) {
+            localStorage.setItem('bab1_kuis_nonsastra', radio.value);
+        }
+
+        function cekJawabanNonsastra() {
+            const pilihan = document.querySelector('input[name="jawabanNonsastra"]:checked');
+            const hasil = document.getElementById('hasilKuisNonsastra');
+            if (!pilihan) {
+                hasil.textContent = "⚠️ Silakan pilih salah satu jawaban terlebih dahulu!";
+                hasil.style.color = "#f57c00";
+                return;
+            }
+            if (pilihan.value === "b") {
+                hasil.textContent = "✅ Hebat! Buku panduan merawat tanaman ditulis berdasarkan data dan tata cara asli (fakta), sehingga disebut teks nonsastra.";
+                hasil.style.color = "#2e7d32";
+                tampilkanPujian();
+            } else {
+                hasil.textContent = "❌ Masih kurang tepat, bro. Pilihan A dan C adalah dongeng/cerita khayalan (teks sastra). Coba lagi yuk!";
+                hasil.style.color = "#d32f2f";
+            }
+        }
+
+        // ============= VALIDASI & AUTO SAVE KUIS MENGGUNAKAN LOCALSTORAGE =============
+        function simpanPilihanKuis(radio) {
+            localStorage.setItem('bab1_kuis_pilihan', radio.value);
+        }
+
+        function cekJawaban() {
+            const pilihan = document.querySelector('input[name="jawaban"]:checked');
+            const hasil = document.getElementById('hasilKuis');
+            if (!pilihan) {
+                hasil.textContent = "⚠️ Silakan pilih salah satu jawaban terlebih dahulu!";
+                hasil.style.color = "#f57c00";
+                return;
+            }
+            if (pilihan.value === "b") {
+                hasil.textContent = "✅ Benar sekali! Desa Penglipuran memiliki rumah bambu rapi, jalan bersih, dan udara yang beraroma bunga kamboja.";
+                hasil.style.color = "#2e7d32";
+                tampilkanPujian();
+            } else {
+                hasil.textContent = "❌ Belum tepat. Coba simak lagi cerita dengan saksama ya!";
+                hasil.style.color = "#d32f2f";
+            }
+        }
+
+        function hapusKuis() {
+            if(confirm("Hapus pilihan jawaban kuis ini?")) {
+                localStorage.removeItem('bab1_kuis_pilihan');
+                const tercentang = document.querySelector('input[name="jawaban"]:checked');
+                if(tercentang) tercentang.checked = false;
+                document.getElementById('hasilKuis').textContent = "";
+            }
+        }
+
+        // ============= FITUR PEREKAM SUARA + AUTO SAVE AUDIO BERBASIS BASE64 =============
+        let mediaRecorder;
+        let rekamanData = [];
+
+        function mulaiRekam() {
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                alert("⚠️ Fitur rekaman tidak didukung oleh perangkat atau browser ini.");
+                return;
+            }
+            
+            navigator.mediaDevices.getUserMedia({ audio: true })
+                .then(stream => {
+                    mediaRecorder = new MediaRecorder(stream, { audioBitsPerSecond: 128000 });
+                    rekamanData = []; 
+                    
+                    mediaRecorder.ondataavailable = e => {
+                        if (e.data && e.data.size > 0) rekamanData.push(e.data);
+                    };
+                    
+                    mediaRecorder.onstop = () => {
+                        const blob = new Blob(rekamanData, { type: 'audio/wav; codecs=MS-PCM' });
+                        
+                        const reader = new FileReader();
+                        reader.readAsDataURL(blob);
+                        reader.onloadend = function() {
+                            const base64Audio = reader.result;
+                            try {
+                                localStorage.setItem('bab1_rekaman_audio', base64Audio);
+                                setAudioPlayer(base64Audio);
+                            } catch (e) {
+                                alert("⚠️ Ukuran audio terlalu besar untuk disimpan otomatis di memori lokal browser!");
+                            }
+                        }
+                        stream.getTracks().forEach(track => track.stop());
+                    };
+                    
+                    mediaRecorder.start(10);
+                    alert("🎙️ Rekaman dimulai! Silakan berbicara...");
+                })
+                .catch(err => {
+                    alert("⚠️ Akses mic ditolak. Silakan aktifkan izin Mikrofon di pengaturan browser.");
+                });
+        }
+
+        function hentikanRekam() {
+            if (mediaRecorder && mediaRecorder.state !== "inactive") {
+                mediaRecorder.stop();
+                alert("✅ Rekaman dihentikan! Latihan kamu sudah otomatis tersimpan di laptop ini.");
+            } else {
+                alert("Kamu belum mulai merekam, bro.");
+            }
+        }
+
+        function setAudioPlayer(srcData) {
+            const audioHasil = document.getElementById('suaraHasil');
+            audioHasil.src = srcData;
+            audioHasil.load();
+            document.getElementById('kotakRekam').style.display = "block";
+        }
+
+        function hapusAudioRekaman() {
+            if(confirm("Apakah kamu yakin ingin menghapus file audio latihan ini?")) {
+                localStorage.removeItem('bab1_rekaman_audio');
+                document.getElementById('suaraHasil').src = "";
+                document.getElementById('kotakRekam').style.display = "none";
+                alert("🗑️ Rekaman berhasil dihapus!");
+            }
+        }
+
+        // ============= MANAJEMEN AUTO-SAVE TUGAS MENULIS =============
+        function autoSaveTulisan() {
+            const teks = document.getElementById('kolomTulis').value;
+            localStorage.setItem('bab1_tugas_menulis', teks);
+        }
+
+        function simpanTulisanManual() {
+            const tulisan = document.getElementById('kolomTulis').value.trim();
+            const status = document.getElementById('statusTulis');
+            if (tulisan === "") {
+                status.textContent = "❌ Kotak tulisan masih kosong!";
+                status.style.color = "#d32f2f";
+                return;
+            }
+            status.textContent = "✅ Hasil karya berhasil disimpan di browser laptop ini!";
+            status.style.color = "#2e7d32";
+        }
+
+        // ============= AMBIL DATA UTK DETEKSI REFRESH =============
+        function muatDataTersimpan() {
+            const kuisNonsastraTersimpan = localStorage.getItem('bab1_kuis_nonsastra');
+            if (kuisNonsastraTersimpan) {
+                const radioNonsastra = document.querySelector(`input[name="jawabanNonsastra"][value="${kuisNonsastraTersimpan}"]`);
+                if (radioNonsastra) radioNonsastra.checked = true;
+            }
+
+            const kuisTersimpan = localStorage.getItem('bab1_kuis_pilihan');
+            if (kuisTersimpan) {
+                const radio = document.querySelector(`input[name="jawaban"][value="${kuisTersimpan}"]`);
+                if (radio) radio.checked = true;
+            }
+
+            const audioTersimpan = localStorage.getItem('bab1_rekaman_audio');
+            if (audioTersimpan) { setAudioPlayer(audioTersimpan); }
+
+            const tulisanTersimpan = localStorage.getItem('bab1_tugas_menulis');
+            if (tulisanTersimpan) { document.getElementById('kolomTulis').value = tulisanTersimpan; }
+        }
+
+        function hapusTulisan() {
+            if(confirm("Apakah kamu yakin ingin menghapus seluruh ketikan tugas ini?")) {
+                localStorage.removeItem('bab1_tugas_menulis');
+                document.getElementById('kolomTulis').value = "";
+                document.getElementById('statusTulis').textContent = "";
+                alert("🗑️ Tulisan berhasil dibersihkan!");
+            }
+        }
+
+        function cetakTulisan() {
+            const tulisan = document.getElementById('kolomTulis').value.trim();
+            if (tulisan === "") { alert("Tulisan masih kosong!"); return; }
+            navigator.clipboard.writeText(tulisan)
+                .then(() => alert("✅ Tulisan berhasil disalin ke clipboard!"))
+                .catch(() => alert("Gagal menyalin otomatis."));
+        }
+    </script>
+</body>
+</html>

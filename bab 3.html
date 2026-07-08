@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="id-ID">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bab 3 - Jurnalis Cilik: Ekspedisi Satwa Nusantara</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body {
+            width: 100%; min-height: 100vh;
+            background: linear-gradient(rgba(255,255,255,0.15), rgba(255,255,255,0.15)), 
+                        url('background.png') center center / cover no-repeat fixed;
+            font-family: 'Quicksand', sans-serif; padding: 4% 2%;
+            position: relative;
+            overflow-x: hidden;
+        }
+        .container {
+            max-width: 980px; margin: 0 auto;
+            background: rgba(255,255,255,0.95); padding: clamp(1.5rem, 5vw, 3rem);
+            border-radius: 20px; box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            border: 3px solid rgba(255,255,255,0.7);
+            position: relative;
+            z-index: 2;
+        }
+        h1 {
+            font-family: 'Fredoka', sans-serif; font-size: clamp(1.8rem, 6vw, 2.5rem);
+            color: #1565c0; text-align: center; margin-bottom: 1rem;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+        }
+        h2 {
+            font-family: 'Fredoka', sans-serif; font-size: clamp(1.4rem, 5vw, 1.9rem);
+            color: #1976d2; margin: 2rem 0 1rem;
+            padding-bottom: 0.5rem; border-bottom: 2px dashed #90caf9;
+        }
+        h3 {
+            font-family: 'Fredoka', sans-serif; font-size: clamp(1.2rem, 4vw, 1.5rem);
+            color: #1976d2; margin: 1.5rem 0 1rem;
+        }
+        h4 {
+            font-family: 'Fredoka', sans-serif; font-size: clamp(1.1rem, 3.5vw, 1.3rem);
+            color: #0d47a1; margin: 1.2rem 0 0.8rem;
+        }
+        .garis {
+            width: 80%; height: 3px; background: linear-gradient(90deg, #1976d2, #0288d1);
+            margin: 0 auto 2rem; border-radius: 3px;
+        }
+        .menu-nav {
+            display: flex; flex-wrap: wrap; gap: 0.8rem; justify-content: center;
+            margin-bottom: 2.5rem; background: rgba(227, 242, 253, 0.5);
+            padding: 0.8rem; border-radius: 16px; border: 1px solid #90caf9;
+        }
+        .tombol-menu {
+            padding: 0.8rem 1.2rem; font-family: 'Fredoka', sans-serif;
+            font-size: 1rem; font-weight: 600; border: none; border-radius: 10px;
+            background: #fff; color: #0d47a1; border: 2px solid #90caf9;
+            cursor: pointer; transition: all 0.3s ease;
+        }
+        .tombol-menu.aktif {
+            background: #1976d2; color: white; border-color: #1565c0;
+            box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3);
+        }
+        .tombol-menu:hover:not(.aktif) {
+            background: #e3f2fd; transform: translateY(-2px);
+        }
+        .konten-menu {
+            display: none;
+            animation: muncul 0.4s ease;
+        }
+        .konten-menu.aktif {
+            display: block;
+        }
+        @keyframes muncul {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .isi {
+            font-size: clamp(1rem, 3.5vw, 1.15rem);
+            line-height: 1.9; color: #2d3436;
+            text-align: justify;
+        }
+        .kotak-info {
+            background: rgba(25, 118, 210, 0.1); padding: 1.2rem;
+            border-radius: 12px; border-left: 6px solid #1976d2;
+            margin: 1.2rem 0;
+        }
+        .kotak-audio {
+            background: rgba(2, 136, 209, 0.12); padding: 1.2rem;
+            border-radius: 12px; border-left: 6px solid #0288d1;
+            margin: 1.2rem 0; text-align: center;
+        }
+        .kotak-video {
+            background: rgba(76, 175, 80, 0.12); padding: 1.2rem;
+            border-radius: 12px; border-left: 6px solid #43a047;
+            margin: 1.2rem 0; text-align: center;
+        }
+        .pemutar-video {
+            width: 100%; max-width: 700px;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+            margin: 1rem auto;
+            display: block;
+        }
+        .kotak-teks {
+            background: rgba(76, 175, 80, 0.1); padding: 1.2rem;
+            border-radius: 12px; border-left: 6px solid #43a047;
+            margin: 1.2rem 0;
+        }
+        .kotak-kegiatan {
+            background: rgba(255, 152, 0, 0.12); padding: 1.2rem;
+            border-radius: 12px; border-left: 6px solid #ff9800;
+            margin: 1.2rem 0;
+        }
+        .kotak-rangkuman {
+            background: rgba(13, 71, 161, 0.1); padding: 1.2rem;
+            border-radius: 12px; border-left: 6px solid #0d47a1;
+            margin: 1.5rem 0;
+        }
+        .kotak-kosakata {
+            background: rgba(121, 85, 72, 0.1); padding: 1.2rem;
+            border-radius: 12px; border-left: 6px solid #795548;
+            margin: 1.2rem 0;
+        }
+        .kotak-pengayaan {
+            background: rgba(233, 30, 99, 0.1); padding: 1.2rem;
+            border-radius: 12px; border-left: 6px solid #e91e63;
+            margin: 1.2rem 0;
+        }
+        .kotak-tugas {
+            background: rgba(63, 81, 181, 0.1); padding: 1.2rem;
+            border-radius: 12px; border-left: 6px solid #3f51b5;
+            margin: 1.2rem 0;
+        }
+        .kotak-sumber {
+            background: rgba(0, 150, 136, 0.1); padding: 1.2rem;
+            border-radius: 12px; border-left: 6px solid #009688;
+            margin: 1.2rem 0;
+        }
+        .ilustrasi {
+            width: 100%; max-width: 600px; margin: 1.5rem auto;
+            display: block; border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            border: 3px solid #e3f2fd;
+        }
+        .latihan-fakta-opini {
+            margin: 1rem 0;
+        }
+        .latihan-fakta-opini label {
+            display: block; margin: 0.8rem 0; cursor: pointer;
+            padding: 0.6rem 1rem; border-radius: 8px; 
+            border: 2px solid transparent; background: rgba(255,255,255,0.6);
+            transition: all 0.2s;
+        }
+        .latihan-fakta-opini label:hover {
+            background: rgba(25,118,210,0.08); border-color: #90caf9;
+        }
+        .latihan-fakta-opini input[type="radio"] {
+            width: 16px; height: 16px; accent-color: #1976d2;
+        }
+        .tombol-umum {
+            padding: 0.7rem 1.5rem; font-family: 'Fredoka', sans-serif;
+            font-size: 1rem; font-weight: 600; border: none; border-radius: 8px;
+            background: linear-gradient(135deg, #ff9800, #f57c00);
+            color: white; cursor: pointer; margin: 0.5rem 0.3rem;
+            transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 0.5rem;
+        }
+        .tombol-umum:hover {
+            transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+        .tombol-suara { background: linear-gradient(135deg, #0288d1, #01579b); }
+        .tombol-ide { background: linear-gradient(135deg, #26a69a, #00897b); }
+        .tombol-putar { background: linear-gradient(135deg, #43a047, #2e7d32); }
+        .tombol-hapus { background: linear-gradient(135deg, #e53935, #c62828); }
+        
+        textarea {
+            width: 100%; min-height: 180px; padding: 1rem;
+            border: 2px solid #bdbdbd; border-radius: 10px;
+            font-size: 1rem; font-family: inherit;
+            margin: 1rem 0; resize: vertical; transition: border 0.3s;
+        }
+        textarea:focus { outline: none; border-color: #1976d2; }
+        
+        .hasil-rekam {
+            margin-top: 1rem; padding: 1rem;
+            background: #f1f8e9; border-radius: 8px;
+            border: 1px solid #c5e1a5; display: none;
+        }
+        .teleprompter {
+            width: 100%; height: 220px;
+            background: #000; color: #fff;
+            padding: 1rem; border-radius: 10px;
+            overflow: hidden; position: relative;
+            margin: 1.5rem 0; border: 3px solid #1976d2;
+        }
+        .teks-gulir {
+            line-height: 2; font-size: 1.1rem;
+            position: absolute; width: 90%; left: 5%;
+            animation: gulir 20s linear infinite paused;
+        }
+        .teks-gulir.aktif {
+            animation-play-state: running;
+        }
+        @keyframes gulir {
+            from { top: 100%; }
+            to { top: -150%; }
+        }
+        .adiaksimba {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 0.8rem; margin: 1.2rem 0;
+        }
+        .kotak-adi {
+            background: #e3f2fd; padding: 0.8rem;
+            border-radius: 8px; text-align: center;
+            border: 2px solid #90caf9;
+        }
+        .kotak-adi strong { color: #0d47a1; font-size: 1.1rem; }
+        
+        .jawaban-kosong {
+            display: block; width: 100%; padding: 0.6rem;
+            margin: 0.4rem 0 1rem 0; border: 2px dashed #90caf9;
+            border-radius: 8px; background: #f8fbfe; font-family: inherit; font-size: 1rem;
+        }
+        .jawaban-kosong:focus { outline: none; border-style: solid; border-color: #1976d2; }
+        
+        .navigasi {
+            margin-top: 3rem; display: flex;
+            justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+        }
+        .tombol {
+            padding: clamp(0.8rem, 3vw, 1.1rem) clamp(1.5rem, 5vw, 2.2rem);
+            font-family: 'Fredoka', sans-serif; font-size: clamp(1rem, 3.5vw, 1.2rem);
+            font-weight: 600; border: none; border-radius: 12px;
+            background: linear-gradient(135deg, #1976d2, #0288d1);
+            color: white; text-decoration: none; text-align: center;
+            cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            transition: all 0.3s ease; display: inline-flex; align-items: center;
+        }
+        .tombol:hover {
+            transform: translateY(-3px); box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+        }
+        .grup-tombol-aksi { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem; }
+
+        /* ============= ANIMASI PUJIAN & BINTANG ============= */
+        .animasi-pujian {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            z-index: 999; pointer-events: none; display: none;
+        }
+        .teks-pujian {
+            font-family: 'Fredoka', sans-serif; font-size: 3rem; font-weight: bold;
+            color: #ffc107; text-shadow: 0 0 15px #ff9800, 0 0 30px #ff5722;
+            animation: melayang 2s ease-out forwards;
+        }
+        .bintang {
+            position: absolute; width: 30px; height: 30px; background: #ffeb3b;
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+            animation: terbang 2s ease-out forwards;
+        }
+        @keyframes melayang {
+            0% { transform: translateY(20px); opacity: 0; }
+            20% { transform: translateY(0); opacity: 1; }
+            80% { transform: translateY(-20px); opacity: 1; }
+            100% { transform: translateY(-50px); opacity: 0; }
+        }
+        @keyframes terbang {
+            0% { transform: translate(0,0) scale(0); opacity: 0; }
+            20% { transform: translate(var(--x), var(--y)) scale(1); opacity: 1; }
+            100% { transform: translate(calc(var(--x) * 2), calc(var(--y) * 2)) scale(0.5); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="animasi-pujian" id="animasiPujian">
+        <div class="teks-pujian">✨ Hebat! ✨</div>
+    </div>
+
+    <div class="container">
+        <h1>📖 BAB 3<br>Jurnalis Cilik: Ekspedisi Satwa Nusantara</h1>
+        <div class="garis"></div>
+
+        <div class="kotak-info isi">
+            <h4>📚 Informasi Pembelajaran</h4>
+            <p><strong>Mata Pelajaran:</strong> Bahasa Indonesia (Fase C / Kelas 5 SD)</p>
+            <p><strong>Materi Pokok:</strong> Teks Informatif / Teks Eksplanasi Ilmiah</p>
+            <p><strong>Tema:</strong> Jurnalis Cilik: Ekspedisi Satwa Nusantara</p>
+            <br>
+            <p><strong>🎯 Capaian Pembelajaran (CP):</strong><br>
+            Siswa mampu menganalisis informasi berupa fakta, prosedur, atau gagasan utama dari teks informatif yang didengar and dibaca secara kritis.</p>
+            <br>
+            <p><strong>✅ Tujuan Pembelajaran (TP):</strong><br>
+            1. Membedakan informasi berupa fakta dan opini dari teks yang didengar.<br>
+            2. Mengidentifikasi informasi penting menggunakan rumus ADIKSIMBA dari teks bacaan.</p>
+        </div>
+
+        <div class="kotak-info isi">
+            <h4>🗺️ Peta Pembelajaran</h4>
+            <ul>
+                <li>👂 <strong>Menyimak:</strong> Menyaring informasi menjadi Fakta vs Opini</li>
+                <li>👁️ <strong>Membaca:</strong> Mencari informasi penting dengan rumus ADIKSIMBA</li>
+                <li>🗣️ <strong>Berbicara:</strong> Membaca berita dengan simulator Teleprompter</li>
+                <li>✍️ <strong>Menulis:</strong> Menyusun artikel berita dari lembar fakta</li>
+            </ul>
+        </div>
+
+        <div class="menu-nav">
+            <button class="tombol-menu aktif" id="btn-menyimak" onclick="bukaMenu('menyimak')">👂 Menyimak: Fakta vs Opini</button>
+            <button class="tombol-menu" id="btn-membaca" onclick="bukaMenu('membaca')">📖 Membaca: Rumus ADIKSIMBA</button>
+            <button class="tombol-menu" id="btn-berbicara" onclick="bukaMenu('berbicara')">🗣️ Berbicara: Siaran Berita</button>
+            <button class="tombol-menu" id="btn-menulis" onclick="bukaMenu('menulis')">✍️ Menulis: Dapur Redaksi</button>
+            <button class="tombol-menu" id="btn-tambahan" onclick="bukaMenu('tambahan')">📌 Materi Tambahan</button>
+            <button class="tombol-menu" id="btn-video" onclick="bukaMenu('video')">🎥 Video Pembelajaran</button>
+        </div>
+
+        <div id="menyimak" class="konten-menu aktif isi">
+            <h3>👂 Laporan Langsung: Pulau Komodo</h3>
+            <p><strong>Tujuan:</strong> Siswa dapat membedakan mana pernyataan yang berisi kenyataan dan mana yang berisi pendapat pribadi.</p>
+
+            <img src="gambar-bab3.png" alt="Ilustrasi Komodo" class="ilustrasi">
+
+            <div class="kotak-audio">
+                <audio id="audioLaporan" controls preload="metadata">
+                    <source src="suara-bab3.mp3" type="audio/mpeg">
+                    <source src="suara-bab3.wav" type="audio/wav">
+                    Browser kamu tidak mendukung pemutar audio.
+                </audio>
+            </div>
+
+            <div class="kotak-kegiatan">
+                <p><strong>Naskah Laporan:</strong></p>
+                <p id="teksLaporan">Selamat pagi pemirsa! Saya jurnalis cilik melaporkan langsung dari Pulau Komodo. Komodo adalah kadal terbesar di dunia yang hanya hidup di Nusa Tenggara Timur. Tubuh mereka bisa tumbuh hingga panjang 3 meter. Menurut saya, hewan prasejarah ini sangat menyeramkan dan mungkin adalah naga paling menakjubkan di bumi. Saat ini populasi mereka terus dilindungi pemerintah agar terhindar dari kepunahan.</p>
+            </div>
+
+            <div class="kotak-teks">
+                <h4>📌 Apa Itu Fakta dan Opini?</h4>
+                <p><strong>✅ Fakta:</strong> Pernyataan yang benar-benar terjadi, memiliki data pasti, dan dapat dibuktikan kebenarannya. Tidak dipengaruhi perasaan pribadi.<br>
+                Contoh: <em>Komodo hanya hidup di Nusa Tenggara Timur.</em></p>
+                <br>
+                <p><strong>💭 Opini:</strong> Pendapat, perasaan, atau pandangan pribadi seseorang. Kebenarannya bisa berbeda menurut orang lain.<br>
+                Contoh: <em>Komodo adalah hewan yang sangat menyeramkan.</em></p>
+            </div>
+
+            <div class="kotak-kegiatan">
+                <p><strong>📝 Latihan: Tentukan Jenis Pernyataan Berikut!</strong><br>
+                Berikan tanda centang pada kolom yang sesuai untuk setiap pernyataan:</p>
+                
+                <div class="latihan-fakta-opini">
+                    <label>
+                        <span>1. Komodo adalah kadal terbesar di dunia.</span><br>
+                        <input type="radio" name="soal1" value="fakta" onchange="simpanKuisPilihan(this)"> Fakta
+                        <input type="radio" name="soal1" value="opini" style="margin-left: 1.5rem;" onchange="simpanKuisPilihan(this)"> Opini
+                    </label>
+                    <label>
+                        <span>2. Panjang tubuh komodo bisa mencapai 3 meter.</span><br>
+                        <input type="radio" name="soal2" value="fakta" onchange="simpanKuisPilihan(this)"> Fakta
+                        <input type="radio" name="soal2" value="opini" style="margin-left: 1.5rem;" onchange="simpanKuisPilihan(this)"> Opini
+                    </label>
+                    <label>
+                        <span>3. Komodo adalah hewan paling menakjubkan di dunia.</span><br>
+                        <input type="radio" name="soal3" value="fakta" onchange="simpanKuisPilihan(this)"> Fakta
+                        <input type="radio" name="soal3" value="opini" style="margin-left: 1.5rem;" onchange="simpanKuisPilihan(this)"> Opini
+                    </label>
+                    <label>
+                        <span>4. Komodo hanya hidup di wilayah Nusa Tenggara Timur.</span><br>
+                        <input type="radio" name="soal4" value="fakta" onchange="simpanKuisPilihan(this)"> Fakta
+                        <input type="radio" name="soal4" value="opini" style="margin-left: 1.5rem;" onchange="simpanKuisPilihan(this)"> Opini
+                    </label>
+                    <label>
+                        <span>5. Pemerintah melindungi komodo agar tidak punah.</span><br>
+                        <input type="radio" name="soal5" value="fakta" onchange="simpanKuisPilihan(this)"> Fakta
+                        <input type="radio" name="soal5" value="opini" style="margin-left: 1.5rem;" onchange="simpanKuisPilihan(this)"> Opini
+                    </label>
+                </div>
+
+                <div class="grup-tombol-aksi">
+                    <button class="tombol-umum" onclick="cekJawabanFaktaOpini()">🎯 Cek Jawaban</button>
+                    <button class="tombol-umum tombol-hapus" onclick="hapusSemuaKuisPilihan()">🗑️ Hapus Pilihan</button>
+                </div>
+                <p id="hasilLatihanFaktaOpini" style="margin-top: 1rem; font-weight: 600;"></p>
+            </div>
+        </div>
+
+        <div id="membaca" class="konten-menu isi">
+            <h3>📖 Operasi Sensor ADIKSIMBA</h3>
+            <p><strong>Tujuan:</strong> Menemukan informasi penting secara lengkap menggunakan rumus jurnalisme.</p>
+
+            <div class="kotak-teks">
+                <h4>🔍 Rumus ADIKSIMBA</h4>
+                <p>Rumus ini membantu kita menemukan informasi lengkap dari sebuah teks:</p>
+                <div class="adiaksimba">
+                    <div class="kotak-adi"><strong>Apa</strong><br>Objek atau peristiwa?</div>
+                    <div class="kotak-adi"><strong>Di mana</strong><br>Tempat kejadian/habitat?</div>
+                    <div class="kotak-adi"><strong>Kapan</strong><br>Waktu terjadinya?</div>
+                    <div class="kotak-adi"><strong>Siapa</strong><br>Subjek/Tokoh terlibat?</div>
+                    <div class="kotak-adi"><strong>Mengapa</strong><br>Alasan/Sebab peristiwa?</div>
+                    <div class="kotak-adi"><strong>Bagaimana</strong><br>Proses/Cara kejadian?</div>
+                </div>
+            </div>
+
+            <img src="ilustrasi kantong semar.png" alt="Ilustrasi Kantong Semar" class="ilustrasi">
+
+            <div class="kotak-kegiatan">
+                <h4>📚 Teks Bacaan: Kantong Semar si Pemakan Serangga</h4>
+                <p>Kantong semar adalah tanaman unik yang hidup di rawa-rawa dan hutan berawa di Kalimantan. Tanaman ini tumbuh subur pada siang hari saat matahari bersinar terang. Berbeda dengan tanaman lain, kantong semar memakan serangga untuk mendapatkan zat makanan. Hal ini terjadi karena tanah tempat tumbuhnya sangat miskin unsur nitrogen. Saat serangga terbang mendekati bau manis di ujung daun, ia akan tergelincir ke dalam kantong yang berisi cairan licin dan pencernaan.</p>
+            </div>
+
+            <div class="kotak-kegiatan">
+                <p><strong>📝 Analisis Informasi:</strong> Jawablah pertanyaan berikut berdasarkan teks bacaan di atas!</p>
+                <ol>
+                    <li><strong>Apa</strong> yang dibahas dalam teks?
+                        <input type="text" id="latihan3_1" class="jawaban-kosong" placeholder="Tuliskan jawabanmu di sini..." oninput="autoSaveText(this)">
+                    </li>
+                    <li><strong>Di mana</strong> habitat tanaman ini?
+                        <input type="text" id="latihan3_2" class="jawaban-kosong" placeholder="Tuliskan jawabanmu di sini..." oninput="autoSaveText(this)">
+                    </li>
+                    <li><strong>Mengapa</strong> kantong semar memakan serangga?
+                        <input type="text" id="latihan3_3" class="jawaban-kosong" placeholder="Tuliskan jawabanmu di sini..." oninput="autoSaveText(this)">
+                    </li>
+                    <li><strong>Bagaimana</strong> cara kantong semar menjebak mangsanya?
+                        <input type="text" id="latihan3_4" class="jawaban-kosong" placeholder="Tuliskan jawabanmu di sini..." oninput="autoSaveText(this)">
+                    </li>
+                </ol>
+                <button class="tombol-umum tombol-hapus" onclick="hapusSemuaLatihanMembaca()">🗑️ Hapus Jawaban</button>
+                <p style="margin-top: 1rem; font-style: italic; color: #555; font-size: 0.95rem;">*Jawaban tersimpan otomatis saat kamu mengetik.</p>
+            </div>
+        </div>
+
+        <div id="berbicara" class="konten-menu isi">
+            <h3>🗣️ Siaran Berita: Reporter Cilik</h3>
+            <p><strong>Tujuan:</strong> Melatih kelancaran, kejelasan lafal, dan intonasi saat membacakan informasi.</p>
+
+            <div class="kotak-teks">
+                <h4>🎤 Cara Membacakan Berita yang Baik</h4>
+                <ul>
+                    <li>Ucapkan kata dengan jelas dan tidak tergesa-gesa.</li>
+                    <li>Gunakan suara yang tegas dan cukup keras.</li>
+                    <li>Berikan jeda pada tanda baca titik dan koma.</li>
+                    <li>Pandangan lurus ke depan seolah berbicara kepada pendengar.</li>
+                </ul>
+            </div>
+
+            <div class="kotak-kegiatan">
+                <h4>📺 Simulator Teleprompter</h4>
+                <p>Gunakan fitur ini untuk melatih membaca berita seperti penyiar sungguhan!</p>
+
+                <div class="teleprompter">
+                    <div class="teks-gulir" id="teksGulir">
+                        <strong>Berita Alam Nusantara</strong><br><br>
+                        Selamat pagi pemirsa. Hari ini kita akan membahas tentang keunikan kantong semar, tanaman langka yang hidup di hutan Kalimantan. Tanaman ini memiliki cara bertahan hidup yang sangat istimewa. Ia memakan serangga untuk memenuhi kebutuhan gizinya. Keberadaannya menunjukkan kekayaan alam Indonesia yang luar biasa. Mari kita jaga hutan tempat tinggalnya agar tetap lestari untuk generasi mendatang.
+                    </div>
+                </div>
+
+                <div style="text-align: center;">
+                    <button class="tombol-umum tombol-putar" onclick="mulaiGulir()">▶️ Mulai Baca</button>
+                    <button class="tombol-umum tombol-suara" onclick="jedaGulir()">⏸️ Jeda</button>
+                    <button class="tombol-umum" onclick="ulangGulir()">🔄 Ulang</button>
+                </div>
+
+                <div class="grup-tombol-aksi" style="margin: 1.5rem 0;">
+                    <button class="tombol-umum" onclick="mulaiRekam()">🎙️ Mulai Rekam Suara</button>
+                    <button class="tombol-umum" onclick="hentikanRekam()">⏹️ Hentikan Rekaman</button>
+                    <button class="tombol-umum" onclick="putarUlang()">🔊 Putar Ulang Hasil</button>
+                    <button class="tombol-umum tombol-hapus" id="btnHapusAudio" onclick="hapusRekaman()" style="display:none;">🗑️ Hapus Rekaman</button>
+                </div>
+
+                <div class="hasil-rekam" id="kotakRekam">
+                    <p><strong>Hasil rekamanmu:</strong></p>
+                    <audio id="suaraHasil" controls style="width:100%; margin-top:0.5rem;"></audio>
+                </div>
+            </div>
+        </div>
+
+        <div id="menulis" class="konten-menu isi">
+            <h3>✍️ Dapur Redaksi: Menyusun Artikel Berita</h3>
+            <p><strong>Tujuan:</strong> Menyusun tulisan informatif yang objektif, hanya berisi fakta tanpa pendapat pribadi.</p>
+
+            <div class="kotak-teks">
+                <h4>📝 Aturan Menulis Teks Informatif</h4>
+                <ul>
+                    <li>Berisi informasi yang jelas dan berdasarkan fakta.</li>
+                    <li>Gunakan bahasa Indonesia yang baku dan mudah dipahami.</li>
+                    <li>Hindari kata-kata yang menunjukkan perasaan pribadi (misal: sangat cantik, paling hebat).</li>
+                    <li>Susun kalimat secara runtut dan logis.</li>
+                </ul>
+            </div>
+
+            <div class="kotak-kegiatan">
+                <h4>📋 Lembar Data Fakta</h4>
+                <p>Gunakan data berikut untuk disusun menjadi satu artikel berita yang lengkap:</p>
+                <ul style="list-style-type: none; padding-left: 0;">
+                    <li>🌿 <strong>Objek:</strong> Bunga Bangkai</li>
+                    <li>📍 <strong>Tempat hidup:</strong> Hutan Sumatera dan Kalimantan</li>
+                    <li>📏 <strong>Ciri:</strong> Tinggi bisa mencapai 3 meter, mengeluarkan bau tidak sedap saat mekar</li>
+                    <li>❓ <strong>Fungsi bau:</strong> Menarik serangga untuk membantu penyerbukan</li>
+                    <li>⚠️ <strong>Kondisi:</strong> Termasuk tanaman langka dan dilindungi</li>
+                </ul>
+            </div>
+
+            <div class="kotak-kegiatan">
+                <p><strong>✍️ Tugas Menulis:</strong></p>
+                <p>Susunlah data di atas menjadi sebuah artikel berita pendek. Gunakan rumus ADIKSIMBA agar informasinya lengkap!</p>
+
+                <textarea id="kolomTulisBerita" placeholder="Tuliskan artikel beritamu di sini... Contoh pembukaan: Bunga bangkai adalah salah satu tanaman langka yang hidup di hutan Indonesia..." oninput="autoSaveText(this)"></textarea>
+                <br>
+                <div class="grup-tombol-aksi">
+                    <button class="tombol-umum" onclick="simpanTulisan()">💾 Simpan Artikel</button>
+                    <button class="tombol-umum" onclick="salinTulisan()">📋 Salin Tulisan</button>
+                    <button class="tombol-umum tombol-hapus" onclick="hapusNaskahBerita()">🗑️ Hapus Artikel</button>
+                </div>
+                <p id="statusTulis" style="margin-top: 1rem; font-weight: 600;"></p>
+            </div>
+
+            <div class="kotak-rangkuman">
+                <h4>📚 Rangkuman Bab 3</h4>
+                <p>Teks informatif adalah tulisan yang berisi keterangan, penjelasan, atau informasi berdasarkan fakta. Dalam mempelajarinya kita belajar membedakan <strong>fakta dan opini</strong>, mencari informasi lengkap dengan rumus <strong>ADIKSIMBA</strong>, membacakan berita dengan jelas, dan menyusun tulisan yang objektif serta bermanfaat bagi pembaca.</p>
+            </div>
+        </div>
+
+        <div id="tambahan" class="konten-menu isi">
+            <h3>📌 Materi Tambahan Bab 3</h3>
+
+            <div class="kotak-kosakata">
+                <h4>📖 Daftar Kosakata Penting</h4>
+                <ul style="list-style-type: none; padding-left: 0;">
+                    <li>✅ <strong>Prasejarah</strong> → Zaman sebelum adanya tulisan; sudah ada sejak sangat lama.</li>
+                    <li>✅ <strong>Populasi</strong> → Jumlah sekelompok makhluk hidup yang menempati suatu daerah.</li>
+                    <li>✅ <strong>Kepunahan</strong> → Keadaan di mana suatu jenis makhluk hidup sudah tidak ada lagi di dunia.</li>
+                    <li>✅ <strong>Unsur Nitrogen</strong> → Zat hara yang dibutuhkan tanaman untuk tumbuh dengan baik.</li>
+                    <li>✅ <strong>Penyerbukan</strong> → Proses menempelnya serbuk sari ke kepala putik untuk menghasilkan biji.</li>
+                    <li>✅ <strong>Objektif</strong> → Sesuai kenyataan, tidak dipengaruhi oleh perasaan atau pendapat pribadi.</li>
+                </ul>
+            </div>
+
+            <div class="kotak-pengayaan">
+                <h4>🧠 Latihan Pengayaan</h4>
+                <ol>
+                    <li>Jelaskan perbedaan utama antara fakta dan opini!</li>
+                    <li>Apa kegunaan rumus ADIKSIMBA dalam membaca teks informatif?</li>
+                    <li>Mengapa tulisan informatif harus bersifat objektif dan hanya berisi fakta?</li>
+                    <li>Buatlah satu contoh kalimat fakta dan satu contoh kalimat opini tentang hewan langka!</li>
+                </ol>
+            </div>
+
+            <div class="kotak-tugas">
+                <h4>📝 Tugas Mandiri: Jurnalis Cilik</h4>
+                <p>Carilah satu hewan atau tanaman khas Indonesia yang langka dan dilindungi. Kumpulkan informasi lengkap menggunakan rumus ADIKSIMBA, lalu tuliskan menjadi artikel berita pendek. Sertakan juga gambar atau ilustrasi untuk melengkapi tulisanmu.</p>
+            </div>
+
+            <div class="kotak-sumber">
+                <h4>🔗 Sumber Belajar Tambahan</h4>
+                <ul>
+                    <li>Buku Bahasa Indonesia Kelas 5 SD Kurikulum Merdeka</li>
+                    <li>Buku Ensiklopedia Satwa dan Tumbuhan Langka Indonesia</li>
+                    <li>Situs resmi Kementerian Lingkungan Hidup dan Kehutanan</li>
+                    <li>Video penjelasan "Fakta vs Opini" dan "Teks Informatif" dari kanal pendidikan terpercaya</li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="video" class="konten-menu isi">
+            <h3>🎥 Video Pembelajaran Bab 3</h3>
+            <div class="kotak-video">
+                <video controls class="pemutar-video" preload="metadata" poster="gambar-video-bab3.jpg">
+                    <source src="video-bab3.mp4" type="video/mp4">
+                    <source src="video-bab3.webm" type="video/webm">
+                    Browser kamu tidak mendukung pemutar video.
+                </video>
+                <p style="margin-top: 0.8rem;">* Tonton video ini untuk memahami materi Bab 3 dengan lebih jelas dan lengkap</p>
+            </div>
+        </div>
+
+        <div class="navigasi">
+            <a href="bab 2.html" class="tombol" onclick="mainkanSuara()">⬅ Kembali ke Bab 2</a>
+            <a href="kuis.html" class="tombol" onclick="mainkanSuara()">Lanjut ke kuis ➡</a>
+        </div>
+    </div>
+
+    <audio id="suaraKlik" preload="auto">
+        <source src="klik.mp3" type="audio/mpeg">
+        <source src="klik.wav" type="audio/wav">
+    </audio>
+
+    <script>
+        let mediaRecorder;
+        let rekamanData = [];
+
+        window.onload = function() {
+            // Restore Menu Aktif Terakhir
+            const menuTerakhir = localStorage.getItem('bab3_menu_aktif') || 'menyimak';
+            bukaMenuTerakhir(menuTerakhir);
+
+            // Restore Kuis Pilihan Ganda Menu 1
+            const soalIds = ['soal1', 'soal2', 'soal3', 'soal4', 'soal5'];
+            soalIds.forEach(id => {
+                const disimpan = localStorage.getItem('bab3_' + id);
+                if (disimpan) {
+                    const radio = document.querySelector(`input[name="${id}"][value="${disimpan}"]`);
+                    if (radio) radio.checked = true;
+                }
+            });
+
+            // Restore Input Teks Latihan Membaca & Menulis
+            const formIds = ['latihan3_1', 'latihan3_2', 'latihan3_3', 'latihan3_4', 'kolomTulisBerita'];
+            formIds.forEach(id => {
+                const disimpan = localStorage.getItem('bab3_' + id);
+                if (disimpan) {
+                    const el = document.getElementById(id);
+                    if (el) el.value = disimpan;
+                }
+            });
+
+            // Restore Rekaman Audio Berbicara
+            const audioDisimpan = localStorage.getItem('bab3_rekaman_base64');
+            if (audioDisimpan) {
+                const hasilAudio = document.getElementById('suaraHasil');
+                if (hasilAudio) {
+                    hasilAudio.src = audioDisimpan;
+                    document.getElementById('kotakRekam').style.display = "block";
+                    document.getElementById('btnHapusAudio').style.display = "inline-flex";
+                }
+            }
+        };
+
+        function mainkanSuara() {
+            const suara = document.getElementById('suaraKlik');
+            if (suara) {
+                suara.currentTime = 0;
+                suara.play().catch(err => console.log("Audio klik siap."));
+            }
+        }
+
+        function bukaMenu(namaMenu) {
+            document.querySelectorAll('.tombol-menu').forEach(btn => btn.classList.remove('aktif'));
+            const targetTombol = document.getElementById('btn-' + namaMenu);
+            if(targetTombol) targetTombol.classList.add('aktif');
+            
+            document.querySelectorAll('.konten-menu').forEach(isi => isi.classList.remove('aktif'));
+            const targetMenu = document.getElementById(namaMenu);
+            if(targetMenu) targetMenu.classList.add('aktif');
+            
+            localStorage.setItem('bab3_menu_aktif', namaMenu);
+            mainkanSuara();
+        }
+
+        function bukaMenuTerakhir(namaMenu) {
+            document.querySelectorAll('.tombol-menu').forEach(btn => btn.classList.remove('aktif'));
+            const targetTombol = document.getElementById('btn-' + namaMenu);
+            if(targetTombol) targetTombol.classList.add('aktif');
+            document.querySelectorAll('.konten-menu').forEach(isi => isi.classList.remove('aktif'));
+            const targetMenu = document.getElementById(namaMenu);
+            if(targetMenu) targetMenu.classList.add('aktif');
+        }
+
+        // ============= ANIMASI PUJIAN =============
+        function tampilkanPujian() {
+            const kotak = document.getElementById('animasiPujian');
+            if (!kotak) return;
+            kotak.style.display = "block";
+            for (let i = 0; i < 12; i++) {
+                const bintang = document.createElement('div');
+                bintang.classList.add('bintang');
+                bintang.style.setProperty('--x', `${(Math.random() - 0.5) * 250}px`);
+                bintang.style.setProperty('--y', `${(Math.random() - 0.5) * 250}px`);
+                bintang.style.left = "50%"; bintang.style.top = "50%";
+                kotak.appendChild(bintang);
+            }
+            setTimeout(() => {
+                kotak.style.display = "none";
+                kotak.innerHTML = '<div class="teks-pujian">✨ Hebat! ✨</div>';
+            }, 2200);
+        }
+
+        // ============= SIMPAN & RESET DATA SYSTEM =============
+        function autoSaveText(elemen) {
+            if (elemen) localStorage.setItem('bab3_' + elemen.id, elemen.value);
+        }
+
+        function simpanKuisPilihan(elemen) {
+            if (elemen) localStorage.setItem('bab3_' + elemen.name, elemen.value);
+        }
+
+        function hapusSemuaKuisPilihan() {
+            const soalIds = ['soal1', 'soal2', 'soal3', 'soal4', 'soal5'];
+            soalIds.forEach(id => {
+                localStorage.removeItem('bab3_' + id);
+                const opsi = document.querySelectorAll(`input[name="${id}"]`);
+                opsi.forEach(opt => opt.checked = false);
+            });
+            const hasil = document.getElementById('hasilLatihanFaktaOpini');
+            if (hasil) hasil.textContent = "";
+        }
+
+        function hapusSemuaLatihanMembaca() {
+            if(confirm("Hapus semua jawaban Latihan Membaca?")) {
+                const formIds = ['latihan3_1', 'latihan3_2', 'latihan3_3', 'latihan3_4'];
+                formIds.forEach(id => {
+                    localStorage.removeItem('bab3_' + id);
+                    const el = document.getElementById(id);
+                    if (el) el.value = "";
+                });
+            }
+        }
+
+        function hapusNaskahBerita() {
+            if(confirm("Kosongkan lembar penulisan artikel?")) {
+                localStorage.removeItem('bab3_kolomTulisBerita');
+                const kolom = document.getElementById('kolomTulisBerita');
+                if (kolom) kolom.value = "";
+                const status = document.getElementById('statusTulis');
+                if (status) status.textContent = "";
+            }
+        }
+
+        // ============= CEK JAWABAN FAKTA & OPINI =============
+        function cekJawabanFaktaOpini() {
+            const soal1 = document.querySelector('input[name="soal1"]:checked');
+            const soal2 = document.querySelector('input[name="soal2"]:checked');
+            const soal3 = document.querySelector('input[name="soal3"]:checked');
+            const soal4 = document.querySelector('input[name="soal4"]:checked');
+            const soal5 = document.querySelector('input[name="soal5"]:checked');
+            const hasil = document.getElementById('hasilLatihanFaktaOpini');
+
+            if (!hasil) return;
+
+            if (!soal1 || !soal2 || !soal3 || !soal4 || !soal5) {
+                hasil.textContent = "⚠️ Jawab semua pertanyaan terlebih dahulu ya!";
+                hasil.style.color = "#f57c00";
+                return;
+            }
+
+            let skor = 0;
+            if (soal1.value === "fakta") skor++;
+            if (soal2.value === "fakta") skor++;
+            if (soal3.value === "opini") skor++;
+            if (soal4.value === "fakta") skor++;
+            if (soal5.value === "fakta") skor++;
+
+            if (skor === 5) {
+                hasil.textContent = "✅ Sempurna! Semua jawaban benar. Kamu sudah paham perbedaan fakta dan opini dengan sangat baik!";
+                hasil.style.color = "#2e7d32";
+                tampilkanPujian();
+            } else if (skor >= 3) {
+                hasil.textContent = `👍 Bagus! ${skor} dari 5 jawaban sudah benar. Coba cek lagi bagian yang belum tepat.`;
+                hasil.style.color = "#1976d2";
+            } else {
+                hasil.textContent = `📝 Masih ada yang perlu diperbaiki. ${skor} dari 5 jawaban benar. Baca kembali penjelasan fakta dan opini ya!`;
+                hasil.style.color = "#d32f2f";
+            }
+        }
+
+        // ============= TELEPROMPTER =============
+        function mulaiGulir() { 
+            const teks = document.getElementById('teksGulir');
+            if (teks) teks.classList.add('aktif'); 
+        }
+        function jedaGulir() { 
+            const teks = document.getElementById('teksGulir');
+            if (teks) teks.classList.remove('aktif'); 
+        }
+        function ulangGulir() {
+            jedaGulir();
+            const el = document.getElementById('teksGulir');
+            if (el) {
+                void el.offsetWidth; 
+                mulaiGulir();
+            }
+        }
+
+        // ============= REKAM SUARA =============
+        function mulaiRekam() {
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                alert("⚠️ Fitur rekaman tidak didukung perangkat ini.");
+                return;
+            }
+            navigator.mediaDevices.getUserMedia({ audio: true })
+                .then(stream => {
+                    mediaRecorder = new MediaRecorder(stream);
+                    mediaRecorder.start();
+                    rekamanData = [];
+                    mediaRecorder.ondataavailable = e => rekamanData.push(e.data);
+                    mediaRecorder.onstop = () => {
+                        const blob = new Blob(rekamanData, { type: 'audio/mpeg' });
+                        const pembaca = new FileReader();
+                        pembaca.readAsDataURL(blob);
+                        pembaca.onloadend = function() {
+                            const base64data = pembaca.result;
+                            localStorage.setItem('bab3_rekaman_base64', base64data);
+                            const hasilAudio = document.getElementById('suaraHasil');
+                            if (hasilAudio) {
+                                hasilAudio.src = base64data;
+                                document.getElementById('kotakRekam').style.display = "block";
+                                document.getElementById('btnHapusAudio').style.display = "inline-flex";
+                            }
+                        }
+                    };
+                    alert("🎙️ Rekaman dimulai! Silakan membacakan berita...");
+                })
+                .catch(() => alert("⚠️ Izin mikrofon tidak diberikan atau tidak ditemukan."));
+        }
+
+        function hentikanRekam() {
+            if (mediaRecorder && mediaRecorder.state !== "inactive") {
+                mediaRecorder.stop();
+                alert("✅ Rekaman selesai!");
+            }
+        }
+
+        function putarUlang() {
+            const audio = document.getElementById('suaraHasil');
+            if (audio && audio.src && audio.src !== window.location.href) {
+                audio.play().catch(e => console.log("Gagal putar rekaman"));
+            } else {
+                alert("Belum ada rekaman suara yang bisa diputar.");
+            }
+        }
+
+        function hapusRekaman() {
+            if(confirm("Hapus rekaman suara saat ini?")) {
+                localStorage.removeItem('bab3_rekaman_base64');
+                const audio = document.getElementById('suaraHasil');
+                if (audio) {
+                    audio.removeAttribute('src');
+                    audio.load();
+                }
+                document.getElementById('kotakRekam').style.display = "none";
+                document.getElementById('btnHapusAudio').style.display = "none";
+            }
+        }
+
+        // ============= MENULIS =============
+        function simpanTulisan() {
+            const kolom = document.getElementById('kolomTulisBerita');
+            if (!kolom) return;
+            const tulisan = kolom.value.trim();
+            const status = document.getElementById('statusTulis');
+            if (!status) return;
+            
+            if (!tulisan) {
+                status.textContent = "❌ Artikel masih kosong!";
+                status.style.color = "#d32f2f";
+                return;
+            }
+            status.textContent = "✅ Artikel berhasil disimpan! Bagus, tulisanmu sudah informatif.";
+            status.style.color = "#2e7d32";
+            tampilkanPujian();
+        }
+
+        function salinTulisan() {
+            const kolom = document.getElementById('kolomTulisBerita');
+            if (!kolom) return;
+            const tulisan = kolom.value.trim();
+            if (!tulisan) {
+                alert("Belum ada tulisan untuk disalin!");
+                return;
+            }
+            navigator.clipboard.writeText(tulisan)
+                .then(() => alert("✅ Tulisan berhasil disalin!"))
+                .catch(() => alert("Gagal menyalin, silakan salin secara manual."));
+        }
+    </script>
+</body>
+</html>
