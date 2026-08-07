@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Identitas Buku - E-Book Bahasa Indonesia</title>
+    <!-- Font dari Google -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -25,6 +26,8 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            overflow-x: hidden;
+            perspective: 1500px; /* PERSPEKTIF BUKU 3D */
         }
 
         .container {
@@ -36,15 +39,73 @@
             border-radius: 24px;
             box-shadow: 0 12px 35px rgba(0,0,0,0.15);
             border: 3px solid rgba(255,255,255,0.8);
+            position: relative;
+
+            /* ENGSEL BUKU DI KIRI */
+            transform-origin: left center;
+            transform-style: preserve-3d;
+            backface-visibility: hidden;
+
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease;
         }
 
+        /* BADGE NOMOR HALAMAN ROMAWI */
+        .nomor-halaman {
+            position: absolute;
+            bottom: -15px;
+            right: 35px;
+            background: linear-gradient(135deg, #00acc1, #26a69a);
+            color: white;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            padding: 6px 18px;
+            border-radius: 20px;
+            box-shadow: 0 6px 15px rgba(0, 172, 193, 0.3);
+            border: 2px solid white;
+            letter-spacing: 1px;
+            z-index: 5;
+        }
+
+        /* ANIMASI MASUK MAJU: Terbuka dari kanan saat maju dari Kover */
+        .masuk-maju {
+            animation: bukaDariKanan 0.65s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+
+        /* ANIMASI MASUK MUNDUR: Terbuka dari kiri saat kembali dari Kata Pengantar */
+        .masuk-mundur {
+            animation: bukaDariKiri 0.65s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+
+        /* ANIMASI KELUAR MUNDUR: Melipat balik ke kanan saat klik Kembali ke Kover */
+        .keluar-mundur {
+            transform: rotateY(110deg) scale(0.95) !important;
+            opacity: 0 !important;
+        }
+
+        /* ANIMASI KELUAR MAJU: Melipat ke kiri saat klik Selanjutnya */
+        .keluar-maju {
+            transform: rotateY(-110deg) scale(0.95) !important;
+            opacity: 0 !important;
+        }
+
+        @keyframes bukaDariKanan {
+            0% { opacity: 0; transform: rotateY(110deg) scale(0.95); }
+            100% { opacity: 1; transform: rotateY(0deg) scale(1); }
+        }
+
+        @keyframes bukaDariKiri {
+            0% { opacity: 0; transform: rotateY(-110deg) scale(0.95); }
+            100% { opacity: 1; transform: rotateY(0deg) scale(1); }
+        }
+
+        /* Styling Judul & Konten */
         h1 {
             text-align: center;
             font-family: 'Fredoka', sans-serif;
             font-size: clamp(1.8rem, 5vw, 2.5rem);
             color: #006064;
             margin-bottom: 1.5rem;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
         }
 
         .garis {
@@ -55,7 +116,6 @@
             border-radius: 10px;
         }
 
-        /* Mengubah baris identitas menjadi list yang rapi */
         .identitas-list {
             display: flex;
             flex-direction: column;
@@ -68,13 +128,11 @@
             grid-template-columns: 200px 1fr;
             gap: 1rem;
             font-size: clamp(0.95rem, 3vw, 1.15rem);
-            line-height: 1.5;
             color: #2d3436;
             padding-bottom: 0.8rem;
             border-bottom: 1px dashed #b2dfdb;
         }
 
-        /* Menghilangkan garis bawah di item terakhir */
         .identitas-item:last-child {
             border-bottom: none;
         }
@@ -82,14 +140,9 @@
         .identitas-item strong {
             color: #006064;
             font-family: 'Fredoka', sans-serif;
-            font-weight: 600;
         }
 
-        .identitas-item span.isi-data {
-            font-weight: 500;
-        }
-
-        /* Navigasi Tombol */
+        /* Tombol Navigasi */
         .navigasi {
             display: flex;
             justify-content: space-between;
@@ -117,23 +170,20 @@
 
         .tombol:hover {
             transform: translateY(-3px);
-            box-shadow: 0 6px 18px rgba(0,172,193,0.45);
             filter: brightness(1.1);
         }
 
-        /* Responsif untuk HP Layar Kecil */
+        /* Responsif untuk Layar HP */
         @media (max-width: 600px) {
-            .identitas-item {
-                grid-template-columns: 1fr;
-                gap: 0.3rem;
-            }
+            .identitas-item { grid-template-columns: 1fr; gap: 0.3rem; }
+            .nomor-halaman { right: 50%; transform: translateX(50%); bottom: -18px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>📋 IDENTITAS E-B00K</h1>
+    <div class="container" id="kontenHalaman">
+        <h1>📋 IDENTITAS E-BOOK</h1>
         <div class="garis"></div>
 
         <div class="identitas-list">
@@ -141,37 +191,30 @@
                 <strong>Judul E-Book</strong>
                 <span class="isi-data">E-Book Interaktif Pembelajaran Bahasa Indonesia</span>
             </div>
-
             <div class="identitas-item">
                 <strong>Materi Pembelajaran</strong>
                 <span class="isi-data">Teks Deskripsi, Teks Narasi, dan Teks Informatif</span>
             </div>
-
             <div class="identitas-item">
                 <strong>Kelas / Fase</strong>
                 <span class="isi-data">Kelas 5 Sekolah Dasar / Fase C</span>
             </div>
-
             <div class="identitas-item">
                 <strong>Dasar Penyusunan</strong>
                 <span class="isi-data">Capaian Pembelajaran (CP) dan Tujuan Pembelajaran (TP) Bahasa Indonesia Sesuai BSKAP 2025</span>
             </div>
-
             <div class="identitas-item">
                 <strong>Elemen Pembelajaran</strong>
                 <span class="isi-data">Menyimak, Membaca dan Memirsa, Berbicara dan Mempresentasikan, serta Menulis</span>
             </div>
-
             <div class="identitas-item">
                 <strong>Pengembang</strong>
                 <span class="isi-data">Nanda Oktaviendra</span>
             </div>
-
             <div class="identitas-item">
                 <strong>Tahun Pengembangan</strong>
                 <span class="isi-data">2026</span>
             </div>
-
             <div class="identitas-item">
                 <strong>Media</strong>
                 <span class="isi-data">Berbasis HTML5, Kompatibel dengan Komputer, Laptop, Tablet, dan Ponsel</span>
@@ -179,34 +222,56 @@
         </div>
 
         <div class="navigasi">
-            <a href="index.html" class="tombol" onclick="mainkanSuaraTombol(event, 'index.html')">⬅ Kembali ke Halaman Awal</a>
-            <a href="kata pengantar.html" class="tombol" onclick="mainkanSuaraTombol(event, 'kata pengantar.html')">Selanjutnya ➡</a>
+            <a href="index.html" class="tombol" onclick="navigasiBuku(event, 'index.html', 'mundur')">⬅ Kembali ke Halaman Awal</a>
+            <a href="kata pengantar.html" class="tombol" onclick="navigasiBuku(event, 'kata pengantar.html', 'maju')">Selanjutnya ➡</a>
         </div>
+
+        <!-- BADGE NOMOR HALAMAN ROMAWI -->
+        <div class="nomor-halaman">Halaman i</div>
     </div>
 
+    <!-- SOUND EFFECT KLIK -->
     <audio id="suaraTombol" preload="auto">
         <source src="klik.mp3" type="audio/mpeg">
     </audio>
 
     <script>
-        function mainkanSuaraTombol(event, targetUrl) {
-            // Mencegah perpindahan halaman langsung agar suara sempat berbunyi
+        const container = document.getElementById('kontenHalaman');
+
+        // BACA STATUS NAVIGASI SAAT HALAMAN DIBUKA (MAJU / MUNDUR)
+        const arahNavigasi = sessionStorage.getItem('arahNavigasi');
+        if (arahNavigasi === 'maju') {
+            container.classList.add('masuk-maju');
+            sessionStorage.removeItem('arahNavigasi');
+        } else if (arahNavigasi === 'mundur') {
+            container.classList.add('masuk-mundur');
+            sessionStorage.removeItem('arahNavigasi');
+        }
+
+        // FUNGSI NAVIGASI PINDAH HALAMAN
+        function navigasiBuku(event, targetUrl, arah) {
             event.preventDefault(); 
-            
             const suara = document.getElementById('suaraTombol');
+
             suara.currentTime = 0;
-            
-            suara.play()
-                .then(() => {
-                    // Tunggu sedikit (200ms) agar efek suara terdengar sebelum pindah halaman
-                    setTimeout(() => {
-                        window.location.href = targetUrl;
-                    }, 200);
-                })
-                .catch(err => {
-                    console.log("Suara diblokir browser atau file tidak ketemu, langsung pindah halaman.");
-                    window.location.href = targetUrl;
-                });
+            suara.play().catch(err => console.log("Audio diblokir browser"));
+
+            // Simpan arah navigasi ke SessionStorage
+            sessionStorage.setItem('arahNavigasi', arah);
+
+            container.classList.remove('masuk-maju', 'masuk-mundur');
+
+            requestAnimationFrame(() => {
+                if (arah === 'mundur') {
+                    container.classList.add('keluar-mundur');
+                } else {
+                    container.classList.add('keluar-maju');
+                }
+            });
+
+            setTimeout(() => {
+                window.location.href = targetUrl;
+            }, 550);
         }
     </script>
 

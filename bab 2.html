@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bab 2 - Detektif Sejarah: Menelusuri Kisah Keberanian Laksamana Malahayati</title>
+    <title>Bab 2 - Detektif Sejarah: Menelusuri Kisah Pahlawan</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -14,11 +14,16 @@
             width: 100%; min-height: 100vh;
             background: linear-gradient(rgba(255,255,255,0.15), rgba(255,255,255,0.15)), 
                         url('background.png') center center / cover no-repeat fixed;
-            font-family: 'Quicksand', sans-serif; padding: 4% 2%;
-            position: relative;
+            font-family: 'Quicksand', sans-serif; padding: 5% 2%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             overflow-x: hidden;
+            perspective: 2500px; /* Kedalaman 3D Realistis */
         }
+
         .container {
+            width: 100%;
             max-width: 980px; margin: 0 auto;
             background: rgba(255, 255, 255, 0.96); padding: clamp(1.5rem, 5vw, 3.5rem);
             border-radius: 24px; box-shadow: 0 12px 40px rgba(74, 20, 140, 0.15);
@@ -26,13 +31,118 @@
             position: relative;
             z-index: 2;
             backdrop-filter: blur(10px);
+            transform-style: preserve-3d;
+            backface-visibility: hidden;
+            
+            /* POROS BUKU: Terikat di jilidan sebelah KIRI */
+            transform-origin: left center !important;
         }
-        h1 {
-            font-family: 'Fredoka', sans-serif; font-size: clamp(2rem, 6vw, 2.8rem);
-            color: #4a148c; text-align: center; margin-bottom: 1rem;
+
+        /* --- ANIMASI MEMBALIK BUKU REALISTIS --- */
+        .book-flip-exit-next {
+            animation: bookFlipOutNext 0.6s cubic-bezier(0.645, 0.045, 0.355, 1) forwards;
+        }
+
+        .book-flip-exit-prev {
+            animation: bookFlipOutPrev 0.6s cubic-bezier(0.645, 0.045, 0.355, 1) forwards;
+        }
+
+        .book-flip-enter-next {
+            animation: bookFlipInNext 0.6s cubic-bezier(0.215, 0.61, 0.355, 1) forwards;
+        }
+
+        .book-flip-enter-prev {
+            animation: bookFlipInPrev 0.6s cubic-bezier(0.215, 0.61, 0.355, 1) forwards;
+        }
+
+        @keyframes bookFlipOutNext {
+            0% { transform: rotateY(0deg); opacity: 1; }
+            50% { box-shadow: -20px 20px 30px rgba(0,0,0,0.3); }
+            100% { transform: rotateY(-100deg) scale(0.92); opacity: 0; }
+        }
+
+        @keyframes bookFlipOutPrev {
+            0% { transform: rotateY(0deg); opacity: 1; }
+            50% { box-shadow: 20px 20px 30px rgba(0,0,0,0.3); }
+            100% { transform: rotateY(100deg) scale(0.92); opacity: 0; }
+        }
+
+        @keyframes bookFlipInNext {
+            0% { transform: rotateY(100deg) scale(0.92); opacity: 0; }
+            100% { transform: rotateY(0deg) scale(1); opacity: 1; }
+        }
+
+        @keyframes bookFlipInPrev {
+            0% { transform: rotateY(-100deg) scale(0.92); opacity: 0; }
+            100% { transform: rotateY(0deg) scale(1); opacity: 1; }
+        }
+
+        /* BADGE NOMOR HALAMAN */
+        .nomor-halaman {
+            position: absolute;
+            bottom: -15px;
+            right: 35px;
+            background: linear-gradient(135deg, #673ab7, #9c27b0);
+            color: white;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            padding: 6px 18px;
+            border-radius: 20px;
+            box-shadow: 0 6px 15px rgba(103, 58, 183, 0.3);
+            border: 2px solid white;
+            letter-spacing: 1px;
+            z-index: 5;
+        }
+
+        /* BANNER HEADER PERSIS BAB 1 */
+        .banner-header {
+            width: 100%;
+            padding: clamp(2.5rem, 6vw, 4.5rem) 1.5rem;
+            border-radius: 20px;
+            background: linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)), 
+                        url('gambar benner bab 2.png') center center / cover no-repeat;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            border: 4px solid #fff;
+            text-align: center;
+            margin-bottom: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .judul-bab {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-family: 'Fredoka', sans-serif;
+            font-size: clamp(2rem, 6vw, 3.2rem);
+            color: #ffffff;
+            font-weight: 700;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8), 0 0 15px rgba(0, 0, 0, 0.6);
+            margin-bottom: 0.5rem;
+        }
+
+        .sub-judul {
+            font-family: 'Fredoka', sans-serif;
+            font-size: clamp(1.4rem, 4.5vw, 2.2rem);
+            color: #ffeb3b;
+            font-weight: 600;
             line-height: 1.3;
-            text-shadow: 2px 2px 4px rgba(74, 20, 140, 0.1);
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8), 0 0 12px rgba(0, 0, 0, 0.6);
+            margin-bottom: 1rem;
         }
+
+        .garis-banner {
+            width: 120px;
+            height: 4px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.4);
+        }
+
         h2 {
             font-family: 'Fredoka', sans-serif; font-size: clamp(1.5rem, 5vw, 2rem);
             color: #6a1b9a; margin: 2.5rem 0 1.2rem;
@@ -49,7 +159,7 @@
         }
         .garis {
             width: 60%; height: 5px; background: linear-gradient(90deg, #673ab7, #9c27b0);
-            margin: 0 auto 2.5rem; border-radius: 10px;
+            margin: 1.5rem auto 2.5rem; border-radius: 10px;
         }
         .menu-nav {
             display: flex; flex-wrap: wrap; gap: 0.8rem; justify-content: center;
@@ -91,15 +201,19 @@
             margin: 1.5rem 0; border: 1px solid rgba(103, 58, 183, 0.1);
             border-left-width: 6px;
         }
-        .kotak-audio {
+        .kotak-audio, .kotak-video {
             background: rgba(33, 150, 243, 0.08); padding: 1.5rem;
             border-radius: 16px; border-left: 6px solid #2196f3;
             margin: 1.5rem 0; text-align: center;
         }
+        video.video-lokal {
+            width: 100%; max-width: 800px;
+            border-radius: 16px; box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+            outline: none;
+        }
         .kotak-teks {
             background: rgba(76, 175, 80, 0.06); padding: 1.5rem;
-            border-radius: 16px; border-left: 6px solid #43a047;
-            margin: 1.5rem 0;
+            border-radius: 16px; border-left: 6px solid #43a047; margin: 1.5rem 0;
         }
         .kotak-kegiatan {
             background: rgba(255, 152, 0, 0.06); padding: 1.5rem;
@@ -108,42 +222,40 @@
         }
         .kotak-rangkuman {
             background: rgba(156, 39, 176, 0.06); padding: 1.5rem;
-            border-radius: 16px; border-left: 6px solid #9c27b0;
-            margin: 2rem 0;
+            border-radius: 16px; border-left: 6px solid #9c27b0; margin: 2rem 0;
         }
         .kotak-kosakata {
             background: rgba(121, 85, 72, 0.06); padding: 1.5rem;
-            border-radius: 16px; border-left: 6px solid #795548;
-            margin: 1.5rem 0;
+            border-radius: 16px; border-left: 6px solid #795548; margin: 1.5rem 0;
         }
         .kotak-pengayaan {
             background: rgba(233, 30, 99, 0.06); padding: 1.5rem;
-            border-radius: 16px; border-left: 6px solid #e91e63;
-            margin: 1.5rem 0;
+            border-radius: 16px; border-left: 6px solid #e91e63; margin: 1.5rem 0;
         }
-        .kotak-tugas {
-            background: rgba(63, 81, 181, 0.06); padding: 1.5rem;
-            border-radius: 16px; border-left: 6px solid #3f51b5;
-            margin: 1.5rem 0;
-        }
-        .kotak-sumber {
-            background: rgba(0, 150, 136, 0.06); padding: 1.5rem;
-            border-radius: 16px; border-left: 6px solid #009688;
-            margin: 1.5rem 0;
+
+        /* STYLES UNTUK ILUSTRASI & SUMBER GAMBAR */
+        figure.wadah-gambar {
+            margin: 1.5rem auto;
+            text-align: center;
+            max-width: 600px;
         }
         .ilustrasi {
-            width: 100%; max-width: 600px; margin: 2rem auto;
-            display: block; border-radius: 20px;
+            width: 100%; display: block; border-radius: 20px; 
             box-shadow: 0 8px 25px rgba(0,0,0,0.12);
             border: 4px solid #fff;
         }
+        figcaption.sumber-gambar {
+            font-size: 0.88rem;
+            color: #666666;
+            font-style: italic;
+            margin-top: 0.5rem;
+        }
+
         .kosakata {
             color: #9c27b0; font-weight: bold; cursor: pointer;
             border-bottom: 2px dashed #9c27b0; padding: 0 2px;
         }
-        .kuis-pilihan {
-            margin: 1.2rem 0; padding-left: 0.5rem;
-        }
+        .kuis-pilihan { margin: 1.2rem 0; padding-left: 0.5rem; }
         .kuis-pilihan label {
             display: flex; align-items: center; gap: 0.8rem; margin: 0.8rem 0; cursor: pointer;
             padding: 0.6rem 1rem; border-radius: 10px; transition: background 0.2s, border 0.2s;
@@ -152,9 +264,7 @@
         .kuis-pilihan label:hover {
             background: rgba(33,150,243,0.06); border-color: rgba(33,150,243,0.2);
         }
-        .kuis-pilihan input[type="radio"] {
-            width: 18px; height: 18px; accent-color: #2196f3;
-        }
+        .kuis-pilihan input[type="radio"] { width: 18px; height: 18px; accent-color: #2196f3; }
         .jawaban-kosong {
             display: block; width: 100%; padding: 0.8rem 1rem;
             margin: 0.6rem 0 1.5rem 0; border: 2px dashed #9c27b0;
@@ -164,9 +274,7 @@
         .jawaban-kosong:focus {
             outline: none; border-style: solid; border-color: #673ab7; background: #fafafa;
         }
-        textarea.jawaban-kosong {
-            min-height: 100px; resize: vertical;
-        }
+        textarea.jawaban-kosong { min-height: 100px; resize: vertical; }
         .tombol-umum {
             padding: 0.8rem 1.6rem; font-family: 'Fredoka', sans-serif;
             font-size: 1rem; font-weight: 600; border: none; border-radius: 12px;
@@ -179,11 +287,8 @@
             transform: translateY(-2px); box-shadow: 0 5px 15px rgba(245, 124, 0, 0.35);
         }
         .tombol-suara { background: linear-gradient(135deg, #9c27b0, #7b1fa2); box-shadow: 0 3px 8px rgba(156, 39, 176, 0.2); }
-        .tombol-suara:hover { box-shadow: 0 5px 15px rgba(156, 39, 176, 0.35); }
         .tombol-ide { background: linear-gradient(135deg, #26a69a, #00897b); box-shadow: 0 3px 8px rgba(38, 166, 154, 0.2); }
-        .tombol-ide:hover { box-shadow: 0 5px 15px rgba(38, 166, 154, 0.35); }
         .tombol-hapus { background: linear-gradient(135deg, #e53935, #c62828); box-shadow: 0 3px 8px rgba(229, 57, 53, 0.2); }
-        .tombol-hapus:hover { box-shadow: 0 5px 15px rgba(229, 57, 53, 0.35); }
         
         textarea {
             width: 100%; min-height: 180px; padding: 1.2rem;
@@ -215,11 +320,9 @@
         .tombol:hover {
             transform: translateY(-3px); box-shadow: 0 8px 22px rgba(103, 58, 183, 0.35);
         }
-        .grup-tombol-aksi {
-            display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem;
-        }
+        .grup-tombol-aksi { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
 
-        /* ============= ANIMASI PUJIAN & BINTANG ============= */
+        /* ANIMASI PUJIAN */
         .animasi-pujian {
             position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
             z-index: 999; pointer-events: none; display: none;
@@ -245,18 +348,28 @@
             20% { transform: translate(var(--x), var(--y)) scale(1); opacity: 1; }
             100% { transform: translate(calc(var(--x) * 2), calc(var(--y) * 2)) scale(0.5); opacity: 0; }
         }
+
+        @media (max-width: 600px) { .nomor-halaman { right: 50%; transform: translateX(50%); bottom: -18px; } }
     </style>
 </head>
 <body>
 
-    <!-- ANIMASI PUJIAN -->
     <div class="animasi-pujian" id="animasiPujian">
         <div class="teks-pujian">✨ Hebat! ✨</div>
     </div>
 
-    <div class="container">
-        <h1>📖 BAB 2<br>Detektif Sejarah: Menelusuri Kisah Pahlawan</h1>
-        <div class="garis"></div>
+    <div class="container" id="kontenHalaman">
+
+        <!-- HEADER BANNER BAB 2 -->
+        <div class="banner-header">
+            <div class="judul-bab">
+                📖 BAB 2
+            </div>
+            <div class="sub-judul">
+                Detektif Sejarah: Menelusuri Kisah Pahlawan
+            </div>
+            <div class="garis-banner"></div>
+        </div>
 
         <!-- INFORMASI KURIKULUM & CP -->
         <div class="kotak-info isi">
@@ -266,21 +379,10 @@
             <p><strong>Tema:</strong> Menelusuri Peristiwa Sejarah Nusantara</p>
             <br>
             <p><strong>🎯 Capaian Pembelajaran (CP):</strong><br>
-            Siswa mampu menganalisis informasi dari teks nonsastra berbentuk teks aural serta menganalisis unsur kronologi, struktur, dan isi teks narasi ekspositoris/faktual tersebut.</p>
+            Menganalisis informasi dari teks nonsastra berbentuk teks aural (teks yang dibacakan dan/atau didengar) dan menganalisis isi teks sastra berbentuk teks aural.</p>
             <br>
             <p><strong>✅ Tujuan Pembelajaran (TP):</strong><br>
-            Siswa mampu mengidentifikasi unsur-unsur pembentuk narasi faktual (tokoh nyata, latar waktu/tempat aktual, kronologi peristiwa) serta mengurutkan rangkaian kejadian sejarah secara logis dari teks narasi nonsastra yang didengar dan dibaca.</p>
-        </div>
-
-        <!-- PETA INTEGRASI KETERAMPILAN -->
-        <div class="kotak-info isi">
-            <h4>🗺️ Peta Pembelajaran</h4>
-            <ul>
-                <li>👂 <strong>Menyimak:</strong> Menelaah audio catatan peristiwa sejarah & urutan waktu kejadian nyata</li>
-                <li>👁️ <strong>Membaca:</strong> Membedah struktur & karakteristik teks narasi nonsastra (faktual)</li>
-                <li>🗣️ <strong>Berbicara:</strong> Menceritakan kembali biografi tokoh pahlawan secara lisan dengan runtut</li>
-                <li>✍️ <strong>Menulis:</strong> Menyusun teks narasi faktual berdasarkan catatan riwayat hidup nyata</li>
-            </ul>
+            Menganalisis informasi dari teks nonsastra berbentuk teks aural (teks yang dibacakan dan/atau didengar) .</p>
         </div>
 
         <!-- MENU UTAMA -->
@@ -290,16 +392,18 @@
             <button class="tombol-menu" id="btn-berbicara" onclick="bukaMenu('berbicara')">🗣️ Narator Sejarah Nusantara</button>
             <button class="tombol-menu" id="btn-menulis" onclick="bukaMenu('menulis')">✍️ Lembar Naskah Cerita</button>
             <button class="tombol-menu" id="btn-tambahan" onclick="bukaMenu('tambahan')">📌 Materi Tambahan</button>
+            <button class="tombol-menu" id="btn-video" onclick="bukaMenu('video')">🎬 Video Pembelajaran</button>
         </div>
 
-        <!-- ====================================== -->
         <!-- MENU 1: KETERAMPILAN MENYIMAK -->
-        <!-- ====================================== -->
         <div id="menyimak" class="konten-menu aktif isi">
             <h3>👂 Misi Menyimak Faktual: Keberanian Laksamana Malahayati</h3>
             <p><strong>Tujuan:</strong> Siswa dapat menemukan konflik utama, tokoh nyata, dan latar tempat dari teks sejarah yang didengar.</p>
 
-            <img src="ilustrasi Laksamana Malahayati.png" alt="Ilustrasi Kapal Perang Malahayati" class="ilustrasi">
+            <figure class="wadah-gambar">
+                <img src="ilustrasi Laksamana Malahayati.png" alt="Ilustrasi Kapal Perang Malahayati" class="ilustrasi">
+                <figcaption class="sumber-gambar">Sumber: Ilustrasi dihasilkan oleh Gemini AI</figcaption>
+            </figure>
 
             <div class="kotak-audio">
                 <audio id="audioNarasi" controls preload="metadata">
@@ -314,16 +418,6 @@
                 <p id="teksNarasi">Pada akhir abad ke-16, perairan Kesultanan Aceh Darussalam menghadapi ancaman besar dari armada kapal asing Belanda yang berniat menguasai jalur perdagangan rempah-rempah. Di tengah situasi genting tersebut, tampillah seorang perempuan tangguh bernama Keumalahayati, atau yang lebih dikenal sebagai Laksamana Malahayati. Setelah suaminya gugur dalam pertempuran laut melawan Portugis, Malahayati tidak tenggelam dalam kesedihan. Ia justru membentuk pasukan tempur laut yang anggotanya terdiri atas para janda pejuang Aceh yang gugur, yang kemudian dinamakan pasukan "Inong Balee".
                 Dengan penuh ketegasan, Malahayati melatih pasukan ini di pangkalan militer Teluk Krueng Raya menjadi prajurit laut yang sangat disiplin. Konflik memuncak pada tanggal 11 September 1599, ketika dua kapal dagang Belanda yang dipimpin oleh Cornelis de Houtman mencoba memaksakan kehendak dan bertindak kekerasan di pelabuhan Aceh. Laksamana Malahayati langsung memimpin serangan balasan yang cepat di atas gelombang laut utara Sumatra. 
                 Dalam pertempuran sengit di atas dek kapal, Malahayati berhadapan langsung dengan Cornelis de Houtman dalam duel satu lawan satu. Dengan kemahiran menggunakan rencong, Malahayati berhasil menumbangkan pemimpin armada asing tersebut. Kemenangan ini berhasil mengusir ancaman penjajah saat itu dan memperkuat kedaulatan maritim Kesultanan Aceh, sekaligus mengukir nama Laksamana Malahayati sebagai salah satu laksamana laut perempuan pertama yang paling disegani dalam catatan sejarah dunia.</p>
-            </div>
-
-            <div class="kotak-teks">
-                <p><strong>💡 Cara Menyimak Narasi Nonsastra dengan Baik:</strong><br>
-                Mendengarkan teks narasi sejarah membutuhkan ketelitian mencatat elemen fakta nyata:</p>
-                <ul>
-                    <li>Siapa nama tokoh nyata yang diceritakan?</li>
-                    <li>Di mana dan kapan (tahun/tanggal) peristiwa tersebut berlangsung?</li>
-                    <li>Apa masalah utama dan tindakan nyata yang dilakukan oleh tokoh tersebut?</li>
-                </ul>
             </div>
 
             <div class="kotak-kegiatan">
@@ -342,9 +436,7 @@
             </div>
         </div>
 
-        <!-- ====================================== -->
-        <!-- MENU 2: KETERAMPILAN MEMBACA -->
-        <!-- ====================================== -->
+        <!-- MENU MEMBACA -->
         <div id="membaca" class="konten-menu isi">
             <h3>📖 Labirin Struktur Teks Narasi Nonsastra</h3>
             <p><strong>Tujuan:</strong> Siswa mampu membedakan karakteristik dan bagian pembentuk teks narasi nonsastra.</p>
@@ -361,7 +453,10 @@
                 </ol>
             </div>
 
-            <img src="ilustrasi khi hajar dewantara.png" alt="Ilustrasi Perjuangan Bangsa" class="ilustrasi">
+            <figure class="wadah-gambar">
+                <img src="ilustrasi khi hajar dewantara.png" alt="Ilustrasi Perjuangan Bangsa" class="ilustrasi">
+                <figcaption class="sumber-gambar">Sumber: Ilustrasi dihasilkan oleh Gemini AI</figcaption>
+            </figure>
 
             <div class="kotak-kegiatan">
                 <h4>📚 Teks Bacaan: "Awal Mula Perjuangan Ki Hajar Dewantara"</h4>
@@ -393,9 +488,7 @@
             </div>
         </div>
 
-        <!-- ====================================== -->
-        <!-- MENU 3: KETERAMPILAN BERBICARA -->
-        <!-- ====================================== -->
+        <!-- MENU BERBICARA -->
         <div id="berbicara" class="konten-menu isi">
             <h3>🗣️ Narator Sejarah Nusantara</h3>
             <p><strong>Tujuan:</strong> Siswa dapat menceritakan kembali rangkaian peristiwa sejarah dengan lafal, intonasi, dan ekspresi yang tepat.</p>
@@ -428,9 +521,7 @@
             </div>
         </div>
 
-        <!-- ====================================== -->
-        <!-- MENU 4: KETERAMPILAN MENULIS -->
-        <!-- ====================================== -->
+        <!-- MENU MENULIS -->
         <div id="menulis" class="konten-menu isi">
             <h3>✍️ Lembar Naskah Detektif Cerita Faktual</h3>
             <p><strong>Tujuan:</strong> Siswa dapat menyusun sebuah teks narasi nonsastra pendek berdasarkan urutan peristiwa kehidupan nyata.</p>
@@ -470,9 +561,7 @@
             </div>
         </div>
 
-        <!-- ====================================== -->
-        <!-- MENU 5: MATERI TAMBAHAN -->
-        <!-- ====================================== -->
+        <!-- MENU TAMBAHAN -->
         <div id="tambahan" class="konten-menu isi">
             <h3>📌 Materi Tambahan Bab 2</h3>
 
@@ -495,11 +584,28 @@
             </div>
         </div>
 
-        <!-- NAVIGASI -->
-        <div class="navigasi">
-            <a href="bab 1.html" class="tombol" onclick="mainkanSuara()">⬅ Kembali ke Bab 1</a>
-            <a href="bab 3.html" class="tombol" onclick="mainkanSuara()">Lanjut ke Bab 3 ➡</a>
+        <!-- MENU 6: VIDEO PEMBELAJARAN -->
+        <div id="video" class="konten-menu isi">
+            <h3>🎬 Video Pembelajaran</h3>
+            <p><strong>Petunjuk:</strong> Simak video pembelajaran berikut untuk memahami materi lebih mudah dan jelas.</p>
+            
+            <div class="kotak-video">
+                <video controls preload="metadata" class="video-lokal">
+                    <source src="video-bab2.mp4" type="video/mp4">
+                    <source src="video-pembelajaran.webm" type="video/webm">
+                    Browser kamu tidak mendukung pemutar video.
+                </video>
+            </div>
         </div>
+
+        <!-- NAVIGASI DENGAN EFEK FLIP BUKU -->
+        <div class="navigasi">
+            <a href="bab 1.html" class="tombol" onclick="pindahHalaman(event, 'bab 1.html', 'prev')">⬅ Kembali ke Bab 1</a>
+            <a href="bab 3.html" class="tombol" onclick="pindahHalaman(event, 'bab 3.html', 'next')">Lanjut ke Bab 3 ➡</a>
+        </div>
+
+        <!-- BADGE NOMOR HALAMAN -->
+        <div class="nomor-halaman">Halaman 2</div>
     </div>
 
     <!-- SUARA TOMBOL -->
@@ -509,15 +615,15 @@
     </audio>
 
     <script>
+        const container = document.getElementById('kontenHalaman');
         let mediaRecorder;
         let rekamanData = [];
 
-        window.onload = function() {
-            // Restore Menu Aktif Terakhir
+        // ANIMASI BUKU DIPUTAR DARI/MENUJU HALAMAN LAIN
+        window.addEventListener('DOMContentLoaded', () => {
             const menuTerakhir = localStorage.getItem('bab2_menu_aktif') || 'menyimak';
             bukaMenuTerakhir(menuTerakhir);
 
-            // Restore Kuis Pilihan Ganda Menu 1
             const kuisPG = localStorage.getItem('bab2_jawaban1');
             if (kuisPG) {
                 const radio = document.querySelector(`input[name="jawaban1"][value="${kuisPG}"]`);
@@ -527,26 +633,54 @@
                 }
             }
 
-            // Restore Input Teks Latihan Membaca & Menulis
             const formIds = ['latihan2_1', 'latihan2_2', 'latihan2_3', 'latihan2_4', 'kolomTulisNarasi'];
             formIds.forEach(id => {
                 const disimpan = localStorage.getItem('bab2_' + id);
                 if (disimpan) document.getElementById(id).value = disimpan;
             });
 
-            // Restore Rekaman Audio Berbicara
             const audioDisimpan = localStorage.getItem('bab2_rekaman_base64');
             if (audioDisimpan) {
                 document.getElementById('suaraHasil').src = audioDisimpan;
                 document.getElementById('kotakRekam').style.display = "block";
                 document.getElementById('btnHapusAudio').style.display = "inline-flex";
             }
-        };
+
+            // Membaca Arah Flip Buku dari Bab Lain
+            const direction = sessionStorage.getItem('pageFlipDirection');
+            if (direction === 'next') {
+                container.classList.add('book-flip-enter-next');
+            } else if (direction === 'prev') {
+                container.classList.add('book-flip-enter-prev');
+            }
+            sessionStorage.removeItem('pageFlipDirection');
+        });
+
+        // FUNGSI NAVIGASI DENGAN ANIMASI BALIK BUKU REALISTIS
+        function pindahHalaman(event, targetUrl, direction) {
+            event.preventDefault();
+            mainkanSuara();
+
+            sessionStorage.setItem('pageFlipDirection', direction);
+            container.className = 'container';
+
+            if (direction === 'next') {
+                container.classList.add('book-flip-exit-next');
+            } else if (direction === 'prev') {
+                container.classList.add('book-flip-exit-prev');
+            }
+
+            setTimeout(() => {
+                window.location.href = targetUrl;
+            }, 550);
+        }
 
         function mainkanSuara() {
             const suara = document.getElementById('suaraKlik');
-            suara.currentTime = 0;
-            suara.play().catch(err => console.log("Suara siap diputar"));
+            if (suara) {
+                suara.currentTime = 0;
+                suara.play().catch(err => console.log("Suara siap diputar"));
+            }
         }
 
         function bukaMenu(namaMenu) {
@@ -569,7 +703,6 @@
             document.getElementById(namaMenu).classList.add('aktif');
         }
 
-        // ============= ANIMASI PUJIAN =============
         function tampilkanPujian() {
             const kotak = document.getElementById('animasiPujian');
             kotak.style.display = "block";
@@ -587,7 +720,6 @@
             }, 2200);
         }
 
-        // ============= SIMPAN OTOMATIS & RESET DATA =============
         function autoSaveText(elemen) {
             localStorage.setItem('bab2_' + elemen.id, elemen.value);
         }
@@ -627,7 +759,6 @@
             }
         }
 
-        // ============= CEK JAWABAN =============
         function cekJawaban1() {
             const pilihan = document.querySelector('input[name="jawaban1"]:checked');
             const hasil = document.getElementById('hasilKuis1');
@@ -657,7 +788,6 @@
             }
         }
 
-        // ============= REKAM SUARA =============
         function mulaiRekam() {
             if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
                 alert("⚠️ Fitur rekaman tidak didukung perangkat ini.");
@@ -712,7 +842,6 @@
             }
         }
 
-        // ============= PEMBANGKIT IDE TOKOH NYATA =============
         function beriIde() {
             const daftarIde = [
                 "Biografi Singkat Ir. Soekarno (Proklamator Bangsa)",
@@ -724,7 +853,6 @@
             document.getElementById('kotakIde').textContent = "💡 Saran Tokoh/Kisah: " + daftarIde[acak];
         }
 
-        // ============= MENULIS =============
         function simpanTulisanNarasi() {
             const tulisan = document.getElementById('kolomTulisNarasi').value.trim();
             const status = document.getElementById('statusTulisNarasi');

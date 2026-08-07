@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kata Pengantar - E-Book Bahasa Indonesia</title>
+    <!-- Font dari Google -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -26,25 +27,84 @@
             justify-content: center;
             align-items: center;
             padding: 2rem 1rem;
+            overflow-x: hidden;
+            perspective: 1500px; /* PERSPEKTIF BUKU 3D */
         }
 
-        /* CONTAINER UTAMA (Matching dengan halaman sebelumnya) */
+        /* CONTAINER UTAMA */
         .container {
             width: 100%;
             max-width: 800px;
             background: rgba(255, 255, 255, 0.95);
             padding: clamp(2rem, 5vw, 3.5rem);
-            border-radius: 30px; /* Sudut membulat khas anak-anak */
+            border-radius: 30px;
             box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
             border: 4px solid #fff;
             position: relative;
+
+            /* ENGSEL BUKU DI KIRI */
+            transform-origin: left center;
+            transform-style: preserve-3d;
+            backface-visibility: hidden;
+
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease;
+        }
+
+        /* BADGE NOMOR HALAMAN ROMAWI */
+        .nomor-halaman {
+            position: absolute;
+            bottom: -15px;
+            right: 35px;
+            background: linear-gradient(135deg, #43a047, #2196f3);
+            color: white;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            padding: 6px 18px;
+            border-radius: 20px;
+            box-shadow: 0 6px 15px rgba(33, 150, 243, 0.3);
+            border: 2px solid white;
+            letter-spacing: 1px;
+            z-index: 5;
+        }
+
+        /* ANIMASI MASUK MAJU: Terbuka dari kanan saat maju dari Identitas */
+        .masuk-maju {
+            animation: bukaDariKanan 0.65s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+
+        /* ANIMASI MASUK MUNDUR: Terbuka dari kiri saat kembali dari Petunjuk */
+        .masuk-mundur {
+            animation: bukaDariKiri 0.65s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+
+        /* ANIMASI KELUAR MUNDUR: Melipat balik ke kanan saat klik Kembali ke Identitas */
+        .keluar-mundur {
+            transform: rotateY(110deg) scale(0.95) !important;
+            opacity: 0 !important;
+        }
+
+        /* ANIMASI KELUAR MAJU: Melipat ke kiri saat klik Selanjutnya ke Petunjuk */
+        .keluar-maju {
+            transform: rotateY(-110deg) scale(0.95) !important;
+            opacity: 0 !important;
+        }
+
+        @keyframes bukaDariKanan {
+            0% { opacity: 0; transform: rotateY(110deg) scale(0.95); }
+            100% { opacity: 1; transform: rotateY(0deg) scale(1); }
+        }
+
+        @keyframes bukaDariKiri {
+            0% { opacity: 0; transform: rotateY(-110deg) scale(0.95); }
+            100% { opacity: 1; transform: rotateY(0deg) scale(1); }
         }
 
         /* JUDUL KATA PENGANTAR */
         h1 {
             font-family: 'Fredoka', sans-serif;
             font-size: clamp(2rem, 6vw, 2.8rem);
-            color: #2e7d32; /* Hijau Segar */
+            color: #2e7d32;
             text-align: center;
             margin-bottom: 0.5rem;
             text-shadow: 2px 2px 0px rgba(0,0,0,0.05);
@@ -70,7 +130,7 @@
 
         .isi p {
             margin-bottom: 1.5rem;
-            text-indent: 2rem; /* Menjorok ke dalam di awal paragraf */
+            text-indent: 2rem;
         }
 
         /* BAGIAN TANDA TANGAN */
@@ -83,7 +143,7 @@
         }
 
         .nama-pengembang {
-            margin-top: 4.5rem; /* Memberikan ruang kosong untuk tanda tangan */
+            margin-top: 4.5rem;
             color: #2e7d32;
             font-size: clamp(1.1rem, 3.5vw, 1.3rem);
         }
@@ -103,7 +163,7 @@
             font-size: clamp(1rem, 3.5vw, 1.2rem);
             font-weight: 600;
             border: none;
-            border-radius: 50px; /* Tombol kapsul bulat biar playful */
+            border-radius: 50px;
             color: white;
             text-decoration: none;
             text-align: center;
@@ -112,17 +172,14 @@
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        /* Warna Tombol Kembali (Oranye/Kuning hangat agar kontras) */
         .tombol-kembali {
             background: linear-gradient(135deg, #ffa726, #f57c00);
         }
 
-        /* Warna Tombol Lanjut (Hijau ke Biru) */
         .tombol-lanjut {
             background: linear-gradient(135deg, #43a047, #2196f3);
         }
 
-        /* EFEK HOVER TOMBOL */
         .tombol:hover {
             transform: translateY(-4px) scale(1.03);
             box-shadow: 0 10px 20px rgba(0,0,0,0.2);
@@ -131,11 +188,15 @@
         .tombol:active {
             transform: translateY(-1px);
         }
+
+        @media (max-width: 600px) {
+            .nomor-halaman { right: 50%; transform: translateX(50%); bottom: -18px; }
+        }
     </style>
 </head>
 <body>
 
-    <div class="container">
+    <div class="container" id="kontenHalaman">
         <h1>KATA PENGANTAR</h1>
         <div class="garis"></div>
         
@@ -152,30 +213,56 @@
         </div>
         
         <div class="navigasi">
-            <a href="identitas.html" class="tombol tombol-kembali" onclick="mainkanSuara(event, 'identitas.html')">⬅ Kembali</a>
-            <a href="petunjuk.html" class="tombol tombol-lanjut" onclick="mainkanSuara(event, 'petunjuk.html')">Selanjutnya ➡</a>
+            <a href="identitas.html" class="tombol tombol-kembali" onclick="navigasiBuku(event, 'identitas.html', 'mundur')">⬅ Kembali</a>
+            <a href="petunjuk.html" class="tombol tombol-lanjut" onclick="navigasiBuku(event, 'petunjuk.html', 'maju')">Selanjutnya ➡</a>
         </div>
+
+        <!-- BADGE NOMOR HALAMAN ROMAWI -->
+        <div class="nomor-halaman">Halaman ii</div>
     </div>
 
+    <!-- SOUND EFFECT KLIK -->
     <audio id="suaraKlik" preload="auto">
         <source src="klik.mp3" type="audio/mpeg">
     </audio>
 
     <script>
-        function mainkanSuara(event, url) {
-            event.preventDefault(); // Tahan perpindahan halaman sesaat
+        const container = document.getElementById('kontenHalaman');
+
+        // BACA STATUS NAVIGASI SAAT HALAMAN DIBUKA (MAJU / MUNDUR)
+        const arahNavigasi = sessionStorage.getItem('arahNavigasi');
+        if (arahNavigasi === 'maju') {
+            container.classList.add('masuk-maju');
+            sessionStorage.removeItem('arahNavigasi');
+        } else if (arahNavigasi === 'mundur') {
+            container.classList.add('masuk-mundur');
+            sessionStorage.removeItem('arahNavigasi');
+        }
+
+        // FUNGSI NAVIGASI PINDAH HALAMAN
+        function navigasiBuku(event, targetUrl, arah) {
+            event.preventDefault(); 
             const suara = document.getElementById('suaraKlik');
+
             suara.currentTime = 0;
-            
-            suara.play().then(() => {
-                // Beri jeda 150ms agar suara klik terdengar sebelum pindah halaman
-                setTimeout(() => {
-                    window.location.href = url;
-                }, 150);
-            }).catch(err => {
-                // Jika audio diblokir browser, langsung pindah halaman tanpa delay
-                window.location.href = url;
+            suara.play().catch(err => console.log("Audio diblokir browser"));
+
+            // Simpan arah navigasi ke SessionStorage
+            sessionStorage.setItem('arahNavigasi', arah);
+
+            container.classList.remove('masuk-maju', 'masuk-mundur');
+
+            requestAnimationFrame(() => {
+                if (arah === 'mundur') {
+                    container.classList.add('keluar-mundur');
+                } else {
+                    container.classList.add('keluar-maju');
+                }
             });
+
+            setTimeout(() => {
+                window.location.href = targetUrl;
+            }, 550);
         }
     </script>
 

@@ -7,6 +7,9 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <script>
         tailwind.config = {
@@ -23,6 +26,7 @@
                     },
                     fontFamily: {
                         game: ['"Segoe UI"', 'Roboto', 'sans-serif'],
+                        fredoka: ['Fredoka', 'sans-serif'],
                     }
                 }
             }
@@ -83,112 +87,200 @@
             }
         }
     </style>
+
+    <style>
+        /* ============= PERSPECTIVE & EFEK FLIP BUKU REALISTIS ============= */
+        .container-wrapper {
+            perspective: 2000px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .book-container {
+            position: relative;
+            transform-style: preserve-3d;
+            backface-visibility: hidden;
+            transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1.000);
+        }
+
+        /* Animasi Membalik Maju */
+        .book-container.flip-next {
+            animation: flipBookNext 0.8s cubic-bezier(0.645, 0.045, 0.355, 1.000) forwards;
+            transform-origin: left center;
+        }
+
+        /* Animasi Membalik Mundur */
+        .book-container.flip-prev {
+            animation: flipBookPrev 0.8s cubic-bezier(0.645, 0.045, 0.355, 1.000) forwards;
+            transform-origin: right center;
+        }
+
+        @keyframes flipBookNext {
+            0% { transform: rotateY(0deg); opacity: 1; box-shadow: 0 8px 25px rgba(0,0,0,0.2); }
+            50% { opacity: 0.8; box-shadow: -20px 20px 30px rgba(0,0,0,0.4); }
+            100% { transform: rotateY(-100deg); opacity: 0; box-shadow: -40px 40px 50px rgba(0,0,0,0.5); }
+        }
+
+        @keyframes flipBookPrev {
+            0% { transform: rotateY(0deg); opacity: 1; box-shadow: 0 8px 25px rgba(0,0,0,0.2); }
+            50% { opacity: 0.8; box-shadow: 20px 20px 30px rgba(0,0,0,0.4); }
+            100% { transform: rotateY(100deg); opacity: 0; box-shadow: 40px 40px 50px rgba(0,0,0,0.5); }
+        }
+
+        /* ============= BADGE HALAMAN ============= */
+        .badge-halaman {
+            position: absolute;
+            bottom: 15px;
+            right: 20px;
+            background: #6c5ce7;
+            color: #ffffff;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            padding: 0.4rem 1.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 10px rgba(108, 92, 231, 0.3);
+            z-index: 20;
+            letter-spacing: 0.5px;
+        }
+
+        /* Progress Bar Timer */
+        .timer-progress {
+            transition: width 1s linear, background-color 0.3s ease;
+        }
+    </style>
 </head>
-<body class="font-game min-h-screen bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500 text-gray-800">
+<body class="font-game min-h-screen text-gray-800" style="background: linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)), url('background.png') center center / cover no-repeat fixed;">
 
     <!-- 🎵 MUSIK LATAR -->
     <audio id="musikLatar" loop preload="none">
         <source src="musik-latar-kuis.mp3" type="audio/mpeg">
     </audio>
-    
 
-    <!-- HALAMAN BERANDA / AWAL -->
-    <div id="halamanAwal" class="min-h-screen flex flex-col items-center justify-center p-6">
-        <div class="glassmorphism rounded-[2rem] p-8 max-w-2xl w-full text-center animasi-muncul">
-            <h1 class="text-4xl md:text-5xl font-bold text-white text-glow mb-4">🏆 TURNAMEN GRAND MASTER BAHASA</h1>
-            <h2 class="text-xl md:text-2xl text-white/90 mb-6">Ekspedisi Pulau Ilmu</h2>
+    <!-- 🔊 SOUND EFFECTS -->
+    <audio id="suaraKlik" preload="auto">
+        <source src="klik.mp3" type="audio/mpeg">
+        <source src="klik.wav" type="audio/wav">
+    </audio>
 
-            <div class="bg-white/90 rounded-xl p-5 mb-6 text-left shadow-lg">
-                <h3 class="text-lg font-bold text-utama mb-3">📜 Sistem Permainan</h3>
-                <ul class="space-y-2 text-gray-700">
-                    <li>❤️ <strong>Nyawa:</strong> Mulai dengan 3 nyawa. Salah jawab = nyawa berkurang</li>
-                    <li>⭐ <strong>Poin:</strong> Jawaban benar = +10 poin</li>
-                    <li>📈 <strong>Materi:</strong> Mencakup Bab 1 sampai Bab 3</li>
-                    <li>🎖️ <strong>Predikat Akhir:</strong> Sesuai skor yang didapatkan</li>
-                </ul>
-            </div>
+    <div class="container-wrapper min-h-screen flex items-center justify-center p-4 md:p-6">
+        <div id="bookContainer" class="book-container w-full max-w-4xl">
 
-            <!-- Tombol Mulai Kuis -->
-            <button onclick="mulaiKuis()" class="tombol-hover bg-gradient-to-r from-yellow-400 to-amber-500 text-gray-900 font-bold text-xl px-10 py-4 rounded-xl shadow-lg w-full mb-8">
-                🚀 Mulai Tantangan
-            </button>
+            <!-- HALAMAN BERANDA / AWAL -->
+            <div id="halamanAwal" class="relative glassmorphism rounded-[2rem] p-8 pb-16 w-full text-center animasi-muncul">
+                <h1 class="text-4xl md:text-5xl font-bold text-white text-glow mb-4">🏆 TURNAMEN GRAND MASTER BAHASA</h1>
+                <h2 class="text-xl md:text-2xl text-white/90 mb-6">Ekspedisi Pulau Ilmu</h2>
 
-            <!-- Navigasi Bab -->
-            <div class="w-full flex flex-wrap justify-between items-center gap-4 mt-2">
-                <button onclick="navigasiBab('kembali')" class="tombol-hover w-[48%] bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white font-semibold text-base md:text-lg px-4 py-3 rounded-xl shadow-lg flex items-center justify-center gap-2">
-                    <i class="fa fa-arrow-left"></i> Kembali ke Bab 3
-                </button>
-                <button onclick="navigasiBab('lanjut')" class="tombol-hover w-[48%] bg-gradient-to-r from-emerald-500 to-teal-700 hover:from-emerald-600 hover:to-teal-800 text-white font-semibold text-base md:text-lg px-4 py-3 rounded-xl shadow-lg flex items-center justify-center gap-2">
-                    Lanjut ke daftar pustaka <i class="fa fa-arrow-right"></i>
-                </button>
-            </div>
-        </div>
-    </div>
+                <div class="bg-white/90 rounded-xl p-5 mb-6 text-left shadow-lg">
+                    <h3 class="text-lg font-bold text-utama mb-3">📜 Sistem Permainan</h3>
+                    <ul class="space-y-2 text-gray-700">
+                        <li>❤️ <strong>Nyawa:</strong> Mulai dengan 3 nyawa. Salah jawab = nyawa berkurang</li>
+                        <li>⭐ <strong>Poin:</strong> Jawaban benar = +10 poin</li>
+                        <li>⏱️ <strong>Waktu:</strong> 20 detik per soal (Waktu habis = Dianggap salah)</li>
+                        <li>📈 <strong>Materi:</strong> Mencakup Bab 1 sampai Bab 3</li>
+                        <li>🎖️ <strong>Predikat Akhir:</strong> Sesuai skor yang didapatkan</li>
+                    </ul>
+                </div>
 
-    <!-- Halaman Kuis -->
-    <div id="halamanKuis" class="hidden min-h-screen p-4 md:p-8">
-        <div class="max-w-4xl mx-auto">
-            <div class="flex justify-between items-center mb-4">
-                <button onclick="kembaliKeAwal()" class="flex items-center gap-2 text-white glassmorphism px-4 py-2 rounded-lg tombol-hover w-fit">
-                    <i class="fa fa-arrow-left"></i> Kembali ke Beranda
+                <!-- Tombol Mulai Kuis -->
+                <button onclick="mulaiKuis()" class="tombol-hover bg-gradient-to-r from-yellow-400 to-amber-500 text-gray-900 font-bold text-xl px-10 py-4 rounded-xl shadow-lg w-full mb-8">
+                    🚀 Mulai Tantangan
                 </button>
 
-                <!-- Tombol Suara -->
-                <button id="tombolSuara" onclick="aturSuara()" class="text-white glassmorphism px-4 py-2 rounded-lg tombol-hover w-fit">
-                    <i class="fa fa-volume-up text-xl"></i>
-                </button>
-            </div>
-
-            <!-- Bilah Status -->
-            <div class="glassmorphism rounded-2xl p-5 mb-6 flex flex-wrap justify-between items-center gap-4 text-white shadow-lg">
-                <div class="flex items-center gap-3">
-                    <span class="text-lg font-semibold">Nyawa:</span>
-                    <span id="tampilanNyawa" class="text-2xl"></span>
+                <!-- Navigasi Bab -->
+                <div class="w-full flex flex-wrap justify-between items-center gap-4 mt-2">
+                    <button onclick="navigasiBab('kembali')" class="tombol-hover w-[48%] bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white font-semibold text-base md:text-lg px-4 py-3 rounded-xl shadow-lg flex items-center justify-center gap-2">
+                        <i class="fa fa-arrow-left"></i> Kembali ke Bab 3
+                    </button>
+                    <button onclick="navigasiBab('lanjut')" class="tombol-hover w-[48%] bg-gradient-to-r from-emerald-500 to-teal-700 hover:from-emerald-600 hover:to-teal-800 text-white font-semibold text-base md:text-lg px-4 py-3 rounded-xl shadow-lg flex items-center justify-center gap-2">
+                        Lanjut ke daftar pustaka <i class="fa fa-arrow-right"></i>
+                    </button>
                 </div>
-                <div class="flex items-center gap-3">
-                    <span class="text-lg font-semibold">⭐ Skor:</span>
-                    <span id="tampilanSkor" class="text-2xl font-bold text-yellow-300">0</span>
+
+                <!-- BADGE HALAMAN 4 -->
+                <div class="badge-halaman">Halaman 4</div>
+            </div>
+
+            <!-- HALAMAN KUIS -->
+            <div id="halamanKuis" class="hidden relative w-full pb-16">
+                <div class="flex justify-between items-center mb-4">
+                    <button onclick="kembaliKeAwal()" class="flex items-center gap-2 text-white glassmorphism px-4 py-2 rounded-lg tombol-hover w-fit">
+                        <i class="fa fa-arrow-left"></i> Kembali ke Beranda
+                    </button>
+
+                    <!-- Tombol Suara -->
+                    <button id="tombolSuara" onclick="aturSuara()" class="text-white glassmorphism px-4 py-2 rounded-lg tombol-hover w-fit">
+                        <i class="fa fa-volume-up text-xl"></i>
+                    </button>
                 </div>
-                <div class="flex items-center gap-3">
-                    <span class="text-lg font-semibold">📊 Materi:</span>
-                    <span id="levelMateri" class="text-lg font-bold">Bab 1</span>
+
+                <!-- Bilah Status -->
+                <div class="glassmorphism rounded-2xl p-5 mb-4 flex flex-wrap justify-between items-center gap-4 text-white shadow-lg">
+                    <div class="flex items-center gap-3">
+                        <span class="text-lg font-semibold">Nyawa:</span>
+                        <span id="tampilanNyawa" class="text-2xl"></span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-lg font-semibold">⭐ Skor:</span>
+                        <span id="tampilanSkor" class="text-2xl font-bold text-yellow-300">0</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-lg font-semibold">📊 Materi:</span>
+                        <span id="levelMateri" class="text-lg font-bold">Bab 1</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-lg font-semibold">Soal:</span>
+                        <span id="nomorSoal" class="text-lg font-bold">1 / 15</span>
+                    </div>
                 </div>
-                <div class="flex items-center gap-3">
-                    <span class="text-lg font-semibold">Soal:</span>
-                    <span id="nomorSoal" class="text-lg font-bold">1 / 15</span>
+
+                <!-- BAPAK TIMER SOAL (20 DETIK) -->
+                <div class="glassmorphism rounded-xl p-3 mb-6 flex flex-col gap-2 text-white shadow-md">
+                    <div class="flex justify-between items-center font-bold px-1">
+                        <span>⏱️ Sisa Waktu Mengerjakan:</span>
+                        <span id="teksTimer" class="text-xl text-yellow-300">20 Detik</span>
+                    </div>
+                    <div class="w-full bg-white/30 h-4 rounded-full overflow-hidden p-0.5">
+                        <div id="barTimer" class="timer-progress bg-gradient-to-r from-emerald-400 to-green-500 h-full rounded-full w-full"></div>
+                    </div>
                 </div>
+
+                <!-- Kotak Soal -->
+                <div id="kotakSoal" class="glassmorphism-tebal rounded-3xl p-6 md:p-8 shadow-2xl animasi-muncul">
+                    <div id="teksSoal" class="text-xl md:text-2xl font-medium mb-8 leading-relaxed"></div>
+                    <div id="pilihanJawaban" class="grid gap-4 md:grid-cols-2"></div>
+                </div>
+
+                <div id="umpanBalik" class="hidden mt-6 rounded-xl p-5 text-center font-bold text-lg shadow-lg animasi-naik"></div>
+
+                <!-- BADGE HALAMAN 4 -->
+                <div class="badge-halaman">Halaman 4</div>
             </div>
 
-            <!-- Kotak Soal -->
-            <div id="kotakSoal" class="glassmorphism-tebal rounded-3xl p-6 md:p-8 shadow-2xl animasi-muncul">
-                <div id="teksSoal" class="text-xl md:text-2xl font-medium mb-8 leading-relaxed"></div>
-                <div id="pilihanJawaban" class="grid gap-4 md:grid-cols-2"></div>
+            <!-- HALAMAN HASIL -->
+            <div id="halamanHasil" class="hidden relative rounded-3xl p-8 pb-16 w-full text-center shadow-2xl glassmorphism-tebal animasi-muncul">
+                <h2 class="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-utama to-sekunder mb-4">🎉 Hasil Akhir Tantangan</h2>
+                
+                <div id="isiHasil" class="space-y-3 mb-6 text-lg"></div>
+
+                <div class="bg-gradient-to-br from-blue-50 to-purple-50 border-4 border-dashed border-utama rounded-xl p-6 my-6">
+                    <h3 class="text-2xl font-bold text-utama mb-3">🏅 SERTIFIKAT PENGHARGAAN</h3>
+                    <p class="text-gray-700">Diberikan kepada:</p>
+                    <p id="namaPeserta" class="text-2xl font-bold my-3 text-gray-800">Petualang Bahasa</p>
+                    <p class="text-gray-700">Telah menyelesaikan tantangan dengan predikat:</p>
+                    <p id="gelarPeserta" class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-utama to-sekunder my-4"></p>
+                    <p class="text-gray-700">Skor Akhir: <span id="skorAkhir" class="font-bold text-xl">0</span> / 150</p>
+                </div>
+
+                <div class="flex flex-wrap justify-center gap-4 mb-4">
+                    <button onclick="ulangKuis()" class="tombol-hover bg-utama hover:bg-blue-700 text-white px-6 py-3 rounded-lg shadow-md">🔄 Ulangi Tantangan</button>
+                    <button onclick="simpanSertifikat()" class="tombol-hover bg-sukses hover:bg-green-700 text-white px-6 py-3 rounded-lg shadow-md">💾 Simpan Sertifikat</button>
+                </div>
+
+                <!-- BADGE HALAMAN 4 -->
+                <div class="badge-halaman">Halaman 4</div>
             </div>
 
-            <div id="umpanBalik" class="hidden mt-6 rounded-xl p-5 text-center font-bold text-lg shadow-lg animasi-naik"></div>
-        </div>
-    </div>
-
-    <!-- Halaman Hasil -->
-    <div id="halamanHasil" class="hidden min-h-screen flex flex-col items-center justify-center p-6">
-        <div class="glassmorphism-tebal rounded-3xl p-8 max-w-2xl w-full text-center shadow-2xl animasi-muncul">
-            <h2 class="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-utama to-sekunder mb-4">🎉 Hasil Akhir Tantangan</h2>
-            
-            <div id="isiHasil" class="space-y-3 mb-6 text-lg"></div>
-
-            <div class="bg-gradient-to-br from-blue-50 to-purple-50 border-4 border-dashed border-utama rounded-xl p-6 my-6">
-                <h3 class="text-2xl font-bold text-utama mb-3">🏅 SERTIFIKAT PENGHARGAAN</h3>
-                <p class="text-gray-700">Diberikan kepada:</p>
-                <p id="namaPeserta" class="text-2xl font-bold my-3 text-gray-800">Petualang Bahasa</p>
-                <p class="text-gray-700">Telah menyelesaikan tantangan dengan predikat:</p>
-                <p id="gelarPeserta" class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-utama to-sekunder my-4"></p>
-                <p class="text-gray-700">Skor Akhir: <span id="skorAkhir" class="font-bold text-xl">0</span> / 150</p>
-            </div>
-
-            <div class="flex flex-wrap justify-center gap-4">
-                <button onclick="ulangKuis()" class="tombol-hover bg-utama hover:bg-blue-700 text-white px-6 py-3 rounded-lg shadow-md">🔄 Ulangi Tantangan</button>
-                <button onclick="simpanSertifikat()" class="tombol-hover bg-sukses hover:bg-green-700 text-white px-6 py-3 rounded-lg shadow-md">💾 Simpan Sertifikat</button>
-            </div>
         </div>
     </div>
 
@@ -199,10 +291,23 @@
         let nomorSekarang = 0;
         const totalSoal = 15;
 
-        // Musik
+        // Timer Variables
+        let timerInterval;
+        let sisaWaktu = 20;
+        const WAKTU_SOAL = 20;
+
+        // Musik & Suara
         let musik = document.getElementById('musikLatar');
         let musikMenyala = false;
         musik.volume = 0.3;
+
+        function mainkanSuaraKlik() {
+            const suara = document.getElementById('suaraKlik');
+            if(suara) {
+                suara.currentTime = 0;
+                suara.play().catch(() => {});
+            }
+        }
 
         // Daftar Soal Lengkap - Tingkat kesulitan anak-anak sesuai materi asli Ebook
         const daftarSoal = [
@@ -230,6 +335,7 @@
 
         // Fungsi Suara
         function aturSuara() {
+            mainkanSuaraKlik();
             const ikon = document.querySelector('#tombolSuara i');
             if(musikMenyala) {
                 musik.pause();
@@ -244,7 +350,9 @@
         }
 
         function kembaliKeAwal() {
+            mainkanSuaraKlik();
             if (confirm("Kembali ke halaman utama? Proses tantangan akan direset.")) {
+                hentikanTimer();
                 document.getElementById('halamanKuis').classList.add('hidden');
                 document.getElementById('halamanHasil').classList.add('hidden');
                 document.getElementById('halamanAwal').classList.remove('hidden');
@@ -255,6 +363,7 @@
         }
 
         function mulaiKuis() {
+            mainkanSuaraKlik();
             document.getElementById('halamanAwal').classList.add('hidden');
             document.getElementById('halamanKuis').classList.remove('hidden');
             resetPermainan();
@@ -268,6 +377,7 @@
             nyawa = 3;
             skor = 0;
             nomorSekarang = 0;
+            hentikanTimer();
         }
 
         function perbaruiStatus() {
@@ -282,6 +392,64 @@
             } else {
                 document.getElementById('levelMateri').textContent = "Bab 3";
             }
+        }
+
+        /* ================= MANAGEMENT TIMER ================= */
+        function mulaiTimer() {
+            hentikanTimer();
+            sisaWaktu = WAKTU_SOAL;
+            perbaruiTampilanTimer();
+
+            timerInterval = setInterval(() => {
+                sisaWaktu--;
+                perbaruiTampilanTimer();
+
+                if (sisaWaktu <= 0) {
+                    hentikanTimer();
+                    waktuHabis();
+                }
+            }, 1000);
+        }
+
+        function hentikanTimer() {
+            if (timerInterval) clearInterval(timerInterval);
+        }
+
+        function perbaruiTampilanTimer() {
+            const teks = document.getElementById('teksTimer');
+            const bar = document.getElementById('barTimer');
+            if(!teks || !bar) return;
+
+            teks.textContent = `${sisaWaktu} Detik`;
+            const persen = (sisaWaktu / WAKTU_SOAL) * 100;
+            bar.style.width = `${persen}%`;
+
+            if (sisaWaktu > 10) {
+                bar.className = 'timer-progress bg-gradient-to-r from-emerald-400 to-green-500 h-full rounded-full';
+                teks.className = 'text-xl text-yellow-300 font-bold';
+            } else if (sisaWaktu > 5) {
+                bar.className = 'timer-progress bg-gradient-to-r from-amber-400 to-yellow-500 h-full rounded-full';
+                teks.className = 'text-xl text-amber-300 font-bold';
+            } else {
+                bar.className = 'timer-progress bg-gradient-to-r from-red-500 to-rose-600 h-full rounded-full';
+                teks.className = 'text-xl text-red-400 font-bold animate-pulse';
+            }
+        }
+
+        function waktuHabis() {
+            const semuaTombol = document.querySelectorAll('.pilihan');
+            semuaTombol.forEach(btn => btn.disabled = true);
+            const soal = daftarSoal[nomorSekarang];
+
+            nyawa--;
+            document.getElementById('tampilanNyawa').classList.add('animasi-goyang');
+            setTimeout(() => document.getElementById('tampilanNyawa').classList.remove('animasi-goyang'), 400);
+
+            tampilkanUmpanBalik(false, `⏰ Waktu Habis! Jawaban yang benar: ${soal.pilihan[soal.benar]}`);
+            semuaTombol[soal.benar].classList.add('border-sukses', 'bg-green-100');
+
+            perbaruiStatus();
+            setTimeout(lanjutkan, 2200);
         }
 
         function tampilkanSoal() {
@@ -299,9 +467,13 @@
                 tombol.onclick = () => cekJawaban(indeks);
                 tempatPilihan.appendChild(tombol);
             });
+
+            mulaiTimer();
         }
 
         function cekJawaban(pilihanPengguna) {
+            hentikanTimer();
+            mainkanSuaraKlik();
             const soal = daftarSoal[nomorSekarang];
             const semuaTombol = document.querySelectorAll('.pilihan');
             semuaTombol.forEach(btn => btn.disabled = true);
@@ -347,6 +519,7 @@
         }
 
         function akhiriKuis() {
+            hentikanTimer();
             document.getElementById('halamanKuis').classList.add('hidden');
             document.getElementById('halamanHasil').classList.remove('hidden');
             musik.pause();
@@ -377,26 +550,38 @@
         }
 
         function ulangKuis() {
+            mainkanSuaraKlik();
             document.getElementById('halamanHasil').classList.add('hidden');
             mulaiKuis();
         }
 
         function simpanSertifikat() {
+            mainkanSuaraKlik();
             const nama = prompt("Masukkan nama lengkap kamu:", "Petualang Bahasa");
             if (nama) document.getElementById('namaPeserta').textContent = nama;
             alert("Sertifikat siap disimpan! Silakan tangkap layar halaman ini.");
         }
 
+        /* ================= NAVIGASI HALAMAN DENGAN EFEK FLIP ================= */
         function navigasiBab(arah) {
+            mainkanSuaraKlik();
+            const container = document.getElementById('bookContainer');
+
             if(arah === 'kembali') {
                 if(confirm("Kembali ke halaman Bab 3?")) {
                     musik.pause();
-                    window.location.href = "bab 3.html";
+                    container.classList.add('flip-prev');
+                    setTimeout(() => {
+                        window.location.href = "bab 3.html";
+                    }, 750);
                 }
             } else if(arah === 'lanjut') {
                 if(confirm("Lanjut ke halaman daftar pustaka?")) {
                     musik.pause();
-                    window.location.href = "daftar-pustaka.html";
+                    container.classList.add('flip-next');
+                    setTimeout(() => {
+                        window.location.href = "daftar-pustaka.html";
+                    }, 750);
                 }
             }
         }

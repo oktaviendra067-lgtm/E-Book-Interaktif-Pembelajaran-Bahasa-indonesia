@@ -15,8 +15,14 @@
             background: linear-gradient(rgba(255,255,255,0.1), rgba(255,255,255,0.1)), 
                         url('background.png') center center / cover no-repeat fixed;
             font-family: 'Quicksand', sans-serif; padding: 5% 2%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            perspective: 1500px; /* PERSPEKTIF BUKU 3D */
         }
         .container {
+            width: 100%;
             max-width: 850px; margin: 0 auto;
             background: rgba(255,255,255,0.95); 
             backdrop-filter: blur(10px);
@@ -24,7 +30,66 @@
             border-radius: 24px; 
             box-shadow: 0 12px 35px rgba(0,0,0,0.15);
             border: 4px solid rgba(255,255,255,0.8);
+            position: relative; /* Anchoring nomor halaman */
+
+            /* ENGSEL BUKU DI KIRI */
+            transform-origin: left center;
+            transform-style: preserve-3d;
+            backface-visibility: hidden;
+
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease;
         }
+
+        /* BADGE NOMOR HALAMAN ROMAWI */
+        .nomor-halaman {
+            position: absolute;
+            bottom: -15px;
+            right: 35px;
+            background: linear-gradient(135deg, #2196f3, #1565c0);
+            color: white;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            padding: 6px 18px;
+            border-radius: 20px;
+            box-shadow: 0 6px 15px rgba(33, 150, 243, 0.3);
+            border: 2px solid white;
+            letter-spacing: 1px;
+            z-index: 5;
+        }
+
+        /* ANIMASI MASUK MAJU: Terbuka dari kanan saat maju dari Petunjuk */
+        .masuk-maju {
+            animation: bukaDariKanan 0.65s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+
+        /* ANIMASI MASUK MUNDUR: Terbuka dari kiri saat kembali dari Bab 1 atau menu lain */
+        .masuk-mundur {
+            animation: bukaDariKiri 0.65s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+
+        /* ANIMASI KELUAR MUNDUR: Melipat balik ke kanan saat klik Sebelumnya */
+        .keluar-mundur {
+            transform: rotateY(110deg) scale(0.95) !important;
+            opacity: 0 !important;
+        }
+
+        /* ANIMASI KELUAR MAJU: Melipat ke kiri saat klik Mulai Membaca / Link Bagian */
+        .keluar-maju {
+            transform: rotateY(-110deg) scale(0.95) !important;
+            opacity: 0 !important;
+        }
+
+        @keyframes bukaDariKanan {
+            0% { opacity: 0; transform: rotateY(110deg) scale(0.95); }
+            100% { opacity: 1; transform: rotateY(0deg) scale(1); }
+        }
+
+        @keyframes bukaDariKiri {
+            0% { opacity: 0; transform: rotateY(-110deg) scale(0.95); }
+            100% { opacity: 1; transform: rotateY(0deg) scale(1); }
+        }
+
         h1 {
             font-family: 'Fredoka', sans-serif; font-size: clamp(2.2rem, 6vw, 3rem);
             color: #1565c0; text-align: center; margin-bottom: 1.5rem;
@@ -56,12 +121,12 @@
         .bagian-awal { background: rgba(33,150,243,0.08); border-color: #2196f3; color: #1565c0; }
         .bagian-bab { background: rgba(67,160,71,0.08); border-color: #43a047; color: #2e7d32; }
         .bagian-kuis { background: rgba(156,39,176,0.08); border-color: #9c27b0; color: #6a1b9a; }
-        .bagian-akhir { background: rgba(233,30,99,0.08); border-color: #e91e63; color: #c2185b; } /* Tema warna Bagian Akhir */
+        .bagian-akhir { background: rgba(233,30,99,0.08); border-color: #e91e63; color: #c2185b; }
         
-        /* Gaya Link Menu */
+        /* Gaya Link Menu & Tampilan Titik Daftar Isi Buku */
         .bagian a { 
             display: flex;
-            align-items: center;
+            align-items: baseline;
             padding: 0.6rem 1rem; 
             text-decoration: none; 
             color: #444; 
@@ -69,7 +134,34 @@
             border-radius: 10px;
             margin-bottom: 0.3rem;
             transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
         }
+
+        .judul-menu {
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .titik-titik {
+            flex-grow: 1;
+            border-bottom: 2px dotted #aaa;
+            margin: 0 10px;
+            position: relative;
+            top: -4px;
+        }
+
+        .no-hal {
+            font-family: 'Fredoka', sans-serif;
+            font-weight: 700;
+            flex-shrink: 0;
+            min-width: 25px;
+            text-align: right;
+        }
+
+        .bagian-awal .no-hal { color: #1565c0; }
+        .bagian-bab .no-hal { color: #2e7d32; }
+        .bagian-kuis .no-hal { color: #6a1b9a; }
+        .bagian-akhir .no-hal { color: #c2185b; }
         
         /* Efek Hover Interaktif & Berwarna sesuai Kategori */
         .bagian-awal a:hover { background: rgba(33,150,243,0.15); color: #0d47a1; padding-left: 1.5rem; }
@@ -92,11 +184,17 @@
             box-shadow: 0 8px 22px rgba(33,150,243,0.45); 
             filter: brightness(1.1);
         }
+
+        /* Responsif untuk Layar HP */
+        @media (max-width: 600px) {
+            .nomor-halaman { right: 50%; transform: translateX(50%); bottom: -18px; }
+            .judul-menu { white-space: normal; }
+        }
     </style>
 </head>
 <body>
 
-    <div class="container">
+    <div class="container" id="kontenHalaman">
         <h1>📚 DAFTAR ISI</h1>
         <div class="garis"></div>
         
@@ -104,39 +202,82 @@
             <!-- BAGIAN AWAL -->
             <div class="bagian bagian-awal">
                 <h3>🔰 Bagian Awal</h3>
-                <a href="identitas.html" onclick="mainkanSuara()">🔹 Identitas Buku</a>
-                <a href="kata pengantar.html" onclick="mainkanSuara()">🔹 Kata Pengantar</a>
-                <a href="petunjuk.html" onclick="mainkanSuara()">🔹 Petunjuk Penggunaan</a>
+                <a href="identitas.html" onclick="navigasiBuku(event, 'identitas.html', 'mundur')">
+                    <span class="judul-menu">🔹 Identitas Buku</span>
+                    <span class="titik-titik"></span>
+                    <span class="no-hal">i</span>
+                </a>
+                <a href="kata pengantar.html" onclick="navigasiBuku(event, 'kata pengantar.html', 'mundur')">
+                    <span class="judul-menu">🔹 Kata Pengantar</span>
+                    <span class="titik-titik"></span>
+                    <span class="no-hal">ii</span>
+                </a>
+                <a href="petunjuk.html" onclick="navigasiBuku(event, 'petunjuk.html', 'mundur')">
+                    <span class="judul-menu">🔹 Petunjuk Penggunaan</span>
+                    <span class="titik-titik"></span>
+                    <span class="no-hal">iii</span>
+                </a>
             </div>
             
             <!-- BAGIAN BAB -->
             <div class="bagian bagian-bab">
                 <h3>📖 Bab Materi</h3>
-                <a href="bab 1.html" onclick="mainkanSuara()">🔸 Bab 1: Teks Deskripsi</a>
-                <a href="bab 2.html" onclick="mainkanSuara()">🔸 Bab 2: Teks Narasi</a>
-                <a href="bab 3.html" onclick="mainkanSuara()">🔸 Bab 3: Teks Informatif</a>
+                <a href="bab 1.html" onclick="navigasiBuku(event, 'bab 1.html', 'maju')">
+                    <span class="judul-menu">🔸 Bab 1: Teks Deskripsi</span>
+                    <span class="titik-titik"></span>
+                    <span class="no-hal">1</span>
+                </a>
+                <a href="bab 2.html" onclick="navigasiBuku(event, 'bab 2.html', 'maju')">
+                    <span class="judul-menu">🔸 Bab 2: Teks Narasi</span>
+                    <span class="titik-titik"></span>
+                    <span class="no-hal">2</span>
+                </a>
+                <a href="bab 3.html" onclick="navigasiBuku(event, 'bab 3.html', 'maju')">
+                    <span class="judul-menu">🔸 Bab 3: Teks Informatif</span>
+                    <span class="titik-titik"></span>
+                    <span class="no-hal">3</span>
+                </a>
             </div>
 
             <!-- BAGIAN KUIS -->
             <div class="bagian bagian-kuis">
                 <h3>🎮 Ruang Bermain & Kuis</h3>
-                <a href="kuis.html" onclick="mainkanSuara()">⭐ Ayo Uji Kemampuanmu! (Papan Kuis Interaktif)</a>
+                <a href="kuis.html" onclick="navigasiBuku(event, 'kuis.html', 'maju')">
+                    <span class="judul-menu">⭐ Ayo Uji Kemampuanmu! (Papan Kuis Interaktif)</span>
+                    <span class="titik-titik"></span>
+                    <span class="no-hal">4</span>
+                </a>
             </div>
 
-            <!-- BAGIAN AKHIR (TAMBAHAN MENU BARU) -->
+            <!-- BAGIAN AKHIR -->
             <div class="bagian bagian-akhir">
                 <h3>🏁 Bagian Akhir</h3>
-                <a href="daftar-pustaka.html" onclick="mainkanSuara()">🔺 Daftar Pustaka</a>
-                <a href="profil penulis.html" onclick="mainkanSuara()">🔺 Profil Penulis</a>
-                <a href="penutup.html" onclick="mainkanSuara()">🔺 Kata Penutup</a>
+                <a href="daftar-pustaka.html" onclick="navigasiBuku(event, 'daftar-pustaka.html', 'maju')">
+                    <span class="judul-menu">🔺 Daftar Pustaka</span>
+                    <span class="titik-titik"></span>
+                    <span class="no-hal">5</span>
+                </a>
+                <a href="profil penulis.html" onclick="navigasiBuku(event, 'profil penulis.html', 'maju')">
+                    <span class="judul-menu">🔺 Profil Penulis</span>
+                    <span class="titik-titik"></span>
+                    <span class="no-hal">6</span>
+                </a>
+                <a href="penutup.html" onclick="navigasiBuku(event, 'penutup.html', 'maju')">
+                    <span class="judul-menu">🔺 Kata Penutup</span>
+                    <span class="titik-titik"></span>
+                    <span class="no-hal">7</span>
+                </a>
             </div>
         </div>
         
         <!-- TOMBOL NAVIGASI -->
         <div class="navigasi">
-            <a href="petunjuk.html" class="tombol" onclick="mainkanSuara()">⬅ Sebelumnya</a>
-            <a href="bab 1.html" class="tombol" onclick="mainkanSuara()">Mulai Membaca ➡</a>
+            <a href="petunjuk.html" class="tombol" onclick="navigasiBuku(event, 'petunjuk.html', 'mundur')">⬅ Sebelumnya</a>
+            <a href="bab 1.html" class="tombol" onclick="navigasiBuku(event, 'bab 1.html', 'maju')">Mulai Membaca ➡</a>
         </div>
+
+        <!-- BADGE NOMOR HALAMAN ROMAWI -->
+        <div class="nomor-halaman">Halaman iv</div>
     </div>
 
     <!-- SUARA TOMBOL -->
@@ -145,12 +286,44 @@
     </audio>
 
     <script>
-        function mainkanSuara() {
+        const container = document.getElementById('kontenHalaman');
+
+        // BACA STATUS NAVIGASI SAAT HALAMAN DIBUKA (MAJU / MUNDUR)
+        const arahNavigasi = sessionStorage.getItem('arahNavigasi');
+        if (arahNavigasi === 'maju') {
+            container.classList.add('masuk-maju');
+            sessionStorage.removeItem('arahNavigasi');
+        } else if (arahNavigasi === 'mundur') {
+            container.classList.add('masuk-mundur');
+            sessionStorage.removeItem('arahNavigasi');
+        }
+
+        // FUNGSI NAVIGASI PINDAH HALAMAN DENGAN FLIP & SOUND
+        function navigasiBuku(event, targetUrl, arah) {
+            event.preventDefault(); 
+            
             const suara = document.getElementById('suaraKlik');
             if (suara) {
                 suara.currentTime = 0;
-                suara.play().catch(err => console.log("Suara siap diputar"));
+                suara.play().catch(err => console.log("Suara diblokir browser"));
             }
+
+            // Simpan arah navigasi ke SessionStorage
+            sessionStorage.setItem('arahNavigasi', arah);
+
+            container.classList.remove('masuk-maju', 'masuk-mundur');
+
+            requestAnimationFrame(() => {
+                if (arah === 'mundur') {
+                    container.classList.add('keluar-mundur');
+                } else {
+                    container.classList.add('keluar-maju');
+                }
+            });
+
+            setTimeout(() => {
+                window.location.href = targetUrl;
+            }, 550);
         }
     </script>
 

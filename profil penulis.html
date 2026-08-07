@@ -16,13 +16,69 @@
                         url('background.png') center center / cover no-repeat fixed;
             font-family: 'Quicksand', sans-serif; padding: 4% 2%;
             display: flex; align-items: center; justify-content: center;
+            overflow-x: hidden;
         }
+
+        /* ============= PERSPECTIVE & CONTAINER FLIP BUKU ============= */
+        .container-wrapper {
+            perspective: 2000px;
+            width: 100%;
+            max-width: 850px;
+            margin: 0 auto;
+        }
+
         .container {
-            max-width: 850px; width: 100%;
+            width: 100%;
             background: rgba(255,255,255,0.96); padding: clamp(1.5rem, 5vw, 3rem);
+            padding-bottom: clamp(3.5rem, 6vw, 4.5rem); /* Ruang ekstra untuk badge halaman */
             border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.18);
             border: 3px solid #1976d2; position: relative;
+            transform-style: preserve-3d;
+            backface-visibility: hidden;
+            transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1.000);
         }
+
+        /* Animasi Membalik Maju */
+        .container.flip-next {
+            animation: flipBookNext 0.8s cubic-bezier(0.645, 0.045, 0.355, 1.000) forwards;
+            transform-origin: left center;
+        }
+
+        /* Animasi Membalik Mundur */
+        .container.flip-prev {
+            animation: flipBookPrev 0.8s cubic-bezier(0.645, 0.045, 0.355, 1.000) forwards;
+            transform-origin: right center;
+        }
+
+        @keyframes flipBookNext {
+            0% { transform: rotateY(0deg); opacity: 1; box-shadow: 0 10px 30px rgba(0,0,0,0.18); }
+            50% { opacity: 0.8; box-shadow: -20px 20px 30px rgba(0,0,0,0.4); }
+            100% { transform: rotateY(-100deg); opacity: 0; box-shadow: -40px 40px 50px rgba(0,0,0,0.5); }
+        }
+
+        @keyframes flipBookPrev {
+            0% { transform: rotateY(0deg); opacity: 1; box-shadow: 0 10px 30px rgba(0,0,0,0.18); }
+            50% { opacity: 0.8; box-shadow: 20px 20px 30px rgba(0,0,0,0.4); }
+            100% { transform: rotateY(100deg); opacity: 0; box-shadow: 40px 40px 50px rgba(0,0,0,0.5); }
+        }
+
+        /* ============= BADGE HALAMAN 6 ============= */
+        .badge-halaman {
+            position: absolute;
+            bottom: 15px;
+            right: 20px;
+            background: #6c5ce7;
+            color: #ffffff;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            padding: 0.4rem 1.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 10px rgba(108, 92, 231, 0.3);
+            z-index: 20;
+            letter-spacing: 0.5px;
+        }
+
         h1 {
             font-family: 'Fredoka', sans-serif; font-size: clamp(1.8rem, 6vw, 2.5rem);
             color: #1565c0; text-align: center; margin-bottom: 2rem;
@@ -132,51 +188,56 @@
 </head>
 <body>
 
-    <div class="container">
-        <h1>👋 KENALAN SAMA PENULIS YUK!</h1>
+    <div class="container-wrapper">
+        <div id="bookContainer" class="container">
+            <h1>👋 KENALAN SAMA PENULIS YUK!</h1>
 
-        <div class="profil-wrapper">
-            <!-- AREA BINGKAI FOTO PENULIS -->
-            <div class="foto-container">
-                <img src="foto-profil.jpg" class="foto-bingkai" alt="Foto Profil Penulis">
-            </div>
+            <div class="profil-wrapper">
+                <!-- AREA BINGKAI FOTO PENULIS -->
+                <div class="foto-container">
+                    <img src="foto-profil.jpg" class="foto-bingkai" alt="Foto Profil Penulis">
+                </div>
 
-            <!-- DETAIL INFO NYA -->
-            <div class="info-container">
-                <h2 class="nama-penulis">Nanda Oktaviendra</h2>
-                <span class="peran-tag">Kreator & Penulis E-Book</span>
-                
-                <ul class="biodata-list">
-                    <li>
-                        <span class="biodata-label">Nama Panggilan:</span>
-                        <span class="biodata-isi">Nanda</span>
-                    </li>
-                    <li>
-                        <span class="biodata-label">Profesi/Instansi:</span>
-                        <span class="biodata-isi">Mahasiswa / UIN Mahmud Yunus Batusangkar</span>
-                    </li>
-                    <li>
-                        <span class="biodata-label">Kontak/Email:</span>
-                        <span class="biodata-isi">oktaviendra067@gmail.com</span>
-                    </li>
-                    <li>
-                        <span class="biodata-label">Media Sosial:</span>
-                        <span class="biodata-isi">IG: viendraokta</span>
-                    </li>
-                </ul>
+                <!-- DETAIL INFO NYA -->
+                <div class="info-container">
+                    <h2 class="nama-penulis">Nanda Oktaviendra</h2>
+                    <span class="peran-tag">Kreator & Penulis E-Book</span>
+                    
+                    <ul class="biodata-list">
+                        <li>
+                            <span class="biodata-label">Nama Panggilan:</span>
+                            <span class="biodata-isi">Nanda</span>
+                        </li>
+                        <li>
+                            <span class="biodata-label">Profesi/Instansi:</span>
+                            <span class="biodata-isi">Mahasiswa / UIN Mahmud Yunus Batusangkar</span>
+                        </li>
+                        <li>
+                            <span class="biodata-label">Kontak/Email:</span>
+                            <span class="biodata-isi">oktaviendra067@gmail.com</span>
+                        </li>
+                        <li>
+                            <span class="biodata-label">Media Sosial:</span>
+                            <span class="biodata-isi">IG: viendraokta</span>
+                        </li>
+                    </ul>
 
-                <!-- PESAN BIKINAN LU BUAT PEMBACA -->
-                <div class="catatan-penulis">
-                    <h3>Pesan Kreator:</h3>
-                    <p>"Halo adik-adik hebat! Terima kasih ya sudah membaca e-book ini. Semoga materi interaktif yang sudah kakak rancang dengan teks, visual, dan audio ini bisa memicu semangat belajarmu menjadi petualang bahasa Indonesia yang luar biasa!"</p>
+                    <!-- PESAN BIKINAN LU BUAT PEMBACA -->
+                    <div class="catatan-penulis">
+                        <h3>Pesan Kreator:</h3>
+                        <p>"Halo adik-adik hebat! Terima kasih ya sudah membaca e-book ini. Semoga materi interaktif yang sudah kakak rancang dengan teks, visual, dan audio ini bisa memicu semangat belajarmu menjadi petualang bahasa Indonesia yang luar biasa!"</p>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- NAVIGASI KEMBALI DAN LANJUT -->
-        <div class="navigasi">
-            <a href="daftar-pustaka.html" class="tombol btn-kembali" onclick="mainkanSuara()">⬅ Daftar Pustaka</a>
-            <a href="penutup.html" class="tombol btn-lanjut" onclick="mainkanSuara()">Kata Penutup ➡</a>
+            <!-- NAVIGASI KEMBALI DAN LANJUT -->
+            <div class="navigasi">
+                <a href="javascript:void(0)" class="tombol btn-kembali" onclick="pindahHalaman('daftar-pustaka.html', 'prev')">⬅ Daftar Pustaka</a>
+                <a href="javascript:void(0)" class="tombol btn-lanjut" onclick="pindahHalaman('penutup.html', 'next')">Kata Penutup ➡</a>
+            </div>
+
+            <!-- BADGE HALAMAN 6 -->
+            <div class="badge-halaman">Halaman 6</div>
         </div>
     </div>
 
@@ -193,6 +254,21 @@
                 suara.currentTime = 0;
                 suara.play().catch(err => console.log("Audio klik aktif."));
             }
+        }
+
+        function pindahHalaman(tujuan, arah) {
+            mainkanSuara();
+            const container = document.getElementById('bookContainer');
+            
+            if (arah === 'next') {
+                container.classList.add('flip-next');
+            } else if (arah === 'prev') {
+                container.classList.add('flip-prev');
+            }
+
+            setTimeout(() => {
+                window.location.href = tujuan;
+            }, 750);
         }
     </script>
 </body>

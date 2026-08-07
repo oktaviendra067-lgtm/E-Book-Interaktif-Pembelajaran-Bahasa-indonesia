@@ -18,14 +18,69 @@
             position: relative;
             overflow-x: hidden;
         }
+
+        /* ============= PERSPECTIVE & CONTAINER FLIP BUKU ============= */
+        .container-wrapper {
+            perspective: 2000px;
+            width: 100%;
+            max-width: 980px;
+            margin: 0 auto;
+        }
+
         .container {
-            max-width: 980px; margin: 0 auto;
+            width: 100%;
             background: rgba(255,255,255,0.95); padding: clamp(1.5rem, 5vw, 3rem);
+            padding-bottom: clamp(3.5rem, 6vw, 4.5rem); /* Ruang ekstra untuk badge halaman */
             border-radius: 20px; box-shadow: 0 8px 25px rgba(0,0,0,0.2);
             border: 3px solid rgba(255,255,255,0.7);
             position: relative;
             z-index: 2;
+            transform-style: preserve-3d;
+            backface-visibility: hidden;
+            transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1.000);
         }
+
+        /* Animasi Membalik Maju */
+        .container.flip-next {
+            animation: flipBookNext 0.8s cubic-bezier(0.645, 0.045, 0.355, 1.000) forwards;
+            transform-origin: left center;
+        }
+
+        /* Animasi Membalik Mundur */
+        .container.flip-prev {
+            animation: flipBookPrev 0.8s cubic-bezier(0.645, 0.045, 0.355, 1.000) forwards;
+            transform-origin: right center;
+        }
+
+        @keyframes flipBookNext {
+            0% { transform: rotateY(0deg); opacity: 1; box-shadow: 0 8px 25px rgba(0,0,0,0.2); }
+            50% { opacity: 0.8; box-shadow: -20px 20px 30px rgba(0,0,0,0.4); }
+            100% { transform: rotateY(-100deg); opacity: 0; box-shadow: -40px 40px 50px rgba(0,0,0,0.5); }
+        }
+
+        @keyframes flipBookPrev {
+            0% { transform: rotateY(0deg); opacity: 1; box-shadow: 0 8px 25px rgba(0,0,0,0.2); }
+            50% { opacity: 0.8; box-shadow: 20px 20px 30px rgba(0,0,0,0.4); }
+            100% { transform: rotateY(100deg); opacity: 0; box-shadow: 40px 40px 50px rgba(0,0,0,0.5); }
+        }
+
+        /* ============= BADGE HALAMAN 5 ============= */
+        .badge-halaman {
+            position: absolute;
+            bottom: 15px;
+            right: 20px;
+            background: #6c5ce7;
+            color: #ffffff;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            padding: 0.4rem 1.2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 10px rgba(108, 92, 231, 0.3);
+            z-index: 20;
+            letter-spacing: 0.5px;
+        }
+
         h1 {
             font-family: 'Fredoka', sans-serif; font-size: clamp(1.8rem, 6vw, 2.5rem);
             color: #1565c0; text-align: center; margin-bottom: 1rem;
@@ -100,88 +155,93 @@
 </head>
 <body>
 
-    <div class="container">
-        <h1>📚 DAFTAR PUSTAKA</h1>
-        <div class="garis"></div>
+    <div class="container-wrapper">
+        <div id="bookContainer" class="container">
+            <h1>📚 DAFTAR PUSTAKA</h1>
+            <div class="garis"></div>
 
-        <!-- REFERENSI UTAMA (ALFABETIS A-Z) -->
-        <h2>Referensi Buku & Literatur Akademis</h2>
-        <div class="daftar-pustaka-grup">
-            <p class="pustaka-item">
-                Assegaf, J. S. (2017). <em>Jurnalistik Kontemporer</em>. Jakarta: Rajawali Pers.
-            </p>
-            <p class="pustaka-item">
-                Badan Riset dan Inovasi Nasional (BRIN). (2021). <em>Catatan Ilmiah Flora dan Fauna Endemik Indonesia</em>. Jakarta: BRIN Press.
-            </p>
-            <p class="pustaka-item">
-                Kementerian Pariwisata dan Ekonomi Kreatif. (2023). <em>Pesona Indonesia: Ragam Destinasi Wisata Nusantara</em>. Jakarta: Kemenparekraf.
-            </p>
-            <p class="pustaka-item">
-                Kementerian Pendidikan dan Kebudayaan. (2022). <em>Keputusan Kepala BSKAP No. 033/H/KR/2022 tentang Capaian Pembelajaran pada Pendidikan Anak Usia Dini, Jenjang Pendidikan Dasar, dan Jenjang Pendidikan Menengah pada Kurikulum Merdeka</em>. Jakarta.
-            </p>
-            <p class="pustaka-item">
-                Keraf, G. (2007). <em>Eksposisi dan Deskripsi</em>. Jakarta: PT Gramedia Pustaka Utama.
-            </p>
-            <p class="pustaka-item">
-                Menteri Pendidikan, Kebudayaan, Riset, dan Teknologi. (2021). <em>Buku Panduan Guru Bahasa Indonesia: Bergerak Bersama untuk SD Kelas V</em>. Jakarta: Pusat Perbukuan Badan Standar, Kurikulum, dan Asesmen Pendidikan Kemendikbudristek.
-            </p>
-            <p class="pustaka-item">
-                Nurgiyantoro, B. (2018). <em>Teori Pengkajian Fiksi</em>. Yogyakarta: Gadjah Mada University Press.
-            </p>
-            <p class="pustaka-item">
-                Pusat Pembinaan dan Pengembangan Bahasa. (2020). <em>Pedoman Umum Ejaan Bahasa Indonesia (PUEBI)</em>. Jakarta: Kementerian Pendidikan dan Kebudayaan.
-            </p>
-            <p class="pustaka-item">
-                Verawaty, E., & Zulqarnain. (2021). <em>Bahasa Indonesia: Bergerak Bersama untuk SD Kelas V</em> (Buku Siswa). Jakarta: Pusat Perbukuan Badan Standar, Kurikulum, dan Asesmen Pendidikan Kemendikbudristek.
-            </p>
-        </div>
+            <!-- REFERENSI UTAMA (ALFABETIS A-Z) -->
+            <h2>Referensi Buku & Literatur Akademis</h2>
+            <div class="daftar-pustaka-grup">
+                <p class="pustaka-item">
+                    Assegaf, J. S. (2017). <em>Jurnalistik Kontemporer</em>. Jakarta: Rajawali Pers.
+                </p>
+                <p class="pustaka-item">
+                    Badan Riset dan Inovasi Nasional (BRIN). (2021). <em>Catatan Ilmiah Flora dan Fauna Endemik Indonesia</em>. Jakarta: BRIN Press.
+                </p>
+                <p class="pustaka-item">
+                    Kementerian Pariwisata dan Ekonomi Kreatif. (2023). <em>Pesona Indonesia: Ragam Destinasi Wisata Nusantara</em>. Jakarta: Kemenparekraf.
+                </p>
+                <p class="pustaka-item">
+                    Kementerian Pendidikan dan Kebudayaan. (2022). <em>Keputusan Kepala BSKAP No. 033/H/KR/2022 tentang Capaian Pembelajaran pada Pendidikan Anak Usia Dini, Jenjang Pendidikan Dasar, dan Jenjang Pendidikan Menengah pada Kurikulum Merdeka</em>. Jakarta.
+                </p>
+                <p class="pustaka-item">
+                    Keraf, G. (2007). <em>Eksposisi dan Deskripsi</em>. Jakarta: PT Gramedia Pustaka Utama.
+                </p>
+                <p class="pustaka-item">
+                    Menteri Pendidikan, Kebudayaan, Riset, dan Teknologi. (2021). <em>Buku Panduan Guru Bahasa Indonesia: Bergerak Bersama untuk SD Kelas V</em>. Jakarta: Pusat Perbukuan Badan Standar, Kurikulum, dan Asesmen Pendidikan Kemendikbudristek.
+                </p>
+                <p class="pustaka-item">
+                    Nurgiyantoro, B. (2018). <em>Teori Pengkajian Fiksi</em>. Yogyakarta: Gadjah Mada University Press.
+                </p>
+                <p class="pustaka-item">
+                    Pusat Pembinaan dan Pengembangan Bahasa. (2020). <em>Pedoman Umum Ejaan Bahasa Indonesia (PUEBI)</em>. Jakarta: Kementerian Pendidikan dan Kebudayaan.
+                </p>
+                <p class="pustaka-item">
+                    Verawaty, E., & Zulqarnain. (2021). <em>Bahasa Indonesia: Bergerak Bersama untuk SD Kelas V</em> (Buku Siswa). Jakarta: Pusat Perbukuan Badan Standar, Kurikulum, dan Asesmen Pendidikan Kemendikbudristek.
+                </p>
+            </div>
 
-        <!-- REFERENSI MEDIA VIDEO DIGITAL -->
-        <h2>Referensi Media Video Pembelajaran</h2>
-        <div class="daftar-pustaka-grup">
-            <p class="pustaka-item">
-                Kanal Pendidikan Nusantara. (2024). <em>Materi Pembelajaran Bahasa Indonesia: Teks Deskripsi Kelas V</em> [Video]. YouTube. <a href="https://youtu.be/cTidIp76Dqg?si=wtZnyqAOr3sv_GEh" target="_blank">https://youtu.be/cTidIp76Dqg?si=wtZnyqAOr3sv_GEh</a>
-            </p>
-            <p class="pustaka-item">
-                Kanal Ruang Edukasi Digital. (2024). <em>Memahami Unsur Teks Narasi dan Cerita Fantasi</em> [Video]. YouTube. <a href="https://youtu.be/CfhmEyvUKTo?si=EUM_1v183Khz7G_v" target="_blank">https://youtu.be/CfhmEyvUKTo?si=EUM_1v183Khz7G_v</a>
-            </p>
-            <p class="pustaka-item">
-                Media Pembelajaran Kreatif. (2024). <em>Mengenal Teks Informatif dan Rumus ADIKSIMBA</em> [Video]. YouTube. <a href="https://youtu.be/HwFBYQuVEEU?si=zu_mBJ3w0BRGLG9P" target="_blank">https://youtu.be/HwFBYQuVEEU?si=zu_mBJ3w0BRGLG9P</a>
-            </p>
-        </div>
+            <!-- REFERENSI MEDIA VIDEO DIGITAL -->
+            <h2>Referensi Media Video Pembelajaran</h2>
+            <div class="daftar-pustaka-grup">
+                <p class="pustaka-item">
+                    Kanal Pendidikan Nusantara. (2024). <em>Materi Pembelajaran Bahasa Indonesia: Teks Deskripsi Kelas V</em> [Video]. YouTube. <a href="https://youtu.be/cTidIp76Dqg?si=wtZnyqAOr3sv_GEh" target="_blank">https://youtu.be/cTidIp76Dqg?si=wtZnyqAOr3sv_GEh</a>
+                </p>
+                <p class="pustaka-item">
+                    Kanal Ruang Edukasi Digital. (2024). <em>Memahami Unsur Teks Narasi dan Cerita Fantasi</em> [Video]. YouTube. <a href="https://youtu.be/CfhmEyvUKTo?si=EUM_1v183Khz7G_v" target="_blank">https://youtu.be/CfhmEyvUKTo?si=EUM_1v183Khz7G_v</a>
+                </p>
+                <p class="pustaka-item">
+                    Media Pembelajaran Kreatif. (2024). <em>Mengenal Teks Informatif dan Rumus ADIKSIMBA</em> [Video]. YouTube. <a href="https://youtu.be/HwFBYQuVEEU?si=zu_mBJ3w0BRGLG9P" target="_blank">https://youtu.be/HwFBYQuVEEU?si=zu_mBJ3w0BRGLG9P</a>
+                </p>
+            </div>
 
-        <!-- ARSIP SUMBER GAMBAR ILUSTRASI -->
-        <h2>Referensi Gambar & Ilustrasi Digital</h2>
-        <div class="daftar-pustaka-grup">
-            <p class="pustaka-item">
-                Gemini AI Collaboration Proyek. (2026). <em>Aset Gambar Ilustrasi Interaktif: Bab 1 Indahnya Indonesiaku dalam Kata</em> [AI-Generated Image]. Kode Blob Objek: <a href="#">blob:null/8708a37a-9048-4d24-bc5d-5635bc7833ec</a>
-            </p>
-            <p class="pustaka-item">
-                Gemini AI Collaboration Proyek. (2026). <em>Aset Gambar Ilustrasi Interaktif: Bab 2 Detektif Waktu</em> [AI-Generated Image]. Kode Blob Objek: <a href="#">blob:null/cd35f22e-839d-419b-a780-455392ee3d34</a>
-            </p>
-            <p class="pustaka-item">
-                Gemini AI Collaboration Proyek. (2026). <em>Aset Gambar Ilustrasi Interaktif: Bab 3 Jurnalis Cilik</em> [AI-Generated Image]. Kode Blob Objek: <a href="#">blob:null/e703f335-5181-4851-9eb2-55d4db4b28aa</a>
-            </p>
-        </div>
+            <!-- ARSIP SUMBER GAMBAR ILUSTRASI -->
+            <h2>Referensi Gambar & Ilustrasi Digital</h2>
+            <div class="daftar-pustaka-grup">
+                <p class="pustaka-item">
+                    Gemini AI Collaboration Proyek. (2026). <em>Aset Gambar Ilustrasi Interaktif: Bab 1 Indahnya Indonesiaku dalam Kata</em> [AI-Generated Image]. Kode Blob Objek: <a href="#">blob:null/8708a37a-9048-4d24-bc5d-5635bc7833ec</a>
+                </p>
+                <p class="pustaka-item">
+                    Gemini AI Collaboration Proyek. (2026). <em>Aset Gambar Ilustrasi Interaktif: Bab 2 Detektif Waktu</em> [AI-Generated Image]. Kode Blob Objek: <a href="#">blob:null/cd35f22e-839d-419b-a780-455392ee3d34</a>
+                </p>
+                <p class="pustaka-item">
+                    Gemini AI Collaboration Proyek. (2026). <em>Aset Gambar Ilustrasi Interaktif: Bab 3 Jurnalis Cilik</em> [AI-Generated Image]. Kode Blob Objek: <a href="#">blob:null/e703f335-5181-4851-9eb2-55d4db4b28aa</a>
+                </p>
+            </div>
 
-        <!-- REFERENSI AUDIO / NARASI DIGITAL -->
-        <h2>Referensi Audio & Suara Digital (Voice Over)</h2>
-        <div class="daftar-pustaka-grup">
-            <p class="pustaka-item">
-                Google AI Studio Proyek. (2026). <em>Audio Pembelajaran Interaktif: Narasi Pendukung Bab 1</em> [AI-Generated Audio]. Sumber Data: <a href="#">blob:https://web.whatsapp.com/977c7d5a-74dc-419e-aa6d-8df8536a115d</a>
-            </p>
-            <p class="pustaka-item">
-                Google AI Studio Proyek. (2026). <em>Audio Pembelajaran Interaktif: Narasi Pendukung Bab 2</em> [AI-Generated Audio]. Sumber Data: <a href="#">blob:https://web.whatsapp.com/c8ede0d6-52be-455e-87fb-06bcd8f18553</a>
-            </p>
-            <p class="pustaka-item">
-                Google AI Studio Proyek. (2026). <em>Audio Pembelajaran Interaktif: Narasi Pendukung Bab 3</em> [AI-Generated Audio]. Sumber Data: <a href="#">blob:https://web.whatsapp.com/ac951853-000f-485f-a109-e607df2fbc99</a>
-            </p>
-        </div>
+            <!-- REFERENSI AUDIO / NARASI DIGITAL -->
+            <h2>Referensi Audio & Suara Digital (Voice Over)</h2>
+            <div class="daftar-pustaka-grup">
+                <p class="pustaka-item">
+                    Google AI Studio Proyek. (2026). <em>Audio Pembelajaran Interaktif: Narasi Pendukung Bab 1</em> [AI-Generated Audio]. Sumber Data: <a href="#">blob:https://web.whatsapp.com/977c7d5a-74dc-419e-aa6d-8df8536a115d</a>
+                </p>
+                <p class="pustaka-item">
+                    Google AI Studio Proyek. (2026). <em>Audio Pembelajaran Interaktif: Narasi Pendukung Bab 2</em> [AI-Generated Audio]. Sumber Data: <a href="#">blob:https://web.whatsapp.com/c8ede0d6-52be-455e-87fb-06bcd8f18553</a>
+                </p>
+                <p class="pustaka-item">
+                    Google AI Studio Proyek. (2026). <em>Audio Pembelajaran Interaktif: Narasi Pendukung Bab 3</em> [AI-Generated Audio]. Sumber Data: <a href="#">blob:https://web.whatsapp.com/ac951853-000f-485f-a109-e607df2fbc99</a>
+                </p>
+            </div>
 
-        <!-- NAVIGASI KEMBALI DAN LANJUT -->
-        <div class="navigasi">
-            <a href="kuis.html" class="tombol btn-kembali" onclick="mainkanSuara()">⬅ Kembali ke kuis</a>
-            <a href="profil penulis.html" class="tombol btn-lanjut" onclick="mainkanSuara()">Halaman Selanjutnya ➡</a>
+            <!-- NAVIGASI KEMBALI DAN LANJUT -->
+            <div class="navigasi">
+                <a href="javascript:void(0)" class="tombol btn-kembali" onclick="pindahHalaman('kuis.html', 'prev')">⬅ Kembali ke kuis</a>
+                <a href="javascript:void(0)" class="tombol btn-lanjut" onclick="pindahHalaman('profil penulis.html', 'next')">Halaman Selanjutnya ➡</a>
+            </div>
+
+            <!-- BADGE HALAMAN 5 -->
+            <div class="badge-halaman">Halaman 5</div>
         </div>
     </div>
 
@@ -198,6 +258,21 @@
                 suara.currentTime = 0;
                 suara.play().catch(err => console.log("Audio klik aktif."));
             }
+        }
+
+        function pindahHalaman(tujuan, arah) {
+            mainkanSuara();
+            const container = document.getElementById('bookContainer');
+            
+            if (arah === 'next') {
+                container.classList.add('flip-next');
+            } else if (arah === 'prev') {
+                container.classList.add('flip-prev');
+            }
+
+            setTimeout(() => {
+                window.location.href = tujuan;
+            }, 750);
         }
     </script>
 </body>

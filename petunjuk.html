@@ -28,6 +28,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            overflow-x: hidden;
+            perspective: 1500px; /* PERSPEKTIF BUKU 3D */
         }
 
         /* CONTAINER STYLES */
@@ -39,6 +41,64 @@
             border-radius: 24px; 
             box-shadow: 0 10px 30px rgba(0,0,0,0.15);
             border: 4px solid rgba(255,255,255,0.8);
+            position: relative; /* Penting untuk anchoring nomor halaman */
+
+            /* ENGSEL BUKU DI KIRI */
+            transform-origin: left center;
+            transform-style: preserve-3d;
+            backface-visibility: hidden;
+
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease;
+        }
+
+        /* BADGE NOMOR HALAMAN ROMAWI */
+        .nomor-halaman {
+            position: absolute;
+            bottom: -15px;
+            right: 35px;
+            background: linear-gradient(135deg, #ff9800, #f57c00);
+            color: white;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            padding: 6px 18px;
+            border-radius: 20px;
+            box-shadow: 0 6px 15px rgba(245, 124, 0, 0.3);
+            border: 2px solid white;
+            letter-spacing: 1px;
+            z-index: 5;
+        }
+
+        /* ANIMASI MASUK MAJU: Terbuka dari kanan saat maju dari Kata Pengantar */
+        .masuk-maju {
+            animation: bukaDariKanan 0.65s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+
+        /* ANIMASI MASUK MUNDUR: Terbuka dari kiri saat kembali dari Daftar Isi */
+        .masuk-mundur {
+            animation: bukaDariKiri 0.65s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+
+        /* ANIMASI KELUAR MUNDUR: Melipat balik ke kanan saat klik Sebelumnya */
+        .keluar-mundur {
+            transform: rotateY(110deg) scale(0.95) !important;
+            opacity: 0 !important;
+        }
+
+        /* ANIMASI KELUAR MAJU: Melipat ke kiri saat klik Selanjutnya */
+        .keluar-maju {
+            transform: rotateY(-110deg) scale(0.95) !important;
+            opacity: 0 !important;
+        }
+
+        @keyframes bukaDariKanan {
+            0% { opacity: 0; transform: rotateY(110deg) scale(0.95); }
+            100% { opacity: 1; transform: rotateY(0deg) scale(1); }
+        }
+
+        @keyframes bukaDariKiri {
+            0% { opacity: 0; transform: rotateY(-110deg) scale(0.95); }
+            100% { opacity: 1; transform: rotateY(0deg) scale(1); }
         }
 
         /* HEADER STYLES */
@@ -77,7 +137,7 @@
 
         .isi li { 
             margin-bottom: 1.2rem; 
-            list-style-type: '✨ '; /* Bullet point ramah anak */
+            list-style-type: '✨ ';
             padding-left: 0.5rem;
         }
         
@@ -134,11 +194,16 @@
         .tombol:active {
             transform: translateY(-1px);
         }
+
+        /* Responsif untuk Layar HP */
+        @media (max-width: 600px) {
+            .nomor-halaman { right: 50%; transform: translateX(50%); bottom: -18px; }
+        }
     </style>
 </head>
 <body>
 
-    <div class="container">
+    <div class="container" id="kontenHalaman">
         <h1>📖 PETUNJUK PENGGUNAAN</h1>
         <div class="garis"></div>
         
@@ -150,9 +215,9 @@
                 <li><strong>Tombol Navigasi:</strong> Gunakan tombol jingga di bagian bawah halaman. Klik <strong>⬅ Sebelumnya</strong> untuk kembali ke halaman lalu, dan klik <strong>Selanjutnya ➡</strong> untuk membuka halaman baru. Kalian juga bisa langsung melompat ke bab tertentu lewat halaman <strong>Daftar Isi</strong>.</li>
                 <li><strong>Efek Suara Tombol:</strong> Setiap kali kamu mengklik tombol navigasi atau pilihan menu, E-Book ini akan mengeluarkan suara klik seru 🎵 sebagai penanda halaman berpindah.</li>
                 <li><strong>Pengaturan Suara Otomatis:</strong> Suara pembaca materi atau musik latar akan otomatis menyala di halaman tertentu. Pastikan volume perangkatmu sudah dinyalakan ya! Jika ingin mematikan suara, kamu bisa menekan ikon pembesar suara 🔊 yang ada di pojok kanan atas.</li>
-                <li><strong>Menonton Video Pembelajaran:</strong> Pada bagian materi, terdapat **Video Pembelajaran** seru 🎬. Klik tombol *Play* (Segitiga) di tengah video untuk mulai menonton penjelasan materi dari guru. Kamu bisa mengulanginya kapan saja jika belum paham!</li>
+                <li><strong>Menonton Video Pembelajaran:</strong> Pada bagian materi, terdapat <strong>Video Pembelajaran</strong> seru 🎬. Klik tombol <em>Play</em> (Segitiga) di tengah video untuk mulai menonton penjelasan materi dari guru. Kamu bisa mengulanginya kapan saja jika belum paham!</li>
                 <li><strong>Menyimak Cerita & Teks Aural:</strong> Pada bagian menyimak, dengarkan baik-baik rekaman suara pembaca teks yang diputar secara interaktif. Latih konsentrasimu sebelum menjawab pertanyaan, ya!</li>
-                <li><strong>Mengikuti Kuis Interaktif:</strong> Di akhir bagian belajar, kalian bisa menguji kehebatan kalian lewat **Kuis atau Tantangan Seru** 🏆! Klik jawaban pilihan ganda atau isi kolom yang tersedia langsung di layar gawai kalian, lalu lihat skor nilaimu secara otomatis setelah selesai mengerjakan.</li>
+                <li><strong>Mengikuti Kuis Interaktif:</strong> Di akhir bagian belajar, kalian bisa menguji kehebatan kalian lewat <strong>Kuis atau Tantangan Seru</strong> 🏆! Klik jawaban pilihan ganda atau isi kolom yang tersedia langsung di layar gawai kalian, lalu lihat skor nilaimu secara otomatis setelah selesai mengerjakan.</li>
             </ul>
 
             <div class="catatan">
@@ -162,9 +227,12 @@
         
         <!-- NAVIGASI UTAMA -->
         <div class="navigasi">
-            <a href="kata pengantar.html" class="tombol" onclick="mainkanSuara(event, this.href)">⬅ Sebelumnya</a>
-            <a href="daftar isi.html" class="tombol" onclick="mainkanSuara(event, this.href)">Selanjutnya ➡</a>
+            <a href="kata pengantar.html" class="tombol" onclick="navigasiBuku(event, 'kata pengantar.html', 'mundur')">⬅ Sebelumnya</a>
+            <a href="daftar isi.html" class="tombol" onclick="navigasiBuku(event, 'daftar isi.html', 'maju')">Selanjutnya ➡</a>
         </div>
+
+        <!-- BADGE NOMOR HALAMAN ROMAWI -->
+        <div class="nomor-halaman">Halaman iii</div>
     </div>
 
     <!-- AUDIO ELEMENT -->
@@ -174,22 +242,43 @@
 
     <!-- JAVASCRIPT -->
     <script>
-        function mainkanSuara(event, url) {
+        const container = document.getElementById('kontenHalaman');
+
+        // BACA STATUS NAVIGASI SAAT HALAMAN DIBUKA (MAJU / MUNDUR)
+        const arahNavigasi = sessionStorage.getItem('arahNavigasi');
+        if (arahNavigasi === 'maju') {
+            container.classList.add('masuk-maju');
+            sessionStorage.removeItem('arahNavigasi');
+        } else if (arahNavigasi === 'mundur') {
+            container.classList.add('masuk-mundur');
+            sessionStorage.removeItem('arahNavigasi');
+        }
+
+        // FUNGSI NAVIGASI PINDAH HALAMAN DENGAN FLIP & SOUND
+        function navigasiBuku(event, targetUrl, arah) {
             event.preventDefault(); 
             
             const suara = document.getElementById('suaraKlik');
             suara.currentTime = 0;
             
-            suara.play()
-                .then(() => {
-                    setTimeout(() => {
-                        window.location.href = url;
-                    }, 150);
-                })
-                .catch(err => {
-                    console.log("Suara diblokir browser, langsung pindah halaman.");
-                    window.location.href = url;
-                });
+            suara.play().catch(err => console.log("Suara diblokir browser"));
+
+            // Simpan arah navigasi ke SessionStorage
+            sessionStorage.setItem('arahNavigasi', arah);
+
+            container.classList.remove('masuk-maju', 'masuk-mundur');
+
+            requestAnimationFrame(() => {
+                if (arah === 'mundur') {
+                    container.classList.add('keluar-mundur');
+                } else {
+                    container.classList.add('keluar-maju');
+                }
+            });
+
+            setTimeout(() => {
+                window.location.href = targetUrl;
+            }, 550);
         }
     </script>
 
